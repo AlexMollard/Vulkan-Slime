@@ -19,6 +19,10 @@ private:
 	void CreateSurface();
 	void CreateSwapChain();
 	void CreateImageViews();
+	void CreateGraphicsPipeline();
+
+	static std::vector<char> ReadFile(const std::string& filename);
+	VkShaderModule createShaderModule(const std::vector<char>& code);
 
 	// Window Variables
 	VkInstance m_instance;
@@ -33,5 +37,6 @@ private:
 	DeviceAndQueue m_DeviceAndQueue;
 	SwapChain m_SwapChain;
 	VkSurfaceKHR m_surface;
+	VkPipelineLayout pipelineLayout;
 };
 

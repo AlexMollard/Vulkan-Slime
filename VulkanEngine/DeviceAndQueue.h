@@ -25,6 +25,7 @@ struct DeviceAndQueue
 	void CreateLogicalDevice(const bool& enableValidationLayers, const std::vector<const char*>& validationLayers);
 	bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
 	bool IsDeviceSuitable(VkPhysicalDevice device);
+	void OutputExtension();
 
 	// Devices and queues Variables
 	VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;

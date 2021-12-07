@@ -37,6 +37,8 @@ void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surf
 	else {
 		throw std::runtime_error("failed to find a suitable GPU!");
 	}
+
+	//OutputExtension();
 }
 
 int DeviceAndQueue::GetDeviceSuitability(VkPhysicalDevice device)
@@ -177,4 +179,19 @@ bool DeviceAndQueue::IsDeviceSuitable(VkPhysicalDevice device)
 	}
 
 	return indices.IsComplete() && extensionsSupported && swapChainAdequate;
+}
+
+void DeviceAndQueue::OutputExtension()
+{
+	uint32_t extensionCount;
+	vkEnumerateDeviceExtensionProperties(m_physicalDevice, nullptr, &extensionCount, nullptr);
+
+	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+	vkEnumerateDeviceExtensionProperties(m_physicalDevice, nullptr, &extensionCount, availableExtensions.data());
+
+	std::cout << "Extension:" << std::endl;
+
+	for (const auto& extension : availableExtensions) {
+		std::cout << '\t' << extension.extensionName << std::endl;
+	}
 }
