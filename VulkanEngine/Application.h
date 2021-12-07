@@ -20,9 +20,11 @@ private:
 	void CreateSwapChain();
 	void CreateImageViews();
 	void CreateGraphicsPipeline();
+	void CreateRenderPass();
+	void CreateFrameBuffer();
 
 	static std::vector<char> ReadFile(const std::string& filename);
-	VkShaderModule createShaderModule(const std::vector<char>& code);
+	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
 	// Window Variables
 	VkInstance m_instance;
@@ -36,7 +38,10 @@ private:
 	ValidationLayer m_ValidationLayer;
 	DeviceAndQueue m_DeviceAndQueue;
 	SwapChain m_SwapChain;
-	VkSurfaceKHR m_surface;
-	VkPipelineLayout pipelineLayout;
+	VkSurfaceKHR m_Surface;
+	VkPipelineLayout m_PipelineLayout;
+	VkRenderPass m_RenderPass;
+	VkPipeline m_GraphicsPipeline;
+	std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 };
 
