@@ -2,6 +2,7 @@
 #include "ValidationLayer.h"
 #include "DeviceAndQueue.h"
 #include "SwapChain.h"
+#include "Window.h"
 
 class Application
 {
@@ -9,9 +10,9 @@ public:
 	void Run();
 
 private:
-	void InitWindow();
 	void InitVulkan();
 	void MainLoop();
+	void DrawFrame();
 	void CleanUp();
 
 	// Vulkan
@@ -23,25 +24,36 @@ private:
 	void CreateRenderPass();
 	void CreateFrameBuffer();
 
+	void CreateCommandPool();
+	void CreateCommandBuffers();
+
+	void CreateSyncObjects();
+
+	void RecreateSwapChain();
+	void CleanUpSwapChain();
+
+
 	static std::vector<char> ReadFile(const std::string& filename);
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
-	// Window Variables
-	VkInstance m_instance;
-	GLFWwindow* m_window = nullptr;
-	const char* m_windowName = "Vulkan Window";
-	
-	// Window Size
-	const uint32_t WIDTH = 800;
-	const uint32_t HEIGHT = 600;
+	Window m_window;
 
-	ValidationLayer m_ValidationLayer;
-	DeviceAndQueue m_DeviceAndQueue;
-	SwapChain m_SwapChain;
-	VkSurfaceKHR m_Surface;
-	VkPipelineLayout m_PipelineLayout;
-	VkRenderPass m_RenderPass;
-	VkPipeline m_GraphicsPipeline;
-	std::vector<VkFramebuffer> m_SwapChainFramebuffers;
+	ValidationLayer m_validationLayer;
+	DeviceAndQueue m_deviceAndQueue;
+	SwapChain m_swapChain;
+
+	VkSurfaceKHR m_surface;
+	VkPipelineLayout m_pipelineLayout;
+	VkRenderPass m_renderPass;
+	VkPipeline m_graphicsPipeline;
+	std::vector<VkFramebuffer> m_swapChainFramebuffers;
+	VkCommandPool m_commandPool;
+	std::vector<VkCommandBuffer> m_commandBuffers;
+
+	const int MAX_FRAMES_IN_FLIGHT = 2;
+	std::vector<VkSemaphore> m_imageAvailableSemaphores;
+	std::vector<VkSemaphore> m_renderFinishedSemaphores;
+	std::vector<VkFence> m_inFlightFences;
+	std::vector<VkFence> m_imagesInFlight;
+	size_t m_currentFrame = 0;
 };
-

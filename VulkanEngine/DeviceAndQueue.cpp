@@ -1,5 +1,6 @@
 #include "DeviceAndQueue.h"
-
+#include <array>
+#include <string>
 
 void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface, SwapChain& swapChain)
 {
@@ -10,7 +11,7 @@ void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surf
 	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
 	if (deviceCount == 0)
-		throw std::runtime_error("Failed to find GPUs with Vulkan support!");
+		throw VulkanError("Failed to find GPUs with Vulkan support!");
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
 	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
@@ -32,16 +33,15 @@ void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surf
 		VkPhysicalDeviceProperties deviceProperties;
 		vkGetPhysicalDeviceProperties(m_physicalDevice, &deviceProperties);
 
-		std::cout << "Physical Device: " << deviceProperties.deviceName << std::endl;
+		Logger::Log("Physical Device: " + std::string(deviceProperties.deviceName));
 	}
 	else {
-		throw std::runtime_error("failed to find a suitable GPU!");
+		throw VulkanError("failed to find a suitable GPU!");
 	}
-
-	//OutputExtension();
+	OutputExtension();
 }
 
-int DeviceAndQueue::GetDeviceSuitability(VkPhysicalDevice device)
+int DeviceAndQueue::GetDeviceSuitability(VkPhysicalDevice device) const
 {
 	VkPhysicalDeviceProperties deviceProperties;
 	vkGetPhysicalDeviceProperties(device, &deviceProperties);
@@ -67,7 +67,7 @@ int DeviceAndQueue::GetDeviceSuitability(VkPhysicalDevice device)
 	return score;
 }
 
-QueueFamilyIndices DeviceAndQueue::FindQueueFamilies(VkPhysicalDevice device)
+QueueFamilyIndices DeviceAndQueue::FindQueueFamilies(VkPhysicalDevice device) const
 {
 	QueueFamilyIndices indices;
 
@@ -141,15 +141,16 @@ void DeviceAndQueue::CreateLogicalDevice(const bool& enableValidationLayers, con
 	}
 
 	if (vkCreateDevice(m_physicalDevice, &createInfo, nullptr, &m_device) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create logical device!");
+		throw VulkanCreateError("Logical device!");
 	}
 
 	vkGetDeviceQueue(m_device, indices.m_graphicsFamily.value(), 0, &m_graphicsQueue);
+	vkGetDeviceQueue(m_device, indices.m_presentFamily.value(), 0, &m_presentQueue);
 }
 
 
 
-bool DeviceAndQueue::CheckDeviceExtensionSupport(VkPhysicalDevice device)
+bool DeviceAndQueue::CheckDeviceExtensionSupport(VkPhysicalDevice device) const
 {
 	uint32_t extensionCount;
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
@@ -157,7 +158,7 @@ bool DeviceAndQueue::CheckDeviceExtensionSupport(VkPhysicalDevice device)
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
-	std::set<std::string> requiredExtensions(m_swapChain->m_deviceExtensions.begin(), m_swapChain->m_deviceExtensions.end());
+	std::set<std::string, std::less<>> requiredExtensions(m_swapChain->m_deviceExtensions.begin(), m_swapChain->m_deviceExtensions.end());
 
 	for (const auto& extension : availableExtensions) {
 		requiredExtensions.erase(extension.extensionName);
@@ -189,9 +190,11 @@ void DeviceAndQueue::OutputExtension()
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 	vkEnumerateDeviceExtensionProperties(m_physicalDevice, nullptr, &extensionCount, availableExtensions.data());
 
-	std::cout << "Extension:" << std::endl;
+	Logger::Log("Extension:");
 
-	for (const auto& extension : availableExtensions) {
-		std::cout << '\t' << extension.extensionName << std::endl;
+	for (const auto& extension : availableExtensions) 
+	{
+		auto name = extension.extensionName;
+		Logger::Log(name);
 	}
 }

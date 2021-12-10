@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <memory>
+
 int main()
 {
 	Application app;
@@ -8,7 +9,7 @@ int main()
 		app.Run();
 	}
 	catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
+		Logger::Log(e.what());
 		return EXIT_FAILURE;
 	}
 

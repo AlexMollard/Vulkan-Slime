@@ -4,13 +4,14 @@
 #include <vulkan/vulkan.h>
 
 #include "SwapChain.h"
+#include "Debugging.h"
 
 struct QueueFamilyIndices
 {
 	std::optional<uint32_t> m_graphicsFamily;
 	std::optional<uint32_t> m_presentFamily;
 
-	bool IsComplete()
+	bool IsComplete() const
 	{
 		return (m_graphicsFamily.has_value() && m_presentFamily.has_value());
 	};
@@ -20,10 +21,10 @@ struct DeviceAndQueue
 {
 	// devices and queues
 	void PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface, SwapChain& swapChain);
-	int GetDeviceSuitability(VkPhysicalDevice device);
-	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+	int GetDeviceSuitability(VkPhysicalDevice device) const;
+	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device) const;
 	void CreateLogicalDevice(const bool& enableValidationLayers, const std::vector<const char*>& validationLayers);
-	bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+	bool CheckDeviceExtensionSupport(VkPhysicalDevice device) const;
 	bool IsDeviceSuitable(VkPhysicalDevice device);
 	void OutputExtension();
 
