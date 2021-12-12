@@ -3,6 +3,7 @@
 #include "DeviceAndQueue.h"
 #include "SwapChain.h"
 #include "Window.h"
+#include "VertexBuffer.h"
 
 class Application
 {
@@ -32,6 +33,7 @@ private:
 	void RecreateSwapChain();
 	void CleanUpSwapChain();
 
+	void CreateVertexBuffer();
 
 	static std::vector<char> ReadFile(const std::string& filename);
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
@@ -56,4 +58,6 @@ private:
 	std::vector<VkFence> m_inFlightFences;
 	std::vector<VkFence> m_imagesInFlight;
 	size_t m_currentFrame = 0;
+
+	VertexBuffer m_vertexBuffer;
 };

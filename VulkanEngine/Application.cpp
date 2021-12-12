@@ -25,6 +25,7 @@ void Application::InitVulkan()
 	CreateGraphicsPipeline();
 	CreateFrameBuffer();
 	CreateCommandPool();
+	CreateVertexBuffer();
 	CreateCommandBuffers();
 	CreateSyncObjects();
 }
@@ -66,8 +67,8 @@ void Application::DrawFrame()
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-	std::vector<VkSemaphore> waitSemaphores = {m_imageAvailableSemaphores[m_currentFrame]};
-	std::vector<VkPipelineStageFlags> waitStages = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	std::array<VkSemaphore,1> waitSemaphores = {m_imageAvailableSemaphores[m_currentFrame]};
+	std::array<VkPipelineStageFlags,1> waitStages = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 	submitInfo.waitSemaphoreCount = 1;
 	submitInfo.pWaitSemaphores = waitSemaphores.data();
 	submitInfo.pWaitDstStageMask = waitStages.data();
@@ -75,7 +76,7 @@ void Application::DrawFrame()
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &m_commandBuffers[imageIndex];
 
-	std::vector < VkSemaphore> signalSemaphores = { m_renderFinishedSemaphores[m_currentFrame] };
+	std::array < VkSemaphore,1> signalSemaphores = { m_renderFinishedSemaphores[m_currentFrame] };
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores.data();
 
@@ -91,7 +92,7 @@ void Application::DrawFrame()
 	presentInfo.waitSemaphoreCount = 1;
 	presentInfo.pWaitSemaphores = signalSemaphores.data();
 
-	std::vector<VkSwapchainKHR> swapChains = { m_swapChain.swapChain };
+	std::array<VkSwapchainKHR,1> swapChains = { m_swapChain.swapChain };
 	presentInfo.swapchainCount = 1;
 	presentInfo.pSwapchains = swapChains.data();
 
@@ -271,8 +272,13 @@ void Application::CreateGraphicsPipeline()
 
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;
+	auto bindingDescription = Vertex::GetBindingDecription();
+	auto attributeDescriptions = Vertex::GetAttributeDescriptions();
+
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 	inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -408,7 +414,7 @@ void Application::CreateFrameBuffer()
 
 	for (size_t i = 0; i < swapChainImageViews.size(); i++) 
 	{
-		std::vector<VkImageView> attachments = {swapChainImageViews[i]};
+		std::array<VkImageView,1> attachments = {swapChainImageViews[i]};
 
 		VkFramebufferCreateInfo framebufferInfo{};
 		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -478,7 +484,13 @@ void Application::CreateCommandBuffers()
 
 		vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_graphicsPipeline);
 
-		vkCmdDraw(m_commandBuffers[i], 3, 1, 0, 0);
+
+		std::array<VkBuffer, 1> vertexBuffers = { m_vertexBuffer.GetVertexBuffer() };
+		std::array < VkDeviceSize,1> offsets = { 0 };
+		vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers.data(), offsets.data());
+		vkCmdBindIndexBuffer(m_commandBuffers[i], m_vertexBuffer.GetIndicesBuffer(), 0, VK_INDEX_TYPE_UINT16);
+
+		vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(m_vertexBuffer.GetIndicesSize()), 1, 0, 0, 0);
 
 		vkCmdEndRenderPass(m_commandBuffers[i]);
 
@@ -553,6 +565,12 @@ void Application::CleanUpSwapChain()
 	vkDestroySwapchainKHR(m_deviceAndQueue.m_device, m_swapChain.swapChain, nullptr);
 }
 
+void Application::CreateVertexBuffer()
+{
+	m_vertexBuffer.CreateVertexBuffer(m_deviceAndQueue.m_device, m_deviceAndQueue.m_physicalDevice, m_commandPool, m_deviceAndQueue.m_graphicsQueue);
+	m_vertexBuffer.CreateIndexBuffer(m_deviceAndQueue.m_device, m_deviceAndQueue.m_physicalDevice, m_commandPool, m_deviceAndQueue.m_graphicsQueue);
+}
+
 std::vector<char> Application::ReadFile(const std::string& filename)
 {
 	auto file = std::ifstream(filename, std::ios::ate | std::ios::binary);
@@ -590,17 +608,21 @@ VkShaderModule Application::CreateShaderModule(const std::vector<char>& code)
 
 void Application::CleanUp()
 {
+	auto& device = m_deviceAndQueue.m_device;
+
 	CleanUpSwapChain();
 
+	m_vertexBuffer.CleanUp(device);
+
 	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		vkDestroySemaphore(m_deviceAndQueue.m_device, m_renderFinishedSemaphores[i], nullptr);
-		vkDestroySemaphore(m_deviceAndQueue.m_device, m_imageAvailableSemaphores[i], nullptr);
-		vkDestroyFence(m_deviceAndQueue.m_device, m_inFlightFences[i], nullptr);
+		vkDestroySemaphore(device, m_renderFinishedSemaphores[i], nullptr);
+		vkDestroySemaphore(device, m_imageAvailableSemaphores[i], nullptr);
+		vkDestroyFence(device, m_inFlightFences[i], nullptr);
 	}
 
-	vkDestroyCommandPool(m_deviceAndQueue.m_device, m_commandPool, nullptr);
+	vkDestroyCommandPool(device, m_commandPool, nullptr);
 
-	vkDestroyDevice(m_deviceAndQueue.m_device, nullptr);
+	vkDestroyDevice(device, nullptr);
 
 	if (m_validationLayer.enableValidationLayers)
 		m_validationLayer.DestroyDebugUtilsMessengerEXT(m_window.Instance(), m_validationLayer.m_debugMessenger, nullptr);

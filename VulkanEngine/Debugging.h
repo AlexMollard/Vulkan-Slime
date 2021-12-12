@@ -1,5 +1,6 @@
 #pragma once
 #include <stdexcept>
+#include <iostream>
 
 class VulkanCreateError : public std::runtime_error
 {

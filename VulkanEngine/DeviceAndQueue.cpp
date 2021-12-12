@@ -38,7 +38,7 @@ void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surf
 	else {
 		throw VulkanError("failed to find a suitable GPU!");
 	}
-	OutputExtension();
+	//OutputExtension();
 }
 
 int DeviceAndQueue::GetDeviceSuitability(VkPhysicalDevice device) const
