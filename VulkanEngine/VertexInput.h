@@ -35,15 +35,56 @@ private:
 
 	const std::vector<Vertex> m_vertices =
 	{
-		{{-0.5f, -0.5f},  glm::vec3(1.0f,0.0f,0.0f)},
-		{{0.5f, -0.5f}, glm::vec3(0.0f,1.0f,0.0f)},
-		{{0.5f, 0.5f},  glm::vec3(0.0f,0.0f,1.0f)},
-		{{-0.5f, 0.5f}, glm::vec3(0.0f)}
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Top Right Of The Quad (Top)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Top Left Of The Quad (Top)
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Bottom Left Of The Quad (Top)
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Bottom Right Of The Quad (Top)
+
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Top Right Of The Quad (Bottom)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Top Left Of The Quad (Bottom)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(0.0f, 1.0f, 0.0f)},    // Bottom Left Of The Quad (Bottom)
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Bottom Right Of The Quad (Bottom
+
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Top Right Of The Quad (Front)
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Top Left Of The Quad (Front)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Bottom Left Of The Quad (Front)
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Bottom Right Of The Quad (Front)
+
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Top Right Of The Quad (Back)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 1.0f, 0.0f)},    // Top Left Of The Quad (Back)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Bottom Left Of The Quad (Back)
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Bottom Right Of The Quad (Back)
+
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Top Right Of The Quad (Left)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Top Left Of The Quad (Left)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 0.0f, 1.0f)},    // Bottom Left Of The Quad (Left)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Bottom Right Of The Quad (Left)
+		
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Top Right Of The Quad (Right)
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Top Left Of The Quad (Right)
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Bottom Left Of The Quad (Right)
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)}    // Bottom Right Of The Quad (Right)
 	};
 
 	const std::vector<uint16_t> m_indices = 
 	{
-		0, 1, 2, 2, 3, 0
+		0, 1, 3,	// Top
+		1, 2, 3,	// Top
+
+		5, 7, 4,	// Bottom
+		7, 5, 6,	// Bottom
+		
+		8, 9, 10,	// Front
+		10, 11, 8,	//  Front
+		
+		12, 13, 14,	// Back
+		14, 15, 12,	//  Back
+		
+		16, 17, 18,	// Left
+		18, 19, 16,	//  Left
+		
+		20, 21, 22,	// Right
+		22, 23, 20	//  Right
 	};
 };
 
