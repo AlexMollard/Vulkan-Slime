@@ -12,12 +12,17 @@ public:
 
 	VkInstance& Instance() { return m_instance; };
 	GLFWwindow* Get() { return m_window; };
+	VkSurfaceKHR& GetSurface() { return m_surface; };
 
 	bool ShouldClose() const { return m_ShouldClose; };
 
 	bool GetFrameBufferResized() const { return m_frameBufferResized; };
 	void SetFrameBufferResized(bool value) { m_frameBufferResized = value; };
+
+	void CreateSurface(VkSurfaceKHR& surface);
 private:
+	VkSurfaceKHR m_surface;
+
 	// Window Variables
 	VkInstance m_instance;
 	GLFWwindow* m_window = nullptr;
@@ -30,4 +35,3 @@ private:
 	bool m_ShouldClose;
 	bool m_frameBufferResized = false;
 };
-

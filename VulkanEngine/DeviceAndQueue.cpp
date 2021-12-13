@@ -1,6 +1,8 @@
 #include "DeviceAndQueue.h"
 #include <array>
 #include <string>
+#include "SwapChain.h"
+
 
 void DeviceAndQueue::PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface, SwapChain& swapChain)
 {
@@ -129,8 +131,8 @@ void DeviceAndQueue::CreateLogicalDevice(const bool& enableValidationLayers, con
 
 	createInfo.pEnabledFeatures = &deviceFeatures;
 
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(m_swapChain->m_deviceExtensions.size());
-	createInfo.ppEnabledExtensionNames = m_swapChain->m_deviceExtensions.data();
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(m_swapChain->GetDeviceExtensions().size());
+	createInfo.ppEnabledExtensionNames = m_swapChain->GetDeviceExtensions().data();
 
 	if (enableValidationLayers) {
 		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -158,7 +160,7 @@ bool DeviceAndQueue::CheckDeviceExtensionSupport(VkPhysicalDevice device) const
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
-	std::set<std::string, std::less<>> requiredExtensions(m_swapChain->m_deviceExtensions.begin(), m_swapChain->m_deviceExtensions.end());
+	std::set<std::string, std::less<>> requiredExtensions(m_swapChain->GetDeviceExtensions().begin(), m_swapChain->GetDeviceExtensions().end());
 
 	for (const auto& extension : availableExtensions) {
 		requiredExtensions.erase(extension.extensionName);
@@ -167,7 +169,7 @@ bool DeviceAndQueue::CheckDeviceExtensionSupport(VkPhysicalDevice device) const
 	return requiredExtensions.empty();
 }
 
-bool DeviceAndQueue::IsDeviceSuitable(VkPhysicalDevice device)
+bool DeviceAndQueue::IsDeviceSuitable(const VkPhysicalDevice& device)
 {
 	QueueFamilyIndices indices = FindQueueFamilies(device);
 
@@ -175,7 +177,7 @@ bool DeviceAndQueue::IsDeviceSuitable(VkPhysicalDevice device)
 
 	bool swapChainAdequate = false;
 	if (extensionsSupported) {
-		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(device, *m_surface);
+		SwapChainSupportDetails swapChainSupport = SwapChain::QuerySwapChainSupport(device, *m_surface);
 		swapChainAdequate = !swapChainSupport.m_formats.empty() && !swapChainSupport.m_presentModes.empty();
 	}
 

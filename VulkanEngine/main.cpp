@@ -3,10 +3,10 @@
 
 int main()
 {
-	Application app;
+	auto app = std::make_unique<Application>();
 
 	try {
-		app.Run();
+		app->Run();
 	}
 	catch (const std::exception& e) {
 		Logger::Log(e.what());

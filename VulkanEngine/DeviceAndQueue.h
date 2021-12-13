@@ -1,10 +1,14 @@
 #pragma once
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
-
-#include "SwapChain.h"
 #include "Debugging.h"
+#include "vulkan/vulkan.h"
+
+#include <optional>
+#include <vector>
+#include <map>
+#include <iostream>
+#include <set>
+
+class SwapChain;
 
 struct QueueFamilyIndices
 {
@@ -17,18 +21,25 @@ struct QueueFamilyIndices
 	};
 };
 
-struct DeviceAndQueue
+class DeviceAndQueue
 {
-	// devices and queues
+public:
 	void PickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface, SwapChain& swapChain);
-	int GetDeviceSuitability(VkPhysicalDevice device) const;
-	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device) const;
 	void CreateLogicalDevice(const bool& enableValidationLayers, const std::vector<const char*>& validationLayers);
+	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device) const;
+
+	VkDevice& GetDevice() { return m_device; };
+	VkPhysicalDevice& GetPhysicalDevice() { return m_physicalDevice; };
+
+	VkQueue& GetGraphicsQueue() { return m_graphicsQueue; };
+	VkQueue& GetPresentQueue() { return m_presentQueue; };
+private:
+	int GetDeviceSuitability(VkPhysicalDevice device) const;
 	bool CheckDeviceExtensionSupport(VkPhysicalDevice device) const;
-	bool IsDeviceSuitable(VkPhysicalDevice device);
+	bool IsDeviceSuitable(const VkPhysicalDevice& device);
+
 	void OutputExtension();
 
-	// Devices and queues Variables
 	VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 	VkDevice m_device;
 	VkQueue m_graphicsQueue;

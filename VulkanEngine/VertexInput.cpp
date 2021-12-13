@@ -1,7 +1,15 @@
-#include "VertexBuffer.h"
+#include "VertexInput.h"
 #include "Debugging.h"
+#include "SwapChain.h"
 
-void VertexBuffer::CreateVertexBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkCommandPool& commandPool, VkQueue& graphicsQueue)
+void VertexInput::CreateBuffers(VkDevice& device, VkPhysicalDevice& physicalDevice, VkCommandPool& commandPool, VkQueue& graphicsQueue, SwapChain& swapchain)
+{
+	CreateVertexBuffer(device, physicalDevice, commandPool, graphicsQueue);
+	CreateIndexBuffer(device, physicalDevice, commandPool, graphicsQueue);
+	CreateUniformBuffer(device, physicalDevice, swapchain);
+}
+
+void VertexInput::CreateVertexBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkCommandPool& commandPool, VkQueue& graphicsQueue)
 {
 	VkDeviceSize bufferSize = sizeof(m_vertices[0]) * m_vertices.size();
 	VkBuffer stagingBuffer;
@@ -11,7 +19,7 @@ void VertexBuffer::CreateVertexBuffer(VkDevice& device, VkPhysicalDevice& physic
 
 	void* data;
 	vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-	memcpy(data, m_vertices.data(), (size_t)bufferSize);
+	memcpy(data, m_vertices.data(), bufferSize);
 	vkUnmapMemory(device, stagingBufferMemory);
 
 	CreateBuffer(device,physicalDevice, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vertexBuffer, m_vertexBufferMemory);
@@ -22,7 +30,7 @@ void VertexBuffer::CreateVertexBuffer(VkDevice& device, VkPhysicalDevice& physic
 	vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
-void VertexBuffer::CreateIndexBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkCommandPool& commandPool, VkQueue& graphicsQueue)
+void VertexInput::CreateIndexBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkCommandPool& commandPool, VkQueue& graphicsQueue)
 {
 	VkDeviceSize bufferSize = sizeof(m_indices[0]) * m_indices.size();
 
@@ -32,7 +40,7 @@ void VertexBuffer::CreateIndexBuffer(VkDevice& device, VkPhysicalDevice& physica
 
 	void* data;
 	vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-	memcpy(data, m_indices.data(), (size_t)bufferSize);
+	memcpy(data, m_indices.data(), bufferSize);
 	vkUnmapMemory(device, stagingBufferMemory);
 
 	CreateBuffer(device, physicalDevice, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_indexBuffer, m_indexBufferMemory);
@@ -43,7 +51,20 @@ void VertexBuffer::CreateIndexBuffer(VkDevice& device, VkPhysicalDevice& physica
 	vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
-uint32_t VertexBuffer::FindMemoryType(VkPhysicalDevice& physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) const
+void VertexInput::CreateUniformBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, SwapChain& swapChain)
+{
+	VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+
+	uniformBuffers.resize(swapChain.GetSwapChainImages().size());
+	uniformBuffersMemory.resize(swapChain.GetSwapChainImages().size());
+
+	for (size_t i = 0; i < swapChain.GetSwapChainImages().size(); i++)
+	{
+		CreateBuffer(device, physicalDevice, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+	}
+}
+
+uint32_t VertexInput::FindMemoryType(VkPhysicalDevice& physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) const
 {
 	VkPhysicalDeviceMemoryProperties memProperties;
 	vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
@@ -57,7 +78,7 @@ uint32_t VertexBuffer::FindMemoryType(VkPhysicalDevice& physicalDevice, uint32_t
 	throw VulkanError("Failed to find suitable memory type!");
 }
 
-void VertexBuffer::CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice,
+void VertexInput::CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice,
 	VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
 	VkBuffer& buffer, VkDeviceMemory& bufferMemory)
 {
@@ -68,7 +89,7 @@ void VertexBuffer::CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevi
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 	if (vkCreateBuffer(device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create buffer!");
+		throw VulkanError("failed to create buffer!");
 	}
 
 	VkMemoryRequirements memRequirements;
@@ -80,13 +101,13 @@ void VertexBuffer::CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevi
 	allocInfo.memoryTypeIndex = FindMemoryType(physicalDevice ,memRequirements.memoryTypeBits, properties);
 
 	if (vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
-		throw std::runtime_error("failed to allocate buffer memory!");
+		throw VulkanError("failed to allocate buffer memory!");
 	}
 
 	vkBindBufferMemory(device, buffer, bufferMemory, 0);
 }
 
-void VertexBuffer::CopyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue,VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
+void VertexInput::CopyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
 {
 	VkCommandBufferAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -120,7 +141,7 @@ void VertexBuffer::CopyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQu
 	vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
 }
 
-void VertexBuffer::CleanUp(VkDevice& device)
+void VertexInput::CleanUp(VkDevice& device, const std::vector<VkImage>& swapChainImages)
 {
 	vkDestroyBuffer(device, m_indexBuffer, nullptr);
 	vkFreeMemory(device, m_indexBufferMemory, nullptr);
