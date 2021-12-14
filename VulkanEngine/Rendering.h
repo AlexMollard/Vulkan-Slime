@@ -6,11 +6,12 @@ class DeviceAndQueue;
 class SwapChain;
 class Window;
 class VertexInput;
+class Image;
 
 class Rendering
 {
 public:
-	void Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Window& window, VertexInput& vertexBuffer);
+	void Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Window& window, VertexInput& vertexBuffer, Image& image);
 	void CreateSyncObjects(const VkDevice& device, SwapChain& swapChain);
 	void CleanUp(VkDevice& device);
 private:

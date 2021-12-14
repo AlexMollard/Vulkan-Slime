@@ -4,6 +4,7 @@
 #include "DeviceAndQueue.h"
 #include "Shader.h"
 #include "Rendering.h"
+#include "Image.h"
 
 class Application
 {
@@ -27,4 +28,5 @@ private:
 	Shader m_mainShader;
 	VertexInput m_vertexBuffer;
 	Rendering m_renderer;
+	Image m_image;
 };

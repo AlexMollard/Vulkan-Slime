@@ -121,7 +121,7 @@ void DeviceAndQueue::CreateLogicalDevice(const bool& enableValidationLayers, con
 	}
 
 	VkPhysicalDeviceFeatures deviceFeatures{};
-
+	deviceFeatures.samplerAnisotropy = VK_TRUE;
 
 	VkDeviceCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -181,7 +181,10 @@ bool DeviceAndQueue::IsDeviceSuitable(const VkPhysicalDevice& device)
 		swapChainAdequate = !swapChainSupport.m_formats.empty() && !swapChainSupport.m_presentModes.empty();
 	}
 
-	return indices.IsComplete() && extensionsSupported && swapChainAdequate;
+	VkPhysicalDeviceFeatures supportedFeatures;
+	vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+
+	return indices.IsComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
 }
 
 void DeviceAndQueue::OutputExtension()

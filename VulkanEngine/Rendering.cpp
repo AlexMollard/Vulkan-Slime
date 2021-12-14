@@ -7,10 +7,10 @@
 #include "Rendering.h"
 #include "SwapChain.h"
 #include "DeviceAndQueue.h"
-
+#include "Image.h"
 #include "Vertex.h"
 
-void Rendering::Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Window& window, VertexInput& vertexBuffer)
+void Rendering::Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Window& window, VertexInput& vertexBuffer, Image& image)
 {
 	auto& device = deviceAndQueue.GetDevice();
 
@@ -20,7 +20,7 @@ void Rendering::Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Windo
 	VkResult result = vkAcquireNextImageKHR(device, swapChain.GetSwapChain(), UINT64_MAX, m_imageAvailableSemaphores[m_currentFrame], VK_NULL_HANDLE, &imageIndex);
 
 	if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-		swapChain.RecreateSwapChain(deviceAndQueue, window, vertexBuffer);
+		swapChain.RecreateSwapChain(deviceAndQueue, window, vertexBuffer, image);
 		return;
 	}
 	else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
@@ -73,7 +73,7 @@ void Rendering::Draw(DeviceAndQueue& deviceAndQueue, SwapChain& swapChain, Windo
 
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || window.GetFrameBufferResized()) {
 		window.SetFrameBufferResized(false);
-		swapChain.RecreateSwapChain(deviceAndQueue, window, vertexBuffer);
+		swapChain.RecreateSwapChain(deviceAndQueue, window, vertexBuffer, image);
 	}
 	else if (result != VK_SUCCESS) {
 		throw VulkanError("failed to present swap chain image!");

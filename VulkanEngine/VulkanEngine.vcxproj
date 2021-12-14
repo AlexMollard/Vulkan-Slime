@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\;$(SolutionDir)Dependencies\stb;$(SolutionDir)Dependencies\tinyobj</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\;$(SolutionDir)Dependencies\stb;$(SolutionDir)Dependencies\tinyobj</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\;$(SolutionDir)Dependencies\stb;$(SolutionDir)Dependencies\tinyobj</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -147,7 +147,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;C:\VulkanSDK\1.2.198.1\Include;$(SolutionDir)Dependencies\;$(SolutionDir)Dependencies\stb;$(SolutionDir)Dependencies\tinyobj</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="DeviceAndQueue.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Debugging.h" />
     <ClInclude Include="DeviceAndQueue.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SwapChain.h" />

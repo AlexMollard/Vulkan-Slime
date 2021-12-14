@@ -65,7 +65,7 @@ void ValidationLayer::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCrea
 	createInfo.pfnUserCallback = DebugCallBack;
 }
 
-void ValidationLayer::SetUpDebugManager(VkInstance& instance)
+void ValidationLayer::Init(VkInstance& instance)
 {
 	if (!enableValidationLayers)
 		return;

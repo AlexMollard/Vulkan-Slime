@@ -19,10 +19,15 @@ public:
 
 	void CleanUp(VkDevice& device, const std::vector<VkImage>& swapChainImages);
 
+	static void CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+	static uint32_t FindMemoryType(VkPhysicalDevice& physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties);
+	static void CopyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+	static void TransitionImageLayout(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+	static void CopyBufferToImage(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+
 private:
-	uint32_t FindMemoryType(VkPhysicalDevice& physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) const;
-	void CreateBuffer(VkDevice& device, VkPhysicalDevice& physicalDevice, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-	void CopyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+	static VkCommandBuffer BeginSingleTimeCommands(VkDevice& device, VkCommandPool& commandPool);
+	static void EndSingleTimeCommands(VkDevice& device, VkCommandBuffer commandBuffer, VkCommandPool& commandPool, VkQueue& graphicsQueue);
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
@@ -35,35 +40,35 @@ private:
 
 	const std::vector<Vertex> m_vertices =
 	{
-		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Top Right Of The Quad (Top)
-		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Top Left Of The Quad (Top)
-		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Bottom Left Of The Quad (Top)
-		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f)},    // Bottom Right Of The Quad (Top)
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)},    // Top Right Of The Quad (Top)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)},    // Top Left Of The Quad (Top)
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)},    // Bottom Left Of The Quad (Top)
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)},    // Bottom Right Of The Quad (Top)
 
-		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Top Right Of The Quad (Bottom)
-		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Top Left Of The Quad (Bottom)
-		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(0.0f, 1.0f, 0.0f)},    // Bottom Left Of The Quad (Bottom)
-		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},    // Bottom Right Of The Quad (Bottom
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)},    // Top Right Of The Quad (Bottom)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)},    // Top Left Of The Quad (Bottom)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},    // Bottom Left Of The Quad (Bottom)
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)},    // Bottom Right Of The Quad (Bottom
 
-		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Top Right Of The Quad (Front)
-		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Top Left Of The Quad (Front)
-		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Bottom Left Of The Quad (Front)
-		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f)},    // Bottom Right Of The Quad (Front)
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)},    // Top Right Of The Quad (Front)
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)},    // Top Left Of The Quad (Front)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)},    // Bottom Left Of The Quad (Front)
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)},    // Bottom Right Of The Quad (Front)
 
-		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Top Right Of The Quad (Back)
-		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 1.0f, 0.0f)},    // Top Left Of The Quad (Back)
-		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Bottom Left Of The Quad (Back)
-		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f)},    // Bottom Right Of The Quad (Back)
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)},    // Top Right Of The Quad (Back)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},    // Top Left Of The Quad (Back)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)},    // Bottom Left Of The Quad (Back)
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)},    // Bottom Right Of The Quad (Back)
 
-		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Top Right Of The Quad (Left)
-		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Top Left Of The Quad (Left)
-		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 0.0f, 1.0f)},    // Bottom Left Of The Quad (Left)
-		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f)},    // Bottom Right Of The Quad (Left)
-		
-		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Top Right Of The Quad (Right)
-		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Top Left Of The Quad (Right)
-		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)},    // Bottom Left Of The Quad (Right)
-		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f)}    // Bottom Right Of The Quad (Right)
+		{glm::vec3(-1.0f, 1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)},    // Top Right Of The Quad (Left)
+		{glm::vec3(-1.0f, 1.0f, -1.0f),		glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)},    // Top Left Of The Quad (Left)
+		{glm::vec3(-1.0f, -1.0f, -1.0f),	glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)},    // Bottom Left Of The Quad (Left)
+		{glm::vec3(-1.0f, -1.0f, 1.0f),		glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)},    // Bottom Right Of The Quad (Left)
+
+		{glm::vec3(1.0f, 1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)},    // Top Right Of The Quad (Right)
+		{glm::vec3(1.0f, 1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},    // Top Left Of The Quad (Right)
+		{glm::vec3(1.0f, -1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},    // Bottom Left Of The Quad (Right)
+		{glm::vec3(1.0f, -1.0f, -1.0f),		glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)}    // Bottom Right Of The Quad (Right)
 	};
 
 	const std::vector<uint16_t> m_indices = 
@@ -86,5 +91,6 @@ private:
 		20, 21, 22,	// Right
 		22, 23, 20	//  Right
 	};
+
 };
 

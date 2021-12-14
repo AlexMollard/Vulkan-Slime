@@ -10,6 +10,7 @@
 #include <set>
 
 class DeviceAndQueue;
+class Image;
 
 struct SwapChainSupportDetails {
 	VkSurfaceCapabilitiesKHR m_capabilities;
@@ -20,18 +21,18 @@ struct SwapChainSupportDetails {
 class SwapChain
 {
 public:
-	void Init(const VkDevice& device, DeviceAndQueue& deviceAndQueue, Window& window);
+	void Init(VkDevice& device, DeviceAndQueue& deviceAndQueue, Window& window);
 
 	void CreateSwapChain(DeviceAndQueue& deviceAndQueue, Window& window);
-	void RecreateSwapChain(DeviceAndQueue& deviceAndQueue, Window& window, VertexInput& vertexBuffer);
-	void CreateImageViews(const VkDevice& device);
+	void RecreateSwapChain(DeviceAndQueue& deviceAndQueue, Window& window, VertexInput& vertexBuffer, Image& image);
+	void CreateImageViews(VkDevice& device);
 	void CreateRenderPass(const VkDevice& device);
 	void CreateGraphicsPipeline(const VkDevice& device);
 	void CreateFrameBuffer(const VkDevice& device);
 	void CreateCommandBuffers(const VkDevice& device, VertexInput& vertexBuffer);
 	void CreateCommandPool(DeviceAndQueue& deviceAndQueue);
 	void CreateDescriptorPool(VkDevice& device);
-	void CreateDescriptorSets(VkDevice& device, VertexInput& vertexInput);
+	void CreateDescriptorSets(VkDevice& device, VertexInput& vertexInput, Image& image);
 
 	VkDescriptorSetLayout& GetDescriptorSetLayout() { return m_descriptorSetLayout; };
 
@@ -39,11 +40,14 @@ public:
 
 	VkSwapchainKHR& GetSwapChain() { return m_swapChain; };
 	std::vector<VkImage>& GetSwapChainImages() { return m_swapChainImages; };
+	std::vector<VkImageView>& GetSwapChainImageViews() { return m_swapChainImageViews; };
 
 	VkCommandPool& GetCommandPool() { return m_commandPool; };
 	std::vector<VkCommandBuffer>& GetCommandBuffers() { return m_commandBuffers; };
 
 	const std::vector<const char*>& GetDeviceExtensions() const { return m_deviceExtensions; };
+
+	VkFormat& GetImageFormat() { return m_swapChainImageFormat; };
 
 	VkExtent2D& GetSwapChainExtent() {return m_swapChainExtent ;};
 	

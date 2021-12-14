@@ -14,21 +14,29 @@ void Application::Run()
 void Application::InitVulkan()
 {
 	CreateInstance();
-	m_validationLayer.SetUpDebugManager(m_window.Instance());
+	m_validationLayer.Init(m_window.Instance());
 	m_window.CreateSurface(m_surface);
 	
 	m_deviceAndQueue.PickPhysicalDevice(m_window.Instance(), m_surface, m_swapChain);
-	m_deviceAndQueue.CreateLogicalDevice(m_validationLayer.enableValidationLayers, m_validationLayer.m_validationLayers);
-	m_swapChain.Init(m_deviceAndQueue.GetDevice(), m_deviceAndQueue, m_window);
+	auto& device = m_deviceAndQueue.GetDevice();
 
-	m_vertexBuffer.CreateBuffers(m_deviceAndQueue.GetDevice(), m_deviceAndQueue.GetPhysicalDevice(), m_swapChain.GetCommandPool(), m_deviceAndQueue.GetGraphicsQueue(),m_swapChain);
+	m_deviceAndQueue.CreateLogicalDevice(m_validationLayer.enableValidationLayers, m_validationLayer.m_validationLayers);
+
+	m_swapChain.Init(device, m_deviceAndQueue, m_window);
+
+	std::string imageDir = "../Images/corn.jpg";
+	m_image.Create(device,m_deviceAndQueue.GetPhysicalDevice(),m_swapChain.GetCommandPool(),m_deviceAndQueue.GetGraphicsQueue(), imageDir);
+	m_image.CreateView(device, m_swapChain);
+	m_image.CreateSampler(device, m_deviceAndQueue.GetPhysicalDevice());
+
+	m_vertexBuffer.CreateBuffers(device, m_deviceAndQueue.GetPhysicalDevice(), m_swapChain.GetCommandPool(), m_deviceAndQueue.GetGraphicsQueue(),m_swapChain);
 
 	//Descriptor pool and sets
-	m_swapChain.CreateDescriptorPool(m_deviceAndQueue.GetDevice());
-	m_swapChain.CreateDescriptorSets(m_deviceAndQueue.GetDevice(), m_vertexBuffer);
+	m_swapChain.CreateDescriptorPool(device);
+	m_swapChain.CreateDescriptorSets(device, m_vertexBuffer, m_image);
 
-	m_swapChain.CreateCommandBuffers(m_deviceAndQueue.GetDevice(), m_vertexBuffer);
-	m_renderer.CreateSyncObjects(m_deviceAndQueue.GetDevice(), m_swapChain);
+	m_swapChain.CreateCommandBuffers(device, m_vertexBuffer);
+	m_renderer.CreateSyncObjects(device, m_swapChain);
 }
 
 void Application::MainLoop()
@@ -36,7 +44,7 @@ void Application::MainLoop()
 	while (!m_window.ShouldClose())
 	{
 		m_window.MainLoop();
-		m_renderer.Draw(m_deviceAndQueue, m_swapChain, m_window, m_vertexBuffer);
+		m_renderer.Draw(m_deviceAndQueue, m_swapChain, m_window, m_vertexBuffer, m_image);
 	}
 
 	vkDeviceWaitIdle(m_deviceAndQueue.GetDevice());
@@ -94,6 +102,8 @@ void Application::CleanUp()
 	auto& device = m_deviceAndQueue.GetDevice();
 
 	m_swapChain.CleanUp(device, m_vertexBuffer);
+
+	m_image.CleanUp(device);
 
 	vkDestroyDescriptorSetLayout(device, m_swapChain.GetDescriptorSetLayout(), nullptr);
 
