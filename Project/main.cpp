@@ -1,12 +1,12 @@
 #include "../VulkanEngine/Application.h"
 #include <memory>
 
-int main()
+int main (int argc, char *argv[])
 {
-    auto app = std::make_unique<Application>();
+    Application app{};
 
     try {
-        app->Run();
+        app.Run();
     }
     catch (const std::exception& e) {
         Logger::Log(e.what());
