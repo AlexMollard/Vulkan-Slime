@@ -1,15 +1,13 @@
-#include "../VulkanEngine/Application.h"
-#include <memory>
+#include "../VulkanEngine/application.h"
 
-int main (int argc, char *argv[])
-{
-    Application app{};
+int main() {
+    application app{};
 
     try {
-        app.Run();
+        app.run();
     }
-    catch (const std::exception& e) {
-        Logger::Log(e.what());
+    catch (const cppError &e) {
+        logger::log(e.what());
         return EXIT_FAILURE;
     }
 
