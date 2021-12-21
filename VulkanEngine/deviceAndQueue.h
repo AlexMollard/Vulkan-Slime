@@ -36,7 +36,7 @@ public:
 
     VkQueue &getPresentQueue() { return mPresentQueue; };
 private:
-    static uint32_t getDeviceSuitability(VkPhysicalDevice device) ;
+    static uint32_t getDeviceSuitability(VkPhysicalDevice device);
 
     bool checkDeviceExtensionSupport(VkPhysicalDevice device) const;
 

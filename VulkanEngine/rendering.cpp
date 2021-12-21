@@ -114,7 +114,8 @@ void rendering::cleanUp(VkDevice &device) {
 void rendering::updateUniform(uint32_t currentImage, VkDevice &device, swapChain &swapChain, vertexInput &vertexInput) {
     static auto startTime = std::chrono::high_resolution_clock::now();
 
-    float time = std::chrono::duration<float, std::chrono::seconds::period>(std::chrono::high_resolution_clock::now() - startTime).count();
+    float time = std::chrono::duration<float, std::chrono::seconds::period>(
+            std::chrono::high_resolution_clock::now() - startTime).count();
 
     uniformBufferObject ubo{};
     ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, -1.0f));

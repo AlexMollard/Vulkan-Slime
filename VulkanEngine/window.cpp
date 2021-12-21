@@ -3,7 +3,7 @@
 #include "debugging.h"
 
 static void framebufferResizeCallback(GLFWwindow *win, [[maybe_unused]] int width, [[maybe_unused]] int height) {
-    auto app = std::bit_cast<window*>(glfwGetWindowUserPointer(win));
+    auto app = std::bit_cast<window *>(glfwGetWindowUserPointer(win));
     app->setFrameBufferResized(true);
 }
 
@@ -18,8 +18,8 @@ void window::initWindow() {
 }
 
 void window::mainLoop() {
-    mShouldClose = glfwWindowShouldClose(mWindow);
     glfwPollEvents();
+    mShouldClose = (glfwWindowShouldClose(mWindow) || glfwGetKey(mWindow, GLFW_KEY_ESCAPE));
 }
 
 void window::createSurface(VkSurfaceKHR &surface) {

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <set>
 
+#include "mesh.h"
+
 class deviceAndQueue;
 
 class image;
@@ -36,13 +38,13 @@ public:
 
     void createFrameBuffer(const VkDevice &device);
 
-    void createCommandBuffers(const VkDevice &device, vertexInput &vertexBuffer);
+    void createCommandBuffers(const VkDevice &device, mesh &spear);
 
     void createCommandPool(deviceAndQueue &deviceAndQueue);
 
     void createDescriptorPool(VkDevice &device);
 
-    void createDescriptorSets(VkDevice &device, vertexInput &vertexInput, image &image);
+    void createDescriptorSets(VkDevice &device, std::vector<VkBuffer> &uniformBuffers, image &image);
 
     VkDescriptorSetLayout &getDescriptorSetLayout() { return mDescriptorSetLayout; };
 

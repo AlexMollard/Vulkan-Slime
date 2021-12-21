@@ -11,10 +11,15 @@ struct vertex {
     glm::vec3 pos;
     glm::vec3 colour;
     glm::vec2 texCoord;
+    glm::vec3 normal;
 
     static VkVertexInputBindingDescription getBindingDecription();
 
     static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions();
+
+    bool operator==(const vertex &other) const {
+        return pos == other.pos && colour == other.colour && texCoord == other.texCoord;
+    }
 };
 
 struct uniformBufferObject {

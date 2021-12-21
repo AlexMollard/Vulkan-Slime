@@ -30,4 +30,6 @@ private:
     vertexInput mVertexBuffer;
     rendering mRenderer;
     image mImage;
+
+    mesh spear;
 };

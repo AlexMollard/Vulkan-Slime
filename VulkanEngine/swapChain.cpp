@@ -7,6 +7,7 @@
 #include "deviceAndQueue.h"
 #include "image.h"
 
+
 swapChainSupportDetails swapChain::querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR &surface) {
     swapChainSupportDetails details;
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.mCapabilities);
@@ -100,8 +101,8 @@ void swapChain::createSwapChain(deviceAndQueue &deviceAndQueue, window &window) 
     createInfo.imageArrayLayers = 1;
     createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-    if (queueFamilyIndices indices = deviceAndQueue.findQueueFamilies(physicalDevice); indices.mGraphicsFamily != indices.mPresentFamily)
-    {
+    if (queueFamilyIndices indices = deviceAndQueue.findQueueFamilies(physicalDevice); indices.mGraphicsFamily !=
+                                                                                       indices.mPresentFamily) {
         std::vector<uint32_t> queueFamilyIndices = {indices.mGraphicsFamily.value(), indices.mPresentFamily.value()};
         createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
         createInfo.queueFamilyIndexCount = 2;
@@ -150,10 +151,10 @@ swapChain::recreateSwapChain(deviceAndQueue &deviceAndQueue, window &window, ver
     createRenderPass(device);
     createGraphicsPipeline(device);
     createFrameBuffer(device);
-    vertexBuffer.createUniformBuffer(device, deviceAndQueue.getPhysicalDevice(), *this);
+    vertexBuffer.createUniformBuffer(deviceAndQueue, *this);
     createDescriptorPool(device);
-    createDescriptorSets(device, vertexBuffer, image);
-    createCommandBuffers(device, vertexBuffer);
+    createDescriptorSets(device, vertexBuffer.getUniformBuffers(), image);
+    //createCommandBuffers(device, vertexBuffer); // Is being done every frame
 }
 
 void swapChain::init(VkDevice &device, deviceAndQueue &deviceAndQueue, window &window) {
@@ -408,7 +409,7 @@ void swapChain::createFrameBuffer(const VkDevice &device) {
     }
 }
 
-void swapChain::createCommandBuffers(const VkDevice &device, vertexInput &vertexBuffer) {
+void swapChain::createCommandBuffers(const VkDevice &device, mesh &spear) {
     mCommandBuffers.resize(mSwapChainFramebuffers.size());
 
     VkCommandBufferAllocateInfo allocInfo{};
@@ -446,15 +447,14 @@ void swapChain::createCommandBuffers(const VkDevice &device, vertexInput &vertex
 
         vkCmdBindPipeline(mCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, mGraphicsPipeline);
 
-
-        std::array<VkBuffer, 1> vertexBuffers = {vertexBuffer.getVertexBuffer()};
+        std::array<VkBuffer, 1> vertexBuffers = {spear.mVertexBuffer};
         std::array<VkDeviceSize, 1> offsets = {0};
         vkCmdBindVertexBuffers(mCommandBuffers[i], 0, 1, vertexBuffers.data(), offsets.data());
-        vkCmdBindIndexBuffer(mCommandBuffers[i], vertexBuffer.getIndicesBuffer(), 0, VK_INDEX_TYPE_UINT16);
+        vkCmdBindIndexBuffer(mCommandBuffers[i], spear.mIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
         vkCmdBindDescriptorSets(mCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, mPipelineLayout, 0, 1,
                                 &mDescriptorSets[i], 0, nullptr);
 
-        vkCmdDrawIndexed(mCommandBuffers[i], static_cast<uint32_t>(vertexBuffer.getIndicesSize()), 1, 0, 0, 0);
+        vkCmdDrawIndexed(mCommandBuffers[i], spear.mIndices.size(), 1, 0, 0, 0);
 
         vkCmdEndRenderPass(mCommandBuffers[i]);
 
@@ -493,7 +493,7 @@ void swapChain::createDescriptorPool(VkDevice &device) {
     }
 }
 
-void swapChain::createDescriptorSets(VkDevice &device, vertexInput &vertexInput, image &image) {
+void swapChain::createDescriptorSets(VkDevice &device, std::vector<VkBuffer> &uniformBuffers, image &image) {
     std::vector<VkDescriptorSetLayout> layouts(mSwapChainImages.size(), mDescriptorSetLayout);
     VkDescriptorSetAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -508,7 +508,7 @@ void swapChain::createDescriptorSets(VkDevice &device, vertexInput &vertexInput,
 
     for (size_t i = 0; i < mSwapChainImages.size(); i++) {
         VkDescriptorBufferInfo bufferInfo{};
-        bufferInfo.buffer = vertexInput.getUniformBuffers()[i];
+        bufferInfo.buffer = uniformBuffers[i];
         bufferInfo.offset = 0;
         bufferInfo.range = sizeof(uniformBufferObject);
 

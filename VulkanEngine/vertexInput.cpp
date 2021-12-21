@@ -2,16 +2,13 @@
 #include "debugging.h"
 #include "swapChain.h"
 
-void vertexInput::createBuffers(VkDevice &device, VkPhysicalDevice &physicalDevice, VkCommandPool &commandPool,
-                                VkQueue &graphicsQueue, swapChain &swapChain) {
-    createVertexBuffer(device, physicalDevice, commandPool, graphicsQueue);
-    createIndexBuffer(device, physicalDevice, commandPool, graphicsQueue);
-    createUniformBuffer(device, physicalDevice, swapChain);
-}
+void vertexInput::createVertexBuffer(deviceAndQueue &devices, VkCommandPool &commandPool, std::vector<vertex> &vertices,
+                                     VkBuffer &vertexBuffer, VkDeviceMemory &vertexBufferMemory) {
+    auto &device = devices.getDevice();
+    auto &physicalDevice = devices.getPhysicalDevice();
+    auto &graphicsQueue = devices.getGraphicsQueue();
 
-void vertexInput::createVertexBuffer(VkDevice &device, VkPhysicalDevice &physicalDevice, VkCommandPool &commandPool,
-                                     VkQueue &graphicsQueue) {
-    VkDeviceSize bufferSize = sizeof(mVertices[0]) * mVertices.size();
+    VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     createBuffer(device, physicalDevice, bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
@@ -20,23 +17,26 @@ void vertexInput::createVertexBuffer(VkDevice &device, VkPhysicalDevice &physica
 
     void *data;
     vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-    memcpy(data, mVertices.data(), bufferSize);
+    memcpy(data, vertices.data(), bufferSize);
     vkUnmapMemory(device, stagingBufferMemory);
 
     createBuffer(device, physicalDevice, bufferSize,
                  VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mVertexBuffer, mVertexBufferMemory);
+                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
 
-    copyBuffer(device, commandPool, graphicsQueue, stagingBuffer, mVertexBuffer, bufferSize);
+    copyBuffer(device, commandPool, graphicsQueue, stagingBuffer, vertexBuffer, bufferSize);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
-void vertexInput::createIndexBuffer(VkDevice &device, VkPhysicalDevice &physicalDevice, VkCommandPool &commandPool,
-                                    VkQueue &graphicsQueue) {
-    VkDeviceSize bufferSize = sizeof(mIndices[0]) * mIndices.size();
+void vertexInput::createIndexBuffer(deviceAndQueue &devices, VkCommandPool &commandPool, std::vector<uint32_t> &indices,
+                                    VkBuffer &indexBuffer, VkDeviceMemory &indexBufferMemory) {
+    auto &device = devices.getDevice();
+    auto &physicalDevice = devices.getPhysicalDevice();
+    auto &graphicsQueue = devices.getGraphicsQueue();
 
+    VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     createBuffer(device, physicalDevice, bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
@@ -45,29 +45,32 @@ void vertexInput::createIndexBuffer(VkDevice &device, VkPhysicalDevice &physical
 
     void *data;
     vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-    memcpy(data, mIndices.data(), bufferSize);
+    memcpy(data, indices.data(), bufferSize);
     vkUnmapMemory(device, stagingBufferMemory);
 
     createBuffer(device, physicalDevice, bufferSize,
                  VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mIndexBuffer, mIndexBufferMemory);
+                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, indexBuffer, indexBufferMemory);
 
-    copyBuffer(device, commandPool, graphicsQueue, stagingBuffer, mIndexBuffer, bufferSize);
+    copyBuffer(device, commandPool, graphicsQueue, stagingBuffer, indexBuffer, bufferSize);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
-void vertexInput::createUniformBuffer(VkDevice &device, VkPhysicalDevice &physicalDevice, swapChain &swapChain) {
+void vertexInput::createUniformBuffer(deviceAndQueue &devices, swapChain &swapChain) {
+    auto &device = devices.getDevice();
+    auto &physicalDevice = devices.getPhysicalDevice();
+
     VkDeviceSize bufferSize = sizeof(uniformBufferObject);
 
-    uniformBuffers.resize(swapChain.getSwapChainImages().size());
-    uniformBuffersMemory.resize(swapChain.getSwapChainImages().size());
+    mUniformBuffers.resize(swapChain.getSwapChainImages().size());
+    mUniformBuffersMemory.resize(swapChain.getSwapChainImages().size());
 
     for (size_t i = 0; i < swapChain.getSwapChainImages().size(); i++) {
         createBuffer(device, physicalDevice, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i],
-                     uniformBuffersMemory[i]);
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, mUniformBuffers[i],
+                     mUniformBuffersMemory[i]);
     }
 }
 
@@ -206,14 +209,6 @@ vertexInput::transitionImageLayout(VkDevice &device, VkCommandPool &commandPool,
     );
 
     endSingleTimeCommands(device, commandBuffer, commandPool, graphicsQueue);
-}
-
-void vertexInput::cleanUp(VkDevice &device, const std::vector<VkImage> &swapChainImages) {
-    vkDestroyBuffer(device, mIndexBuffer, nullptr);
-    vkFreeMemory(device, mIndexBufferMemory, nullptr);
-
-    vkDestroyBuffer(device, mVertexBuffer, nullptr);
-    vkFreeMemory(device, mVertexBufferMemory, nullptr);
 }
 
 void

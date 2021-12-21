@@ -1,5 +1,6 @@
 #include "application.h"
 #include "debugging.h"
+#include "mesh.h"
 #include <array>
 
 void application::run() {
@@ -22,26 +23,29 @@ void application::initVulkan() {
 
     mSwapChain.init(device, mDeviceAndQueue, mWindow);
 
-    std::string imageDir = "../Images/corn.jpg";
+    std::string imageDir = "../Models/soulspear_diffuse.tga";
     mImage.create(device, mDeviceAndQueue.getPhysicalDevice(), mSwapChain.getCommandPool(),
                   mDeviceAndQueue.getGraphicsQueue(), imageDir);
     mImage.createView(device, mSwapChain);
     mImage.createSampler(device, mDeviceAndQueue.getPhysicalDevice());
 
-    mVertexBuffer.createBuffers(device, mDeviceAndQueue.getPhysicalDevice(), mSwapChain.getCommandPool(),
-                                mDeviceAndQueue.getGraphicsQueue(), mSwapChain);
+    mVertexBuffer.createUniformBuffer(mDeviceAndQueue, mSwapChain);
 
     //Descriptor pool and sets
     mSwapChain.createDescriptorPool(device);
-    mSwapChain.createDescriptorSets(device, mVertexBuffer, mImage);
+    mSwapChain.createDescriptorSets(device, mVertexBuffer.getUniformBuffers(), mImage);
 
-    mSwapChain.createCommandBuffers(device, mVertexBuffer);
+    spear.init(mDeviceAndQueue, mSwapChain.getCommandPool(), "../Models/soulspear.obj");
+
+
+    mSwapChain.createCommandBuffers(device, spear);
     mRenderer.createSyncObjects(device, mSwapChain);
 }
 
 void application::mainLoop() {
     while (!mWindow.shouldClose()) {
         mWindow.mainLoop();
+        mSwapChain.createCommandBuffers(mDeviceAndQueue.getDevice(), spear);
         mRenderer.draw(mDeviceAndQueue, mSwapChain, mWindow, mVertexBuffer, mImage);
     }
 
@@ -99,7 +103,7 @@ void application::cleanUp() {
 
     vkDestroyDescriptorSetLayout(device, mSwapChain.getDescriptorSetLayout(), nullptr);
 
-    mVertexBuffer.cleanUp(device, mSwapChain.getSwapChainImages());
+    spear.cleanUp(device);
 
     mRenderer.cleanUp(device);
 
