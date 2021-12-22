@@ -194,7 +194,7 @@ void swapChain::createDescriptorSetLayout(const VkDevice &device) {
 }
 
 void swapChain::cleanUp(const VkDevice &device, vertexInput &vertexInput) {
-    for (auto framebuffer: mSwapChainFramebuffers) {
+    for (auto framebuffer: mSwapChainFrameBuffer) {
         vkDestroyFramebuffer(device, framebuffer, nullptr);
     }
 
@@ -250,7 +250,7 @@ void swapChain::createGraphicsPipeline(const VkDevice &device) {
 
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    auto bindingDescription = vertex::getBindingDecription();
+    auto bindingDescription = vertex::getBindingDescription();
     auto attributeDescriptions = vertex::getAttributeDescriptions();
 
     vertexInputInfo.vertexBindingDescriptionCount = 1;
@@ -389,7 +389,7 @@ void swapChain::createFrameBuffer(const VkDevice &device) {
     const auto &swapChainImageViews = mSwapChainImageViews;
     const auto &swapChainExtent = mSwapChainExtent;
 
-    mSwapChainFramebuffers.resize(swapChainImageViews.size());
+    mSwapChainFrameBuffer.resize(swapChainImageViews.size());
 
     for (size_t i = 0; i < swapChainImageViews.size(); i++) {
         std::array<VkImageView, 1> attachments = {swapChainImageViews[i]};
@@ -403,14 +403,14 @@ void swapChain::createFrameBuffer(const VkDevice &device) {
         framebufferInfo.height = swapChainExtent.height;
         framebufferInfo.layers = 1;
 
-        if (vkCreateFramebuffer(device, &framebufferInfo, nullptr, &mSwapChainFramebuffers[i]) != VK_SUCCESS) {
+        if (vkCreateFramebuffer(device, &framebufferInfo, nullptr, &mSwapChainFrameBuffer[i]) != VK_SUCCESS) {
             throw vulkanCreateError("Framebuffer");
         }
     }
 }
 
 void swapChain::createCommandBuffers(const VkDevice &device, mesh &spear) {
-    mCommandBuffers.resize(mSwapChainFramebuffers.size());
+    mCommandBuffers.resize(mSwapChainFrameBuffer.size());
 
     VkCommandBufferAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -435,7 +435,7 @@ void swapChain::createCommandBuffers(const VkDevice &device, mesh &spear) {
         VkRenderPassBeginInfo renderPassInfo{};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
         renderPassInfo.renderPass = mRenderPass;
-        renderPassInfo.framebuffer = mSwapChainFramebuffers[i];
+        renderPassInfo.framebuffer = mSwapChainFrameBuffer[i];
         renderPassInfo.renderArea.offset = {0, 0};
         renderPassInfo.renderArea.extent = mSwapChainExtent;
 

@@ -82,7 +82,7 @@ private:
     VkPipelineLayout mPipelineLayout;
     VkRenderPass mRenderPass;
     VkPipeline mGraphicsPipeline;
-    std::vector<VkFramebuffer> mSwapChainFramebuffers;
+    std::vector<VkFramebuffer> mSwapChainFrameBuffer;
     VkCommandPool mCommandPool;
     std::vector<VkCommandBuffer> mCommandBuffers;
 

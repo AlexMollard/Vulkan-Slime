@@ -1,13 +1,13 @@
 #include "vertex.h"
 
-VkVertexInputBindingDescription vertex::getBindingDecription() {
+VkVertexInputBindingDescription vertex::getBindingDescription() {
     VkVertexInputBindingDescription bindingDescription{};
     bindingDescription.binding = 0;
     bindingDescription.stride = sizeof(vertex);
     bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 
     return bindingDescription;
-};
+}
 
 std::array<VkVertexInputAttributeDescription, 3> vertex::getAttributeDescriptions() {
     std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
