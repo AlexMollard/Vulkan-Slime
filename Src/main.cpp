@@ -1,5 +1,4 @@
-#include <iostream>
-#include "../Vulkan/VulkanEngine.h"
+#include "VulkanEngine.h"
 
 int main(int argc, char* args[]) {
     VulkanEngine engine;

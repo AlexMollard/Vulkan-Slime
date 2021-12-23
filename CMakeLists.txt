@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(SDL2_INCLUDE_DIR C:/libs/SDL2/include)
 set(SDL2_LIB_DIR C:/libs/SDL2/lib/x64)
 
+#Include ProjectFolders
+include_directories(Src Vulkan)
+
 # Including SDL2 dirs
 include_directories(${SDL2_INCLUDE_DIR})
 link_directories(${SDL2_LIB_DIR})
