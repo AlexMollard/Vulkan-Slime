@@ -5,9 +5,35 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+#include "VulkanInitializers.h"
+#include "VkBootstrap.h"
 
 class VulkanEngine {
 public:
+    // --- omitted ---
+    VkInstance mInstance; // Vulkan library handle
+    VkDebugUtilsMessengerEXT mDebugMessenger; // Vulkan debug output handle
+    VkPhysicalDevice mChosenGPU; // GPU chosen as the default device
+    VkDevice mDevice; // Vulkan device for commands
+    VkSurfaceKHR mSurface; // Vulkan window surface
+
+    VkSwapchainKHR mSwapchain; // from other articles
+
+    // image format expected by the windowing system
+    VkFormat mSwapchainImageFormat;
+
+    //array of images from the swapchain
+    std::vector<VkImage> mSwapchainImages;
+
+    //array of image-views from the swapchain
+    std::vector<VkImageView> mSwapchainImageViews;
+
+    VkQueue mGraphicsQueue; //queue we will submit to
+    uint32_t mGraphicsQueueFamily; //family of that queue
+
+    VkCommandPool mCommandPool; //the command pool for our commands
+    VkCommandBuffer mMainCommandBuffer; //the buffer we will record into
+
     //initializes everything in the engine
     void init();
 
@@ -21,6 +47,12 @@ public:
     void run();
 
 private:
+    void init_vulkan();
+
+    void init_swapchain();
+
+    void init_commands();
+
     struct SDL_Window *mWindow{nullptr};
     bool mIsInitialized{false};
     int mFrameNumber{0};
