@@ -34,6 +34,13 @@ public:
     VkCommandPool mCommandPool; //the command pool for our commands
     VkCommandBuffer mMainCommandBuffer; //the buffer we will record into
 
+    VkRenderPass mRenderPass;
+
+    std::vector<VkFramebuffer> mFramebuffers;
+
+    VkSemaphore mPresentSemaphore, mRenderSemaphore;
+    VkFence mRenderFence;
+
     //initializes everything in the engine
     void init();
 
@@ -52,6 +59,12 @@ private:
     void init_swapchain();
 
     void init_commands();
+
+    void init_default_renderpass();
+
+    void init_framebuffers();
+
+    void init_sync_structures();
 
     struct SDL_Window *mWindow{nullptr};
     bool mIsInitialized{false};

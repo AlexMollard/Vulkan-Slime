@@ -10,7 +10,14 @@ include_directories(${SDL2_INCLUDE_DIRS})
 #Include ProjectFolders
 include_directories(Src Vulkan)
 
-add_subdirectory(./ThirdPartyLibs/vk-bootstrap)
+#Get VkBootstrap
+include(FetchContent)
+FetchContent_Declare(
+        fetch_vk_bootstrap
+        GIT_REPOSITORY https://github.com/charles-lunarg/vk-bootstrap
+        GIT_TAG
+)
+FetchContent_MakeAvailable(fetch_vk_bootstrap)
 
 # Including SDL2 dirs
 include_directories(${SDL2_INCLUDE_DIR})
@@ -30,4 +37,5 @@ target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 # Linking SDL2
 target_link_libraries(VulkanSlime ${SDL2_LIBRARIES})
 
+#Linking VkBootstrap
 target_link_libraries(VulkanSlime vk-bootstrap::vk-bootstrap)
