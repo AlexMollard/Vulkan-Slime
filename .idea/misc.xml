@@ -3,13 +3,11 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
-      <file path="$PROJECT_DIR$/Project" />
+      <file path="$PROJECT_DIR$/Src" />
       <file path="$PROJECT_DIR$/Vulkan" />
-      <file path="$PROJECT_DIR$/VulkanEngine" />
     </sourceRoots>
     <libraryRoots>
-      <file path="$PROJECT_DIR$/External" />
-      <file path="$PROJECT_DIR$/lib" />
+      <file path="$PROJECT_DIR$/ThirdPartyLibs" />
     </libraryRoots>
   </component>
 </project>

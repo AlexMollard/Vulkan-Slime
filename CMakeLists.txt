@@ -1,60 +1,54 @@
-# Cmake minimum Version to compile
 cmake_minimum_required(VERSION 3.21)
+project(VulkanSlime)
 
-# Project name to help with later code
-project(VulkanTest)
+set(CMAKE_CXX_STANDARD 20)
 
-# include stuff needed for ExternalProject_Add
-include(ExternalProject)
+# Get SDL2
+IF (WIN32)
+    # Setting dirs for SDL2
+    set(SDL2_INCLUDE_DIR C:/libs/SDL2/include)
+    set(SDL2_LIB_DIR C:/libs/SDL2/lib/x64)
 
-# Set the external path for third party libs
-set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/External)
+    include_directories(${SDL2_INCLUDE_DIR})
+    link_directories(${SDL2_LIB_DIR})
+ELSE()
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIRS})
+ENDIF()
 
-# Clone GLFW main branch from GitHub
-ExternalProject_Add(glfw3 GIT_REPOSITORY https://github.com/glfw/glfw CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION})
+#Include ProjectFolders
+include_directories(Src Vulkan)
 
-# Clone GLM main branch from GitHub
-ExternalProject_Add(glm GIT_REPOSITORY https://github.com/g-truc/glm CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION})
+#Get VkBootstrap
+include(FetchContent)
+FetchContent_Declare(
+        fetch_vk_bootstrap
+        GIT_REPOSITORY https://github.com/charles-lunarg/vk-bootstrap
+        GIT_TAG
+)
+FetchContent_MakeAvailable(fetch_vk_bootstrap)
 
-# Clone GLM main branch from GitHub
-ExternalProject_Add(tiny-obj GIT_REPOSITORY https://github.com/tinyobjloader/tinyobjloader.git CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION})
+# Including SDL2 dirs
+include_directories(${SDL2_INCLUDE_DIR})
+link_directories(${SDL2_LIB_DIR})
 
-# Include the compiled files from the third party libs
-include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+# Set code directories
+FILE(GLOB FILES_TO_BUILD Src/*.h Src/*.cpp Vulkan/*.h Vulkan/*.cpp)
 
-# CMAKE version
-set(CMAKE_CXX_STANDARD 23)
+# Compiling project
+add_executable(VulkanSlime ${FILES_TO_BUILD} Vulkan/VulkanInitializers.cpp Vulkan/VulkanInitializers.h)
 
-# Main Files
-file(GLOB_RECURSE ProjectSources Project/*.cpp Project/*.h)
-
-# Vulkan Files
-file(GLOB_RECURSE VulkanEngineSources VulkanEngine/*.cpp VulkanEngine/*.h)
-
-# Files to compile
-add_executable(VulkanTest ${ProjectSources} ${VulkanEngineSources})
-
-# Vulkan
+# Finding and including Vulkan
 find_package(Vulkan REQUIRED)
 target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 
-# GLFW vars to lower compile time
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# Linking SDL2
+IF (WIN32)
+target_link_libraries(VulkanSlime SDL2main SDL2)
+ELSE()
+target_link_libraries(VulkanSlime ${SDL2_LIBRARIES})
+ENDIF()
 
-# Include GLFW
-add_dependencies(VulkanTest glfw3)
-target_link_libraries(VulkanTest ${EXTERNAL_INSTALL_LOCATION}/lib/glfw3.lib)
-
-# GLM
-add_dependencies(VulkanTest glm)
-
-# TinyOBJ
-add_dependencies(VulkanTest tiny-obj)
-target_link_libraries(VulkanTest ${EXTERNAL_INSTALL_LOCATION}/lib/tinyobjloader.lib)
-
-# STB
-INCLUDE_DIRECTORIES(Dependencies/stb)
+#Linking VkBootstrap
+target_link_libraries(VulkanSlime vk-bootstrap::vk-bootstrap)
