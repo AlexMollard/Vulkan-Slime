@@ -7,19 +7,23 @@
 #include <SDL_vulkan.h>
 
 #include <iostream>
+#include <fstream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 //we want to immediately abort when there is an error. In normal engines this would give an error message to the user, or perform a dump of state.
 using namespace std;
 #define VK_CHECK(x)                                                     \
-	do                                                                  \
-	{                                                                   \
-		VkResult err = x;                                               \
-		if (err)                                                        \
-		{                                                               \
-			std::cout <<"Detected Vulkan error: " << err << std::endl;  \
-			abort();                                                    \
-		}                                                               \
-	} while (0)
+    do                                                                  \
+    {                                                                   \
+        VkResult err = x;                                               \
+        if (err)                                                        \
+        {                                                               \
+            std::cout <<"Detected Vulkan error: " << err << std::endl;  \
+            abort();                                                    \
+        }                                                               \
+    } while (0)
 
 void VulkanEngine::init() {
     // We initialize SDL and create a window with it.
@@ -32,8 +36,8 @@ void VulkanEngine::init() {
             "Vulkan Slime", //window title
             SDL_WINDOWPOS_UNDEFINED, //window position x
             SDL_WINDOWPOS_UNDEFINED, //window position y
-            (int)mWindowExtent.width,  //window width in pixels
-            (int)mWindowExtent.height, //window height in pixels
+            (int) mWindowExtent.width,  //window width in pixels
+            (int) mWindowExtent.height, //window height in pixels
             windowFlags
     );
 
@@ -55,12 +59,13 @@ void VulkanEngine::init() {
     //Create Fences and semaphores
     init_sync_structures();
 
+    init_pipeline();
+
     //everything went fine
     mIsInitialized = true;
 }
 
-void VulkanEngine::init_vulkan()
-{
+void VulkanEngine::init_vulkan() {
     vkb::InstanceBuilder builder;
 
     //make the Vulkan instance, with basic debug features
@@ -82,7 +87,7 @@ void VulkanEngine::init_vulkan()
 
     //use vkbootstrap to select a GPU.
     //We want a GPU that can write to the SDL surface and supports Vulkan 1.1
-    vkb::PhysicalDeviceSelector selector{ vkb_inst };
+    vkb::PhysicalDeviceSelector selector{vkb_inst};
     vkb::PhysicalDevice physicalDevice = selector
             .set_minimum_version(1, 1)
             .set_surface(mSurface)
@@ -90,7 +95,7 @@ void VulkanEngine::init_vulkan()
             .value();
 
     //create the final Vulkan device
-    vkb::DeviceBuilder deviceBuilder{ physicalDevice };
+    vkb::DeviceBuilder deviceBuilder{physicalDevice};
 
     vkb::Device vkbDevice = deviceBuilder.build().value();
 
@@ -104,7 +109,7 @@ void VulkanEngine::init_vulkan()
 }
 
 void VulkanEngine::init_swapchain() {
-    vkb::SwapchainBuilder swapchainBuilder{mChosenGPU,mDevice,mSurface };
+    vkb::SwapchainBuilder swapchainBuilder{mChosenGPU, mDevice, mSurface};
 
     vkb::Swapchain vkbSwapchain = swapchainBuilder
             .use_default_format_selection()
@@ -120,12 +125,17 @@ void VulkanEngine::init_swapchain() {
     mSwapchainImageViews = vkbSwapchain.get_image_views().value();
 
     mSwapchainImageFormat = vkbSwapchain.image_format;
+
+    mMainDeletionQueue.push_function([this]() {
+        vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
+    });
 }
 
 void VulkanEngine::init_commands() {
     //create a command pool for commands submitted to the graphics queue.
     //we also want the pool to allow for resetting of individual command buffers
-    VkCommandPoolCreateInfo commandPoolInfo = vkinit::command_pool_create_info(mGraphicsQueueFamily, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
+    VkCommandPoolCreateInfo commandPoolInfo = vkinit::command_pool_create_info(mGraphicsQueueFamily,
+                                                                               VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
 
     VK_CHECK(vkCreateCommandPool(mDevice, &commandPoolInfo, nullptr, &mCommandPool));
 
@@ -133,27 +143,24 @@ void VulkanEngine::init_commands() {
     VkCommandBufferAllocateInfo cmdAllocInfo = vkinit::command_buffer_allocate_info(mCommandPool, 1);
 
     VK_CHECK(vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mMainCommandBuffer));
+
+    mMainDeletionQueue.push_function([this]() {
+        vkDestroyCommandPool(mDevice, mCommandPool, nullptr);
+    });
 }
 
 void VulkanEngine::cleanup() {
     if (mIsInitialized) {
-        vkDestroyCommandPool(mDevice, mCommandPool, nullptr);
-        vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
+        //make sure the GPU has stopped doing its things
+        vkWaitForFences(mDevice, 1, &mRenderFence, true, 1000000000);
 
-        //destroy the main renderpass
-        vkDestroyRenderPass(mDevice, mRenderPass, nullptr);
+        mMainDeletionQueue.flush();
 
-        //destroy swapchain resources
-        for (int i = 0; i < mFramebuffers.size(); i++) {
-            vkDestroyFramebuffer(mDevice, mFramebuffers[i], nullptr);
-
-            vkDestroyImageView(mDevice, mSwapchainImageViews[i], nullptr);
-        }
+        vkDestroySurfaceKHR(mInstance, mSurface, nullptr);
 
         vkDestroyDevice(mDevice, nullptr);
-        vkDestroySurfaceKHR(mInstance, mSurface, nullptr);
-        vkb::destroy_debug_utils_messenger(mInstance, mDebugMessenger);
         vkDestroyInstance(mInstance, nullptr);
+
         SDL_DestroyWindow(mWindow);
     }
 }
@@ -185,8 +192,8 @@ void VulkanEngine::draw() {
 
     //make a clear-color from frame number. This will flash with a 120*pi frame period.
     VkClearValue clearValue;
-    float flash = abs(sin(mFrameNumber / 120.f));
-    clearValue.color = { { 0.3f, flash * 0.5f, 0.3f, 1.0f } };
+    float flash = abs(sin((float) mFrameNumber / 120.f));
+    clearValue.color = {{0.3f, flash * 0.5f, 0.3f, 1.0f}};
 
     //start the main renderpass.
     //We will use the clear color from above, and the framebuffer of the index the swapchain gave us
@@ -205,6 +212,10 @@ void VulkanEngine::draw() {
     rpInfo.pClearValues = &clearValue;
 
     vkCmdBeginRenderPass(cmd, &rpInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+    //once we start adding rendering commands, they will go here
+    vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, mTrianglePipeline);
+    vkCmdDraw(cmd, 3, 1, 0, 0);
 
     //finalize the render pass
     vkCmdEndRenderPass(cmd);
@@ -317,50 +328,221 @@ void VulkanEngine::init_default_renderpass() {
 
 
     VK_CHECK(vkCreateRenderPass(mDevice, &render_pass_info, nullptr, &mRenderPass));
+
+    mMainDeletionQueue.push_function([this]() {
+        vkDestroyRenderPass(mDevice, mRenderPass, nullptr);
+    });
 }
 
 void VulkanEngine::init_framebuffers() {
     //create the framebuffers for the swapchain images. This will connect the render-pass to the images for rendering
-    VkFramebufferCreateInfo fb_info = {};
-    fb_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-    fb_info.pNext = nullptr;
+    VkFramebufferCreateInfo fb_info = vkinit::framebuffer_create_info(mRenderPass, mWindowExtent);
 
-    fb_info.renderPass = mRenderPass;
-    fb_info.attachmentCount = 1;
-    fb_info.width = mWindowExtent.width;
-    fb_info.height = mWindowExtent.height;
-    fb_info.layers = 1;
-
-    //grab how many images we have in the swapchain
     const uint32_t swapchain_imagecount = mSwapchainImages.size();
     mFramebuffers = std::vector<VkFramebuffer>(swapchain_imagecount);
 
-    //create framebuffers for each of the swapchain image views
     for (int i = 0; i < swapchain_imagecount; i++) {
 
         fb_info.pAttachments = &mSwapchainImageViews[i];
         VK_CHECK(vkCreateFramebuffer(mDevice, &fb_info, nullptr, &mFramebuffers[i]));
+
+        mMainDeletionQueue.push_function([this, i]() {
+            vkDestroyFramebuffer(mDevice, mFramebuffers[i], nullptr);
+            vkDestroyImageView(mDevice, mSwapchainImageViews[i], nullptr);
+        });
     }
 }
 
 void VulkanEngine::init_sync_structures() {
-    //create synchronization structures
-
-    VkFenceCreateInfo fenceCreateInfo = {};
-    fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-    fenceCreateInfo.pNext = nullptr;
-
-    //we want to create the fence with the Create Signaled flag, so we can wait on it before using it on a GPU command (for the first frame)
-    fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+    VkFenceCreateInfo fenceCreateInfo = vkinit::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
 
     VK_CHECK(vkCreateFence(mDevice, &fenceCreateInfo, nullptr, &mRenderFence));
 
-    //for the semaphores we don't need any flags
-    VkSemaphoreCreateInfo semaphoreCreateInfo = {};
-    semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-    semaphoreCreateInfo.pNext = nullptr;
-    semaphoreCreateInfo.flags = 0;
+    //enqueue the destruction of the fence
+    mMainDeletionQueue.push_function([this]() {
+        vkDestroyFence(mDevice, mRenderFence, nullptr);
+    });
+
+    VkSemaphoreCreateInfo semaphoreCreateInfo = vkinit::semaphore_create_info();
 
     VK_CHECK(vkCreateSemaphore(mDevice, &semaphoreCreateInfo, nullptr, &mPresentSemaphore));
     VK_CHECK(vkCreateSemaphore(mDevice, &semaphoreCreateInfo, nullptr, &mRenderSemaphore));
+
+    //enqueue the destruction of semaphores
+    mMainDeletionQueue.push_function([this]() {
+        vkDestroySemaphore(mDevice, mPresentSemaphore, nullptr);
+        vkDestroySemaphore(mDevice, mRenderSemaphore, nullptr);
+    });
+}
+
+bool VulkanEngine::load_shader_module(const char *filePath, VkShaderModule *outShaderModule) const {
+    //open the file. With cursor at the end
+    std::ifstream file(filePath, std::ios::ate | std::ios::binary);
+
+    std::string fileName = fs::path(filePath).stem();
+
+    if (!file.is_open()) {
+        std::cout << fileName << " Failed to open" << std::endl;
+        return false;
+    }
+
+//find what the size of the file is by looking up the location of the cursor
+//because the cursor is at the end, it gives the size directly in bytes
+    std::streamsize fileSize = file.tellg();
+
+//spirv expects the buffer to be on uint32, so make sure to reserve an int vector big enough for the entire file
+    std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
+
+//put file cursor at beginning
+    file.seekg(0);
+
+//load the entire file into the buffer
+    file.read((char *) buffer.data(), fileSize);
+
+//now that the file is loaded into the buffer, we can close it
+    file.close();
+
+
+//create a new shader module, using the buffer we loaded
+    VkShaderModuleCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    createInfo.pNext = nullptr;
+
+//codeSize has to be in bytes, so multiply the ints in the buffer by size of int to know the real size of the buffer
+    createInfo.codeSize = buffer.size() * sizeof(uint32_t);
+    createInfo.pCode = buffer.data();
+
+//check that the creation goes well.
+    VkShaderModule shaderModule;
+    if (vkCreateShaderModule(mDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
+        std::cout << fileName << " Shader module failed to be created" << std::endl;
+        return false;
+    }
+    *outShaderModule = shaderModule;
+
+    std::cout << fileName << " Shader Module Created!" << std::endl;
+    return true;
+}
+
+void VulkanEngine::init_pipeline() {
+    std::cout << "[CREATION: Shader Modules]" << std::endl;
+    VkShaderModule triangleFragShader;
+    load_shader_module("../Res/Shaders/triangle.frag.spv", &triangleFragShader);
+
+    VkShaderModule triangleVertexShader;
+    load_shader_module("../Res/Shaders/triangle.vert.spv", &triangleVertexShader);
+
+    //build the pipeline layout that controls the inputs/outputs of the shader
+    //we are not using descriptor sets or other systems yet, so no need to use anything other than empty default
+    VkPipelineLayoutCreateInfo pipeline_layout_info = vkinit::pipeline_layout_create_info();
+
+    VK_CHECK(vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &mTrianglePipelineLayout));
+
+    //build the stage-create-info for both vertex and fragment stages. This lets the pipeline know the shader modules per stage
+    PipelineBuilder pipelineBuilder;
+
+    pipelineBuilder.mShaderStages.push_back(
+            vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_VERTEX_BIT, triangleVertexShader));
+
+    pipelineBuilder.mShaderStages.push_back(
+            vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_FRAGMENT_BIT, triangleFragShader));
+
+
+    //vertex input controls how to read vertices from vertex buffers. We aren't using it yet
+    pipelineBuilder.mVertexInputInfo = vkinit::vertex_input_state_create_info();
+
+    //input assembly is the configuration for drawing triangle lists, strips, or individual points.
+    //we are just going to draw triangle list
+    pipelineBuilder.mInputAssembly = vkinit::input_assembly_create_info(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+
+    //build viewport and scissor from the swapchain extents
+    pipelineBuilder.mViewport.x = 0.0f;
+    pipelineBuilder.mViewport.y = 0.0f;
+    pipelineBuilder.mViewport.width = (float) mWindowExtent.width;
+    pipelineBuilder.mViewport.height = (float) mWindowExtent.height;
+    pipelineBuilder.mViewport.minDepth = 0.0f;
+    pipelineBuilder.mViewport.maxDepth = 1.0f;
+
+    pipelineBuilder.mScissor.offset = {0, 0};
+    pipelineBuilder.mScissor.extent = mWindowExtent;
+
+    //configure the rasterizer to draw filled triangles
+    pipelineBuilder.mRasterizer = vkinit::rasterization_state_create_info(VK_POLYGON_MODE_FILL);
+
+    //we don't use multisampling, so just run the default one
+    pipelineBuilder.mMultisampling = vkinit::multisampling_state_create_info();
+
+    //a single blend attachment with no blending and writing to RGBA
+    pipelineBuilder.mColorBlendAttachment = vkinit::color_blend_attachment_state();
+
+    //use the triangle layout we created
+    pipelineBuilder.mPipelineLayout = mTrianglePipelineLayout;
+
+    //finally build the pipeline
+    mTrianglePipeline = pipelineBuilder.build_pipeline(mDevice, mRenderPass);
+
+    //destroy all shader modules, outside of the queue
+    vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
+    vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
+
+    mMainDeletionQueue.push_function([this]() {
+        //destroy the 2 pipelines we have created
+        vkDestroyPipeline(mDevice, mTrianglePipeline, nullptr);
+
+        //destroy the pipeline layout that they use
+        vkDestroyPipelineLayout(mDevice, mTrianglePipelineLayout, nullptr);
+    });
+}
+
+VkPipeline PipelineBuilder::build_pipeline(VkDevice device, VkRenderPass pass) {
+    //make viewport state from our stored viewport and scissor.
+    //at the moment we won't support multiple viewports or scissors
+    VkPipelineViewportStateCreateInfo viewportState = {};
+    viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewportState.pNext = nullptr;
+
+    viewportState.viewportCount = 1;
+    viewportState.pViewports = &mViewport;
+    viewportState.scissorCount = 1;
+    viewportState.pScissors = &mScissor;
+
+    //setup dummy color blending. We aren't using transparent objects yet
+    //the blending is just "no blend", but we do write to the color attachment
+    VkPipelineColorBlendStateCreateInfo colorBlending = {};
+    colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    colorBlending.pNext = nullptr;
+
+    colorBlending.logicOpEnable = VK_FALSE;
+    colorBlending.logicOp = VK_LOGIC_OP_COPY;
+    colorBlending.attachmentCount = 1;
+    colorBlending.pAttachments = &mColorBlendAttachment;
+
+    //build the actual pipeline
+    //we now use all of the info structs we have been writing into into this one to create the pipeline
+    VkGraphicsPipelineCreateInfo pipelineInfo = {};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineInfo.pNext = nullptr;
+
+    pipelineInfo.stageCount = mShaderStages.size();
+    pipelineInfo.pStages = mShaderStages.data();
+    pipelineInfo.pVertexInputState = &mVertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &mInputAssembly;
+    pipelineInfo.pViewportState = &viewportState;
+    pipelineInfo.pRasterizationState = &mRasterizer;
+    pipelineInfo.pMultisampleState = &mMultisampling;
+    pipelineInfo.pColorBlendState = &colorBlending;
+    pipelineInfo.layout = mPipelineLayout;
+    pipelineInfo.renderPass = pass;
+    pipelineInfo.subpass = 0;
+    pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+
+    //it's easy to error out on create graphics pipeline, so we handle it a bit better than the common VK_CHECK case
+    VkPipeline newPipeline;
+    if (vkCreateGraphicsPipelines(
+            device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &newPipeline) != VK_SUCCESS) {
+        std::cout << "failed to create pipeline\n";
+        return VK_NULL_HANDLE; // failed to create graphics pipeline
+    } else {
+        return newPipeline;
+    }
 }

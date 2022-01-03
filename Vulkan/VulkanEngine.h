@@ -5,8 +5,44 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+#include <deque>
+#include <functional>
 #include "VulkanInitializers.h"
 #include "VkBootstrap.h"
+
+struct DeletionQueue {
+    std::deque<std::function<void()>> deletors;
+
+    void push_function(std::function<void()> &&function) {
+        deletors.push_back(function);
+    }
+
+    void flush() {
+        // reverse iterate the deletion queue to execute all the functions
+        for (auto it = deletors.rbegin(); it != deletors.rend(); it++) {
+            (*it)(); //call the function
+        }
+
+        deletors.clear();
+    }
+};
+
+class PipelineBuilder {
+public:
+
+    std::vector<VkPipelineShaderStageCreateInfo> mShaderStages;
+    VkPipelineVertexInputStateCreateInfo mVertexInputInfo;
+    VkPipelineInputAssemblyStateCreateInfo mInputAssembly;
+    VkViewport mViewport;
+    VkRect2D mScissor;
+    VkPipelineRasterizationStateCreateInfo mRasterizer;
+    VkPipelineColorBlendAttachmentState mColorBlendAttachment;
+    VkPipelineMultisampleStateCreateInfo mMultisampling;
+    VkPipelineLayout mPipelineLayout;
+
+    VkPipeline build_pipeline(VkDevice device, VkRenderPass pass);
+};
+
 
 class VulkanEngine {
 public:
@@ -41,6 +77,10 @@ public:
     VkSemaphore mPresentSemaphore, mRenderSemaphore;
     VkFence mRenderFence;
 
+    VkPipelineLayout mTrianglePipelineLayout;
+
+    VkPipeline mTrianglePipeline;
+
     //initializes everything in the engine
     void init();
 
@@ -65,6 +105,13 @@ private:
     void init_framebuffers();
 
     void init_sync_structures();
+
+    void init_pipeline();
+
+    //loads a shader module from a spir-v file. Returns false if it errors
+    bool load_shader_module(const char *filePath, VkShaderModule *outShaderModule) const;
+
+    DeletionQueue mMainDeletionQueue;
 
     struct SDL_Window *mWindow{nullptr};
     bool mIsInitialized{false};
