@@ -338,7 +338,7 @@ void VulkanEngine::init_framebuffers() {
     //create the framebuffers for the swapchain images. This will connect the render-pass to the images for rendering
     VkFramebufferCreateInfo fb_info = vkinit::framebuffer_create_info(mRenderPass, mWindowExtent);
 
-    const uint32_t swapchain_imagecount = mSwapchainImages.size();
+    const auto swapchain_imagecount = (uint32_t)mSwapchainImages.size();
     mFramebuffers = std::vector<VkFramebuffer>(swapchain_imagecount);
 
     for (int i = 0; i < swapchain_imagecount; i++) {
@@ -379,7 +379,7 @@ bool VulkanEngine::load_shader_module(const char *filePath, VkShaderModule *outS
     //open the file. With cursor at the end
     std::ifstream file(filePath, std::ios::ate | std::ios::binary);
 
-    std::string fileName = fs::path(filePath).stem();
+    std::string fileName = fs::path(filePath).stem().generic_string();
 
     if (!file.is_open()) {
         std::cout << fileName << " Failed to open" << std::endl;
@@ -523,7 +523,7 @@ VkPipeline PipelineBuilder::build_pipeline(VkDevice device, VkRenderPass pass) {
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     pipelineInfo.pNext = nullptr;
 
-    pipelineInfo.stageCount = mShaderStages.size();
+    pipelineInfo.stageCount = (uint32_t)mShaderStages.size();
     pipelineInfo.pStages = mShaderStages.data();
     pipelineInfo.pVertexInputState = &mVertexInputInfo;
     pipelineInfo.pInputAssemblyState = &mInputAssembly;
