@@ -1,4 +1,4 @@
-# Vulkan-Tut
+# Vulkan Graphics Engine - Vulkan Slime
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 ![Generic badge](https://api.codiga.io/project/30567/score/svg)
