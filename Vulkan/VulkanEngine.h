@@ -9,6 +9,16 @@
 #include <functional>
 #include "VulkanInitializers.h"
 #include "VkBootstrap.h"
+#include "vk_mem_alloc.h"
+
+#include "VulkanMesh.h"
+
+#include <glm/glm.hpp>
+
+struct MeshPushConstants {
+    glm::vec4 data;
+    glm::mat4 renderMatrix;
+};
 
 struct DeletionQueue {
     std::deque<std::function<void()>> deletors;
@@ -39,6 +49,7 @@ public:
     VkPipelineColorBlendAttachmentState mColorBlendAttachment;
     VkPipelineMultisampleStateCreateInfo mMultisampling;
     VkPipelineLayout mPipelineLayout;
+    VkPipelineDepthStencilStateCreateInfo mDepthStencil;
 
     VkPipeline build_pipeline(VkDevice device, VkRenderPass pass);
 };
@@ -79,7 +90,19 @@ public:
 
     VkPipelineLayout mTrianglePipelineLayout;
 
-    VkPipeline mTrianglePipeline;
+    VmaAllocator mAllocator; //vma lib allocator
+
+    VkPipelineLayout mMeshPipelineLayout;
+    VkPipeline mMeshPipeline;
+    Mesh mTriangleMesh;
+
+    Mesh mMonkeyMesh;
+
+    VkImageView _depthImageView;
+    VulkanType::AllocatedImage _depthImage;
+
+    //the format for the depth image
+    VkFormat _depthFormat;
 
     //initializes everything in the engine
     void init();
@@ -110,6 +133,10 @@ private:
 
     //loads a shader module from a spir-v file. Returns false if it errors
     bool load_shader_module(const char *filePath, VkShaderModule *outShaderModule) const;
+
+    void load_meshes();
+
+    void upload_mesh(Mesh &mesh);
 
     DeletionQueue mMainDeletionQueue;
 
