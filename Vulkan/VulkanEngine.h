@@ -6,6 +6,7 @@
 
 #include <vulkan/vulkan.h>
 #include <deque>
+#include <unordered_map>
 #include <functional>
 #include "VulkanInitializers.h"
 #include "VkBootstrap.h"
@@ -14,6 +15,19 @@
 #include "VulkanMesh.h"
 
 #include <glm/glm.hpp>
+
+struct Material{
+    VkPipeline pipeline;
+    VkPipelineLayout pipelineLayout;
+};
+
+struct RenderObject {
+    Mesh* mesh;
+
+    Material* material;
+
+    glm::mat4 transformMatrix;
+};
 
 struct MeshPushConstants {
     glm::vec4 data;
@@ -57,7 +71,6 @@ public:
 
 class VulkanEngine {
 public:
-    // --- omitted ---
     VkInstance mInstance; // Vulkan library handle
     VkDebugUtilsMessengerEXT mDebugMessenger; // Vulkan debug output handle
     VkPhysicalDevice mChosenGPU; // GPU chosen as the default device
@@ -104,6 +117,23 @@ public:
     //the format for the depth image
     VkFormat _depthFormat;
 
+    //Array of renderable objects
+    std::vector<RenderObject> mRenderables;
+
+    std::unordered_map<std::string, Material> mMaterials;
+    std::unordered_map<std::string, Mesh> mMeshes;
+
+    //Create material and it to the map
+    Material* create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string& name);
+
+    //Returns nullptr if it can't be found
+    Material* get_material(const std::string& name);
+
+    //Returns nullptr if it can't be found
+    Mesh* get_mesh(const std::string& name);
+
+    void draw_objects(VkCommandBuffer cmd, RenderObject* first, int count);
+
     //initializes everything in the engine
     void init();
 
@@ -131,6 +161,8 @@ private:
 
     void init_pipeline();
 
+    void init_scene();
+
     //loads a shader module from a spir-v file. Returns false if it errors
     bool load_shader_module(const char *filePath, VkShaderModule *outShaderModule) const;
 
@@ -145,4 +177,6 @@ private:
     int mFrameNumber{0};
 
     VkExtent2D mWindowExtent{800, 600};
+
+
 };

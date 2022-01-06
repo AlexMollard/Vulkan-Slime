@@ -156,9 +156,8 @@ VkSemaphoreCreateInfo vkinit::semaphore_create_info(VkSemaphoreCreateFlags flags
     return semCreateInfo;
 }
 
-VkImageCreateInfo vkinit::image_create_info(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent)
-{
-    VkImageCreateInfo info = { };
+VkImageCreateInfo vkinit::image_create_info(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent) {
+    VkImageCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     info.pNext = nullptr;
 
@@ -176,8 +175,7 @@ VkImageCreateInfo vkinit::image_create_info(VkFormat format, VkImageUsageFlags u
     return info;
 }
 
-VkImageViewCreateInfo vkinit::imageview_create_info(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags)
-{
+VkImageViewCreateInfo vkinit::imageview_create_info(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags) {
     //build a image-view for the depth image to use for rendering
     VkImageViewCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -195,8 +193,8 @@ VkImageViewCreateInfo vkinit::imageview_create_info(VkFormat format, VkImage ima
     return info;
 }
 
-VkPipelineDepthStencilStateCreateInfo vkinit::depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compareOp)
-{
+VkPipelineDepthStencilStateCreateInfo
+vkinit::depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compareOp) {
     VkPipelineDepthStencilStateCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     info.pNext = nullptr;
@@ -212,8 +210,8 @@ VkPipelineDepthStencilStateCreateInfo vkinit::depth_stencil_create_info(bool bDe
     return info;
 }
 
-VkRenderPassBeginInfo vkinit::renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer framebuffer)
-{
+VkRenderPassBeginInfo
+vkinit::renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer framebuffer) {
     VkRenderPassBeginInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     info.pNext = nullptr;

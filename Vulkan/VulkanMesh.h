@@ -6,7 +6,7 @@
 
 #include <VulkanTypes.h>
 #include <vector>
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 
 struct VertexInputDescription {
 
@@ -19,6 +19,7 @@ struct VertexInputDescription {
 struct Vertex {
 
     glm::vec3 position;
+    glm::vec2 uv;
     glm::vec3 normal;
     glm::vec3 color;
 
@@ -26,9 +27,9 @@ struct Vertex {
 };
 
 struct Mesh {
-    std::vector<Vertex> _vertices;
+    std::vector<Vertex> mVertices;
 
-    VulkanType::AllocatedBuffer _vertexBuffer;
+    VulkanType::AllocatedBuffer mVertexBuffer;
 
-    bool load_from_obj(const char* filename);
+    bool load_from_obj(const char *filename);
 };

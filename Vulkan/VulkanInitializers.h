@@ -38,7 +38,9 @@ namespace vkinit {
 
     VkImageViewCreateInfo imageview_create_info(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags);
 
-    VkPipelineDepthStencilStateCreateInfo depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compareOp);
+    VkPipelineDepthStencilStateCreateInfo
+    depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compareOp);
 
-    VkRenderPassBeginInfo renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer framebuffer);
+    VkRenderPassBeginInfo
+    renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer framebuffer);
 }

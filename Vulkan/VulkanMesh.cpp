@@ -6,6 +6,7 @@
 
 //make sure that you are including the library
 #define TINYOBJLOADER_IMPLEMENTATION
+
 #include "tiny_obj_loader.h"
 #include <iostream>
 
@@ -27,21 +28,29 @@ VertexInputDescription Vertex::get_vertex_description() {
     positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
     positionAttribute.offset = offsetof(Vertex, position);
 
+    //Position will be stored at Location 0
+    VkVertexInputAttributeDescription uvAttribute = {};
+    uvAttribute.binding = 0;
+    uvAttribute.location = 1;
+    uvAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+    uvAttribute.offset = offsetof(Vertex, uv);
+
     //Normal will be stored at Location 1
     VkVertexInputAttributeDescription normalAttribute = {};
     normalAttribute.binding = 0;
-    normalAttribute.location = 1;
+    normalAttribute.location = 2;
     normalAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
     normalAttribute.offset = offsetof(Vertex, normal);
 
     //Color will be stored at Location 2
     VkVertexInputAttributeDescription colorAttribute = {};
     colorAttribute.binding = 0;
-    colorAttribute.location = 2;
+    colorAttribute.location = 3;
     colorAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
     colorAttribute.offset = offsetof(Vertex, color);
 
     description.attributes.push_back(positionAttribute);
+    description.attributes.push_back(uvAttribute);
     description.attributes.push_back(normalAttribute);
     description.attributes.push_back(colorAttribute);
     return description;
@@ -73,43 +82,49 @@ bool Mesh::load_from_obj(const char *filename) {
     }
 
     // Loop over shapes
-    for (size_t s = 0; s < shapes.size(); s++) {
+    for (auto &shape: shapes) {
         // Loop over faces(polygon)
         size_t index_offset = 0;
-        for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) {
+        for (size_t f = 0; f < shape.mesh.num_face_vertices.size(); f++) {
 
             //hardcode loading to triangles
             int fv = 3;
 
             // Loop over vertices in the face.
             for (size_t v = 0; v < fv; v++) {
+                Vertex new_vert{};
+
                 // access to vertex
-                tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+                tinyobj::index_t idx = shape.mesh.indices[index_offset + v];
 
                 //vertex position
-                tinyobj::real_t vx = attrib.vertices[3 * idx.vertex_index + 0];
-                tinyobj::real_t vy = attrib.vertices[3 * idx.vertex_index + 1];
-                tinyobj::real_t vz = attrib.vertices[3 * idx.vertex_index + 2];
+                new_vert.position.x = attrib.vertices[3 * idx.vertex_index + 0];
+                new_vert.position.y = attrib.vertices[3 * idx.vertex_index + 1];
+                new_vert.position.z = attrib.vertices[3 * idx.vertex_index + 2];
+
                 //vertex normal
-                tinyobj::real_t nx = attrib.normals[3 * idx.normal_index + 0];
-                tinyobj::real_t ny = attrib.normals[3 * idx.normal_index + 1];
-                tinyobj::real_t nz = attrib.normals[3 * idx.normal_index + 2];
+                new_vert.normal.x = attrib.normals[3 * idx.normal_index + 0];
+                new_vert.normal.y = attrib.normals[3 * idx.normal_index + 1];
+                new_vert.normal.z = attrib.normals[3 * idx.normal_index + 2];
 
-                //copy it into our vertex
-                Vertex new_vert;
-                new_vert.position.x = vx;
-                new_vert.position.y = vy;
-                new_vert.position.z = vz;
+                //vertex uvs
+                //new_vert.uv.x = attrib.texcoords[2 * idx.texcoord_index + 0];
+                //new_vert.uv.y = attrib.texcoords[2 * idx.texcoord_index + 1];
+                new_vert.uv.x = 0.0f;
+                new_vert.uv.y = 0.0f;
 
-                new_vert.normal.x = nx;
-                new_vert.normal.y = ny;
-                new_vert.normal.z = nz;
+                if (!attrib.colors.empty()) {
+                    //vertex colours
+                    new_vert.color.x = attrib.colors[3 * idx.vertex_index + 0];
+                    new_vert.color.y = attrib.colors[3 * idx.vertex_index + 1];
+                    new_vert.color.z = attrib.colors[3 * idx.vertex_index + 2];
+                } else {
+                    new_vert.color.x = 1.0f;
+                    new_vert.color.y = 1.0f;
+                    new_vert.color.z = 1.0f;
+                }
 
-                //we are setting the vertex color as the vertex normal. This is just for display purposes
-                new_vert.color = new_vert.normal;
-
-
-                _vertices.push_back(new_vert);
+                mVertices.push_back(new_vert);
             }
             index_offset += fv;
         }

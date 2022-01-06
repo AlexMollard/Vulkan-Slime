@@ -8,13 +8,13 @@
 
 namespace VulkanType {
     struct AllocatedBuffer {
-        VkBuffer _buffer;
-        VmaAllocation _allocation;
+        VkBuffer mBuffer;
+        VmaAllocation mAllocation;
     };
 
     struct AllocatedImage {
-        VkImage _image;
-        VmaAllocation _allocation;
+        VkImage mImage;
+        VmaAllocation mAllocation;
     };
 
 };
