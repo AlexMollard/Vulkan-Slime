@@ -43,4 +43,6 @@ namespace vkinit {
 
     VkRenderPassBeginInfo
     renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer framebuffer);
+
+    VkCommandBufferBeginInfo command_buffer_begin_info(VkCommandBufferUsageFlagBits bits);
 }

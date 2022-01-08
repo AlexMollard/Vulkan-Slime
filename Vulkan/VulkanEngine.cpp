@@ -229,19 +229,13 @@ void VulkanEngine::draw() {
     VkCommandBuffer cmd = mMainCommandBuffer;
 
     //begin the command buffer recording. We will use this command buffer exactly once, so we want to let Vulkan know that
-    VkCommandBufferBeginInfo cmdBeginInfo = {};
-    cmdBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    cmdBeginInfo.pNext = nullptr;
-
-    cmdBeginInfo.pInheritanceInfo = nullptr;
-    cmdBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    VkCommandBufferBeginInfo cmdBeginInfo = vkinit::command_buffer_begin_info(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
     VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
 
     //make a clear-color from frame number. This will flash with a 120*pi frame period.
     VkClearValue clearValue;
-    float flash = abs(sin((float) mFrameNumber / 120.f));
-    clearValue.color = {{0.3f, flash * 0.5f, 0.3f, 1.0f}};
+    clearValue.color = {{0.1f,0.1f,0.1f, 1.0f}};
 
     //clear depth at 1
     VkClearValue depthClear;
@@ -554,13 +548,11 @@ void VulkanEngine::init_pipeline() {
     mesh_pipeline_layout_info.pPushConstantRanges = &push_constant;
     mesh_pipeline_layout_info.pushConstantRangeCount = 1;
 
-    VK_CHECK(vkCreatePipelineLayout(mDevice, &mesh_pipeline_layout_info, nullptr, &mMeshPipelineLayout));
+    VkPipelineLayout meshPipLayout;
+    VK_CHECK(vkCreatePipelineLayout(mDevice, &mesh_pipeline_layout_info, nullptr, &meshPipLayout));
 
-    //build the pipeline layout that controls the inputs/outputs of the shader
-    //we are not using descriptor sets or other systems yet, so no need to use anything other than empty default
-    VkPipelineLayoutCreateInfo pipeline_layout_info = vkinit::pipeline_layout_create_info();
-
-    VK_CHECK(vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &mTrianglePipelineLayout));
+    //use the mesh layout we created
+    pipelineBuilder.mPipelineLayout = meshPipLayout;
 
     //vertex input controls how to read vertices from vertex buffers. We aren't using it yet
     pipelineBuilder.mVertexInputInfo = vkinit::vertex_input_state_create_info();
@@ -568,6 +560,7 @@ void VulkanEngine::init_pipeline() {
     //input assembly is the configuration for drawing triangle lists, strips, or individual points.
     //we are just going to draw triangle list
     pipelineBuilder.mInputAssembly = vkinit::input_assembly_create_info(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+
 
     //build viewport and scissor from the swapchain extents
     pipelineBuilder.mViewport.x = 0.0f;
@@ -589,8 +582,8 @@ void VulkanEngine::init_pipeline() {
     //a single blend attachment with no blending and writing to RGBA
     pipelineBuilder.mColorBlendAttachment = vkinit::color_blend_attachment_state();
 
-    //use the mesh layout we created
-    pipelineBuilder.mPipelineLayout = mMeshPipelineLayout;
+
+    pipelineBuilder.mDepthStencil = vkinit::depth_stencil_create_info(true, true, VK_COMPARE_OP_LESS_OR_EQUAL);
 
     //build the mesh pipeline
     VertexInputDescription vertexDescription = Vertex::get_vertex_description();
@@ -602,51 +595,28 @@ void VulkanEngine::init_pipeline() {
     pipelineBuilder.mVertexInputInfo.pVertexBindingDescriptions = vertexDescription.bindings.data();
     pipelineBuilder.mVertexInputInfo.vertexBindingDescriptionCount = (int)vertexDescription.bindings.size();
 
-    //clear the shader stages for the builder
-    pipelineBuilder.mShaderStages.clear();
-
-    //finally build the pipeline
-    pipelineBuilder.mDepthStencil = vkinit::depth_stencil_create_info(true, true, VK_COMPARE_OP_LESS_OR_EQUAL);
-    mMeshPipeline = pipelineBuilder.build_pipeline(mDevice, mRenderPass);
-
 
     VkPipeline meshPipeline = pipelineBuilder.build_pipeline(mDevice, mRenderPass);
-    create_material(meshPipeline,mMeshPipelineLayout,"defaultMesh");
+    create_material(meshPipeline,meshPipLayout,"defaultMesh");
 
     //destroy all shader modules, outside of the queue
     vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
     vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
 
-    mMainDeletionQueue.push_function([this]() {
-        vkDestroyPipeline(mDevice, mMeshPipeline, nullptr);
+    mMainDeletionQueue.push_function([=]() {
+        vkDestroyPipeline(mDevice, meshPipeline, nullptr);
 
         //destroy the pipeline layout that they use
-        vkDestroyPipelineLayout(mDevice, mTrianglePipelineLayout, nullptr);
-        vkDestroyPipelineLayout(mDevice, mMeshPipelineLayout, nullptr);
+        vkDestroyPipelineLayout(mDevice, meshPipLayout, nullptr);
     });
 }
 
 void VulkanEngine::load_meshes() {
-    //make the array 3 vertices long
-    mTriangleMesh.mVertices.resize(3);
-
-    //vertex positions
-    mTriangleMesh.mVertices[0].position = {1.f, 1.f, 0.0f};
-    mTriangleMesh.mVertices[1].position = {-1.f, 1.f, 0.0f};
-    mTriangleMesh.mVertices[2].position = {0.f, -1.f, 0.0f};
-
-    //vertex colors, all green
-    mTriangleMesh.mVertices[0].color = {0.f, 1.f, 0.0f}; //pure green
-    mTriangleMesh.mVertices[1].color = {0.f, 1.f, 0.0f}; //pure green
-    mTriangleMesh.mVertices[2].color = {0.f, 1.f, 0.0f}; //pure green
-
     mMonkeyMesh.load_from_obj("../assets/Models/suzanne/suzanne.obj");
 
-    upload_mesh(mTriangleMesh);
     upload_mesh(mMonkeyMesh);
 
     mMeshes["monkey"] = mMonkeyMesh;
-    mMeshes["triangle"] = mTriangleMesh;
 }
 
 void VulkanEngine::upload_mesh(Mesh &mesh) {
@@ -749,8 +719,10 @@ Material* VulkanEngine::create_material(VkPipeline pipeline, VkPipelineLayout la
 Material* VulkanEngine::get_material(const std::string &name) {
     //Search for the object, and return nullptr if not found
     auto it = mMaterials.find(name);
-    if (it == mMaterials.end())
+    if (it == mMaterials.end()) {
+        std::cout << "FAILED TO GET MATERIAL: " << name << std::endl;
         return nullptr;
+    }
     else
         return &(*it).second;
 }
@@ -758,8 +730,10 @@ Material* VulkanEngine::get_material(const std::string &name) {
 Mesh* VulkanEngine::get_mesh(const std::string &name) {
     //Search for the object, and return nullptr if not found
     auto it = mMeshes.find(name);
-    if (it == mMeshes.end())
+    if (it == mMeshes.end()) {
+        std::cout << "FAILED TO GET MESH: " << name << std::endl;
         return nullptr;
+    }
     else
         return &(*it).second;
 }
@@ -772,7 +746,7 @@ void VulkanEngine::draw_objects(VkCommandBuffer cmd, RenderObject *first, int co
 
     //Camera Projection
     glm::mat4 projection = glm::perspective(glm::radians(90.0f), 1700.0f / 900.0f, 0.1f, 200.0f);
-    projection[1][1] += -1; // Flip camera on UP axis
+    projection[1][1] *= -1; // Flip camera on UP axis
 
     Mesh* lastMesh = nullptr;
     Material* lastMaterial = nullptr;
@@ -791,7 +765,7 @@ void VulkanEngine::draw_objects(VkCommandBuffer cmd, RenderObject *first, int co
         //final render matrix, that we are calculating on the CPU
         glm::mat4 meshMatrix = projection * view * model;
 
-        MeshPushConstants constants;
+        MeshPushConstants constants{};
         constants.renderMatrix = meshMatrix;
 
         //Upload the mesh to the GPU via push constants
@@ -814,7 +788,7 @@ void VulkanEngine::draw_objects(VkCommandBuffer cmd, RenderObject *first, int co
 void VulkanEngine::init_scene() {
     RenderObject monkey{};
     monkey.mesh = get_mesh("monkey");
-    monkey.material = get_material("monkey");
+    monkey.material = get_material("defaultMesh");
     monkey.transformMatrix = glm::mat4{1.0f};
 
     mRenderables.push_back(monkey);
@@ -822,8 +796,8 @@ void VulkanEngine::init_scene() {
     for (int x = -10; x < 10; ++x) {
         for (int y = -10; y < 10; ++y) {
             RenderObject tri{};
-            tri.mesh = get_mesh("triangle");
-            tri.material = get_material("defaultmesh");
+            tri.mesh = get_mesh("monkey");
+            tri.material = get_material("defaultMesh");
 
             glm::mat4 translation = glm::translate(glm::mat4{1.0f}, glm::vec3(x,0,y));
             glm::mat4 scale = glm::scale(glm::mat4{1.0f}, glm::vec3(0.2f));

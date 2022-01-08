@@ -101,13 +101,7 @@ public:
     VkSemaphore mPresentSemaphore, mRenderSemaphore;
     VkFence mRenderFence;
 
-    VkPipelineLayout mTrianglePipelineLayout;
-
     VmaAllocator mAllocator; //vma lib allocator
-
-    VkPipelineLayout mMeshPipelineLayout;
-    VkPipeline mMeshPipeline;
-    Mesh mTriangleMesh;
 
     Mesh mMonkeyMesh;
 
