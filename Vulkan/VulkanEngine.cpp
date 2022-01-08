@@ -204,6 +204,8 @@ void VulkanEngine::cleanup() {
 
         mMainDeletionQueue.flush();
 
+        vkb::destroy_debug_utils_messenger(mInstance,mDebugMessenger);
+
         vkDestroySurfaceKHR(mInstance, mSurface, nullptr);
 
         vkDestroyDevice(mDevice, nullptr);
