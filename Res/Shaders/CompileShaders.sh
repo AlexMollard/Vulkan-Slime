@@ -1,4 +1,4 @@
 #!/bin/bash
 
-glslangValidator -V triangle.vert -o triangle.vert.spv
-glslangValidator -V triangle.frag -o triangle.frag.spv
+glslangValidator -V lit.vert -o lit.vert.spv
+glslangValidator -V lit.frag -o lit.frag.spv

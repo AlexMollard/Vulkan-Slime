@@ -6,7 +6,7 @@
 
 #include <vk_mem_alloc.h>
 
-namespace VulkanType {
+namespace vktype {
     struct AllocatedBuffer {
         VkBuffer mBuffer;
         VmaAllocation mAllocation;

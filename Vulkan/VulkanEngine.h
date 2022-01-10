@@ -17,8 +17,8 @@
 #include <glm/glm.hpp>
 
 struct Material{
-    VkPipeline pipeline;
-    VkPipelineLayout pipelineLayout;
+    VkPipeline pipeline = VK_NULL_HANDLE;
+    VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
 };
 
 struct RenderObject {
@@ -29,9 +29,44 @@ struct RenderObject {
     glm::mat4 transformMatrix;
 };
 
+struct GPUCameraData{
+    glm::mat4 view;
+    glm::mat4 proj;
+    glm::mat4 viewproj;
+};
+
+struct FrameData{
+    VkSemaphore mPresentSemaphore;
+    VkSemaphore mRenderSemaphore;
+    VkFence mRenderFence;
+
+    VkCommandPool mCommandPool; //the command pool for our commands
+    VkCommandBuffer mMainCommandBuffer; //the buffer we will record into
+
+    //buffer that holds a single GPUCameraData to use when rendering
+    vktype::AllocatedBuffer cameraBuffer;
+    vktype::AllocatedBuffer objectBuffer;
+
+    VkDescriptorSet globalDescriptor;
+    VkDescriptorSet objectDescriptor;
+
+};
+
 struct MeshPushConstants {
     glm::vec4 data;
     glm::mat4 renderMatrix;
+};
+
+struct GPUSceneData{
+    glm::vec4 fogColour; // w is for exponent
+    glm::vec4 fogDistances; //x for min, y for max, zw unused.
+    glm::vec4 ambientColour;
+    glm::vec4 sunlightDirection; //w for sun power
+    glm::vec4 sunlightColour;
+};
+
+struct GPUObjectData{
+    glm::mat4 modelMatrix;
 };
 
 struct DeletionQueue {
@@ -68,9 +103,39 @@ public:
     VkPipeline build_pipeline(VkDevice device, VkRenderPass pass);
 };
 
+//number of frames to overlap when rendering
+constexpr unsigned int FRAME_OVERLAP = 2;
 
 class VulkanEngine {
 public:
+    //initializes everything in the engine
+    void init();
+
+    //shuts down the engine
+    void cleanup();
+
+    //draw loop
+    void draw();
+
+    //run main loop
+    void run();
+
+    //getter for the frame we are rendering to right now.
+    FrameData& get_current_frame();
+
+    //Create material and it to the map
+    Material* create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string_view& name);
+
+    //Returns nullptr if it can't be found
+    Material* get_material(const std::string_view& name);
+
+    //Returns nullptr if it can't be found
+    Mesh* get_mesh(const std::string_view& name);
+
+    void draw_objects(VkCommandBuffer cmd, RenderObject* first, int count);
+
+    size_t pad_uniform_buffer_size(size_t originalSize);
+
     VkInstance mInstance; // Vulkan library handle
     VkDebugUtilsMessengerEXT mDebugMessenger; // Vulkan debug output handle
     VkPhysicalDevice mChosenGPU; // GPU chosen as the default device
@@ -91,54 +156,49 @@ public:
     VkQueue mGraphicsQueue; //queue we will submit to
     uint32_t mGraphicsQueueFamily; //family of that queue
 
-    VkCommandPool mCommandPool; //the command pool for our commands
-    VkCommandBuffer mMainCommandBuffer; //the buffer we will record into
-
     VkRenderPass mRenderPass;
 
     std::vector<VkFramebuffer> mFramebuffers;
 
-    VkSemaphore mPresentSemaphore, mRenderSemaphore;
-    VkFence mRenderFence;
+    //frame storage
+    FrameData mFrames[FRAME_OVERLAP];
 
     VmaAllocator mAllocator; //vma lib allocator
 
     Mesh mMonkeyMesh;
 
-    VkImageView _depthImageView;
-    VulkanType::AllocatedImage _depthImage;
+    VkImageView mDepthImageView;
+    vktype::AllocatedImage mDepthImage;
 
     //the format for the depth image
-    VkFormat _depthFormat;
+    VkFormat mDepthFormat;
 
     //Array of renderable objects
     std::vector<RenderObject> mRenderables;
 
-    std::unordered_map<std::string, Material> mMaterials;
-    std::unordered_map<std::string, Mesh> mMeshes;
+    std::unordered_map<std::string_view, Material> mMaterials;
+    std::unordered_map<std::string_view, Mesh> mMeshes;
 
-    //Create material and it to the map
-    Material* create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string& name);
+    vktype::AllocatedBuffer create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
 
-    //Returns nullptr if it can't be found
-    Material* get_material(const std::string& name);
+    VkDescriptorSetLayout mGlobalSetLayout;
+    VkDescriptorSetLayout mObjectSetLayout;
+    VkDescriptorPool mDescriptorPool;
 
-    //Returns nullptr if it can't be found
-    Mesh* get_mesh(const std::string& name);
+    VkPhysicalDeviceProperties mGpuProperties;
 
-    void draw_objects(VkCommandBuffer cmd, RenderObject* first, int count);
+    GPUSceneData mSceneParameters;
+    vktype::AllocatedBuffer mSceneParameterBuffer;
 
-    //initializes everything in the engine
-    void init();
+    //-----------------------------------
+    DeletionQueue mMainDeletionQueue;
 
-    //shuts down the engine
-    void cleanup();
+    struct SDL_Window *mWindow{nullptr};
+    bool mIsInitialized{false};
+    int mFrameNumber{0};
 
-    //draw loop
-    void draw();
-
-    //run main loop
-    void run();
+    VkExtent2D mWindowExtent{800, 600};
+    //-----------------------------------
 
 private:
     void init_vulkan();
@@ -153,24 +213,16 @@ private:
 
     void init_sync_structures();
 
+    void init_descriptors();
+
     void init_pipeline();
 
     void init_scene();
 
     //loads a shader module from a spir-v file. Returns false if it errors
-    bool load_shader_module(const char *filePath, VkShaderModule *outShaderModule) const;
+    VkShaderModule load_shader_module(const char *filePath);
 
     void load_meshes();
 
     void upload_mesh(Mesh &mesh);
-
-    DeletionQueue mMainDeletionQueue;
-
-    struct SDL_Window *mWindow{nullptr};
-    bool mIsInitialized{false};
-    int mFrameNumber{0};
-
-    VkExtent2D mWindowExtent{800, 600};
-
-
 };

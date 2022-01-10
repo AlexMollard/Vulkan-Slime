@@ -27,9 +27,9 @@ struct Vertex {
 };
 
 struct Mesh {
-    std::vector<Vertex> mVertices;
+    std::vector<Vertex> mVertices = {};
 
-    VulkanType::AllocatedBuffer mVertexBuffer;
+    vktype::AllocatedBuffer mVertexBuffer;
 
     bool load_from_obj(const char *filename);
 };
