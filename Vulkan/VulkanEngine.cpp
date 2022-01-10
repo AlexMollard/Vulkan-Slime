@@ -608,7 +608,7 @@ void VulkanEngine::load_meshes() {
 
     upload_mesh(mMonkeyMesh);
 
-    mMeshes[std::string_view{"monkey"}] = mMonkeyMesh;
+    mMeshes["monkey"] = mMonkeyMesh;
 }
 
 void VulkanEngine::upload_mesh(Mesh &mesh) {
@@ -753,7 +753,7 @@ void VulkanEngine::draw_objects(VkCommandBuffer cmd, RenderObject *first, int co
     vmaUnmapMemory(mAllocator, get_current_frame().cameraBuffer.mAllocation);
 
     // Scene Parameters
-    float framed = (mFrameNumber / 120.f);
+    float framed = ((float)mFrameNumber / 120.f);
 
     mSceneParameters.ambientColour = { sin(framed),0,cos(framed),1 };
 
@@ -836,7 +836,7 @@ void VulkanEngine::init_scene() {
             tri.mesh = get_mesh("monkey");
             tri.material = get_material("defaultMesh");
 
-            glm::mat4 translation = glm::translate(glm::mat4{1.0f}, glm::vec3(x, 4, y));
+            translation = glm::translate(glm::mat4{1.0f}, glm::vec3(x, 4, y));
             glm::mat4 scale = glm::scale(glm::mat4{1.0f}, glm::vec3(0.2f));
             tri.transformMatrix = translation * scale;
 

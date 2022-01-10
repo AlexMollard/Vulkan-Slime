@@ -3,6 +3,7 @@
 
 //shader input
 layout (location = 0) in vec3 inColour;
+layout (location = 1) in vec2 texCoord;
 
 //output write
 layout (location = 0) out vec4 outFragColour;

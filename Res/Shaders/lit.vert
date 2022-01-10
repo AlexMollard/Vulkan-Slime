@@ -1,9 +1,11 @@
 #version 460
 layout (location = 0) in vec3 vPosition;
-layout (location = 1) in vec3 vNormal;
+layout (location = 1) in vec2 vTexCoord;
+layout (location = 3) in vec3 vNormal;
 layout (location = 2) in vec3 vColour;
 
 layout (location = 0) out vec3 outColour;
+layout (location = 1) out vec2 texCoord;
 
 layout(set = 0, binding = 0) uniform  CameraBuffer{
     mat4 view;
@@ -34,4 +36,5 @@ void main()
     mat4 transformMatrix = (cameraData.viewproj * modelMatrix);
     gl_Position = transformMatrix * vec4(vPosition, 1.0f);
     outColour = vColour;
+    texCoord = vTexCoord;
 }
