@@ -16,26 +16,32 @@
 
 #include <glm/glm.hpp>
 
-struct Material{
+struct Material {
+    VkDescriptorSet textureSet{VK_NULL_HANDLE};
     VkPipeline pipeline = VK_NULL_HANDLE;
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
 };
 
-struct RenderObject {
-    Mesh* mesh;
+struct Texture {
+    vktype::AllocatedImage image;
+    VkImageView imageView;
+};
 
-    Material* material;
+struct RenderObject {
+    Mesh *mesh;
+
+    Material *material;
 
     glm::mat4 transformMatrix;
 };
 
-struct GPUCameraData{
+struct GPUCameraData {
     glm::mat4 view;
     glm::mat4 proj;
     glm::mat4 viewproj;
 };
 
-struct FrameData{
+struct FrameData {
     VkSemaphore mPresentSemaphore;
     VkSemaphore mRenderSemaphore;
     VkFence mRenderFence;
@@ -52,12 +58,18 @@ struct FrameData{
 
 };
 
+struct UploadContext {
+    VkFence mUploadFence;
+    VkCommandPool mCommandPool;
+    VkCommandBuffer mCommandBuffer;
+};
+
 struct MeshPushConstants {
     glm::vec4 data;
     glm::mat4 renderMatrix;
 };
 
-struct GPUSceneData{
+struct GPUSceneData {
     glm::vec4 fogColour; // w is for exponent
     glm::vec4 fogDistances; //x for min, y for max, zw unused.
     glm::vec4 ambientColour;
@@ -65,7 +77,7 @@ struct GPUSceneData{
     glm::vec4 sunlightColour;
 };
 
-struct GPUObjectData{
+struct GPUObjectData {
     glm::mat4 modelMatrix;
 };
 
@@ -121,20 +133,22 @@ public:
     void run();
 
     //getter for the frame we are rendering to right now.
-    FrameData& get_current_frame();
+    FrameData &get_current_frame();
 
     //Create material and it to the map
-    Material* create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string_view& name);
+    Material *create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string_view &name);
 
     //Returns nullptr if it can't be found
-    Material* get_material(const std::string_view& name);
+    Material *get_material(const std::string_view &name);
 
     //Returns nullptr if it can't be found
-    Mesh* get_mesh(const std::string_view& name);
+    Mesh *get_mesh(const std::string_view &name);
 
-    void draw_objects(VkCommandBuffer cmd, RenderObject* first, int count);
+    void draw_objects(VkCommandBuffer cmd, RenderObject *first, int count);
 
     size_t pad_uniform_buffer_size(size_t originalSize);
+
+    void immediate_submit(std::function<void(VkCommandBuffer cmd)> &&function);
 
     VkInstance mInstance; // Vulkan library handle
     VkDebugUtilsMessengerEXT mDebugMessenger; // Vulkan debug output handle
@@ -165,8 +179,6 @@ public:
 
     VmaAllocator mAllocator; //vma lib allocator
 
-    Mesh mMonkeyMesh;
-
     VkImageView mDepthImageView;
     vktype::AllocatedImage mDepthImage;
 
@@ -178,6 +190,7 @@ public:
 
     std::unordered_map<std::string_view, Material> mMaterials;
     std::unordered_map<std::string_view, Mesh> mMeshes;
+    std::unordered_map<std::string_view, Texture> mLoadedTextures;
 
     vktype::AllocatedBuffer create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
 
@@ -189,6 +202,10 @@ public:
 
     GPUSceneData mSceneParameters;
     vktype::AllocatedBuffer mSceneParameterBuffer;
+
+    UploadContext mUploadContext;
+
+    VkDescriptorSetLayout mSingleTextureSetLayout;
 
     //-----------------------------------
     DeletionQueue mMainDeletionQueue;
@@ -224,7 +241,7 @@ private:
 
     void load_meshes();
 
-    void upload_mesh(Mesh &mesh);
+    void load_images();
 
-    void init_imgui();
+    void upload_mesh(Mesh &mesh);
 };

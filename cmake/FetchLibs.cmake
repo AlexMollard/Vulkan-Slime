@@ -33,6 +33,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Tiny_OBJ_Loader)
 
+#Get STB Image
+FetchContent_Declare(
+        STB_Image
+        GIT_REPOSITORY https://github.com/nothings/stb.git
+        GIT_TAG
+)
+FetchContent_MakeAvailable(STB_Image)
+
 # Get SDL2
 IF (WIN32)
     # Setting dirs for SDL2

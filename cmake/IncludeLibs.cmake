@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.21)
 project(VulkanSlime)
 
 #include TinyOBJ
+include_directories(${stb_image_SOURCE_DIR})
+
+#include stbImage
 include_directories(${tiny_obj_loader_SOURCE_DIR})
 
 # Linking SDL2

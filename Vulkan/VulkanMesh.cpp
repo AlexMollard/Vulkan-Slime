@@ -108,10 +108,16 @@ bool Mesh::load_from_obj(const char *filename) {
                 new_vert.normal.z = attrib.normals[3 * idx.normal_index + 2];
 
                 //vertex uvs
-                //new_vert.uv.x = attrib.texcoords[2 * idx.texcoord_index + 0];
-                //new_vert.uv.y = attrib.texcoords[2 * idx.texcoord_index + 1];
-                new_vert.uv.x = 0.0f;
-                new_vert.uv.y = 0.0f;
+                if (!attrib.texcoords.empty()) {
+                    tinyobj::real_t ux = attrib.texcoords[2 * idx.texcoord_index + 0];
+                    tinyobj::real_t uy = attrib.texcoords[2 * idx.texcoord_index + 1];
+
+                    new_vert.uv.x = ux;
+                    new_vert.uv.y = 1 - uy;
+                } else {
+                    new_vert.uv.x = 0.0f;
+                    new_vert.uv.y = 0.0f;
+                }
 
                 if (!attrib.colors.empty()) {
                     //vertex colours
