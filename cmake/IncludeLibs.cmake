@@ -24,16 +24,20 @@ target_link_libraries(VulkanSlime VulkanMemoryAllocator)
 target_link_libraries(VulkanSlime glm::glm)
 
 #Linking ImGui
-#target_sources(VulkanSlime PRIVATE
-#        "${imgui_SOURCE_DIR}/imgui.h"
-#        "${imgui_SOURCE_DIR}/imgui.cpp"
-#
-#        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
-#        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
-#        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
-#
-#        "${imgui_SOURCE_DIR}/backends/imgui_impl_vulkan.cpp"
-#        "${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp"
-#        )
-#include_directories(${imgui_SOURCE_DIR})
-#include_directories(${imgui_SOURCE_DIR}/backends)
+target_sources(VulkanSlime PRIVATE
+        "${imgui_SOURCE_DIR}/imgui.h"
+        "${imgui_SOURCE_DIR}/imgui.cpp"
+
+        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
+        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
+        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
+
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_vulkan.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp"
+        )
+# Compile ImGui as static library
+file(GLOB IMGUI_FILES ${imgui_SOURCE_DIR}/*.cpp)
+add_library("ImGui" STATIC ${IMGUI_FILES})
+target_include_directories("ImGui" PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
+
+target_link_libraries(VulkanSlime ImGui)

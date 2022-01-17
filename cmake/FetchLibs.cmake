@@ -56,9 +56,9 @@ ELSE ()
 ENDIF ()
 
 #Get ImGui
-#FetchContent_Declare(
-#        ImGui
-#        GIT_REPOSITORY https://github.com/ocornut/imgui.git
-#        GIT_TAG
-#)
-#FetchContent_MakeAvailable(ImGui)
+FetchContent_Declare(
+        ImGui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG
+)
+FetchContent_MakeAvailable(ImGui)

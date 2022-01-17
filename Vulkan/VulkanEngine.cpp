@@ -4,9 +4,13 @@
 #define VMA_IMPLEMENTATION
 
 #include "VulkanEngine.h"
+#include "VulkanTextures.h"
+#include "imgui.h"
+#include "imgui_impl_vulkan.h"
+#include "imgui_impl_sdl.h"
+
 #include <SDL.h>
 #include <SDL_vulkan.h>
-#include "VulkanTextures.h"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -71,6 +75,8 @@ void VulkanEngine::init() {
     load_meshes();
 
     init_scene();
+
+    init_imgui();
 
     //everything went fine
     mIsInitialized = true;
@@ -243,6 +249,8 @@ void VulkanEngine::cleanup() {
 }
 
 void VulkanEngine::draw() {
+    ImGui::Render();
+
     //wait until the GPU has finished rendering the last frame. Timeout of 1 second
     VK_CHECK(vkWaitForFences(mDevice, 1, &get_current_frame().mRenderFence, true, 1000000000));
     VK_CHECK(vkResetFences(mDevice, 1, &get_current_frame().mRenderFence));
@@ -288,8 +296,11 @@ void VulkanEngine::draw() {
 
     draw_objects(cmd, mRenderables.data(), (int) mRenderables.size());
 
+    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
+
     //finalize the render pass
     vkCmdEndRenderPass(cmd);
+
     //finalize the command buffer (we can no longer add commands, but it can now be executed)
     VK_CHECK(vkEndCommandBuffer(cmd));
 
@@ -313,7 +324,6 @@ void VulkanEngine::draw() {
 
     submit.commandBufferCount = 1;
     submit.pCommandBuffers = &cmd;
-
     //submit command buffer to the queue and execute it.
     // _renderFence will now block until the graphic commands finish execution
     VK_CHECK(vkQueueSubmit(mGraphicsQueue, 1, &submit, get_current_frame().mRenderFence));
@@ -347,11 +357,23 @@ void VulkanEngine::run() {
     while (!shouldClose) {
         //Handle events on queue
         while (SDL_PollEvent(&e) != 0) {
+            ImGui_ImplSDL2_ProcessEvent(&e);
+
             //close the window when user clicks the X button or alt-f4s
             if (e.type == SDL_QUIT) shouldClose = true;
         }
 
+        //imgui new frame
+        ImGui_ImplVulkan_NewFrame();
+        ImGui_ImplSDL2_NewFrame(mWindow);
+
+        ImGui::NewFrame();
+
+        //imgui commands
+        ImGui::ShowDemoWindow();
+
         draw();
+        ImGui::EndFrame();
     }
 }
 
@@ -1156,4 +1178,70 @@ void VulkanEngine::load_images() {
 
 
     mLoadedTextures["empire_diffuse"] = lostEmpire;
+}
+
+void VulkanEngine::init_imgui() {
+//1: create descriptor pool for IMGUI
+    // the size of the pool is very oversize, but it's copied from imgui demo itself.
+    VkDescriptorPoolSize pool_sizes[] =
+            {
+                    { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+                    { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+                    { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+                    { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+                    { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+                    { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+            };
+
+    VkDescriptorPoolCreateInfo pool_info = {};
+    pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    pool_info.maxSets = 1000;
+    pool_info.poolSizeCount = std::size(pool_sizes);
+    pool_info.pPoolSizes = pool_sizes;
+
+    VkDescriptorPool imguiPool;
+    VK_CHECK(vkCreateDescriptorPool(mDevice, &pool_info, nullptr, &imguiPool));
+
+
+    // 2: initialize imgui library
+
+    //this initializes the core structures of imgui
+    ImGui::CreateContext();
+
+    //this initializes imgui for SDL
+    ImGui_ImplSDL2_InitForVulkan(mWindow);
+
+    //this initializes imgui for Vulkan
+    ImGui_ImplVulkan_InitInfo init_info = {};
+    init_info.Instance = mInstance;
+    init_info.PhysicalDevice = mChosenGPU;
+    init_info.Device = mDevice;
+    init_info.Queue = mGraphicsQueue;
+    init_info.DescriptorPool = imguiPool;
+    init_info.MinImageCount = 3;
+    init_info.ImageCount = 3;
+    init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+
+    ImGui_ImplVulkan_Init(&init_info, mRenderPass);
+
+    //execute a gpu command to upload imgui font textures
+    immediate_submit([&](VkCommandBuffer cmd) {
+        ImGui_ImplVulkan_CreateFontsTexture(cmd);
+    });
+
+    //clear font textures from cpu data
+    ImGui_ImplVulkan_DestroyFontUploadObjects();
+
+    //add the destroy the imgui created structures
+    mMainDeletionQueue.push_function([=]() {
+
+        vkDestroyDescriptorPool(mDevice, imguiPool, nullptr);
+        ImGui_ImplVulkan_Shutdown();
+    });
 }

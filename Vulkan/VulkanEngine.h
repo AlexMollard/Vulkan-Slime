@@ -214,7 +214,7 @@ public:
     bool mIsInitialized{false};
     int mFrameNumber{0};
 
-    VkExtent2D mWindowExtent{800, 600};
+    VkExtent2D mWindowExtent{1920, 1080};
     //-----------------------------------
 
 private:
@@ -235,6 +235,8 @@ private:
     void init_pipeline();
 
     void init_scene();
+
+    void init_imgui();
 
     //loads a shader module from a spir-v file. Returns false if it errors
     VkShaderModule load_shader_module(const char *filePath);
