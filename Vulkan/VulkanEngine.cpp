@@ -12,7 +12,6 @@
 #include <fstream>
 #include <filesystem>
 #include <algorithm>
-#include <filesystem>
 
 #include <glm/gtx/transform.hpp>
 

@@ -1,29 +1,36 @@
 cmake_minimum_required(VERSION 3.21)
 project(VulkanSlime)
 
-#include TinyOBJ
+#include stbImage
 include_directories(${stb_image_SOURCE_DIR})
 
-#include stbImage
+#include TinyOBJ
 include_directories(${tiny_obj_loader_SOURCE_DIR})
 
-# Linking SDL2
-IF (WIN32)
-    target_link_libraries(VulkanSlime SDL2main SDL2)
-ELSE ()
-    target_link_libraries(VulkanSlime ${SDL2_LIBRARIES})
-ENDIF ()
+#Including Entt
+include_directories(${entt_SOURCE_DIR}/src/entt)
 
-#Linking VkBootstrap
+#include spdlog
+include_directories(${spdlog_SOURCE_DIR}/include)
+
+#include GLM
+include_directories(${glm_SOURCE_DIR})
+
+#include VulkanMemoryAllocator
+include_directories(${vulkanmemoryallocator_SOURCE_DIR}/include)
+
+#include VkBootstrap
+include_directories(${vk_bootstrap_SOURCE_DIR}/src)
 target_link_libraries(VulkanSlime vk-bootstrap::vk-bootstrap)
 
-#linking VulkanMemoryAllocator
-target_link_libraries(VulkanSlime VulkanMemoryAllocator)
+# include SDL2
+include_directories(${sdl_SOURCE_DIR}/include)
+target_link_libraries(VulkanSlime SDL2-static)
 
-#Linking GLM
-target_link_libraries(VulkanSlime glm::glm)
+#include ImGuizmo
+include_directories(${imguizmo_SOURCE_DIR})
 
-#Linking ImGui
+#Compiling and Linking ImGui
 target_sources(VulkanSlime PRIVATE
         "${imgui_SOURCE_DIR}/imgui.h"
         "${imgui_SOURCE_DIR}/imgui.cpp"

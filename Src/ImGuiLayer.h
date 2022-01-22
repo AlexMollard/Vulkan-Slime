@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_impl_vulkan.h"
 #include "imgui_impl_sdl.h"
+#include "ImGuizmo.h"
 
 struct ImguiLayer {
     void init();
