@@ -5,14 +5,13 @@
 
 #include "VulkanEngine.h"
 #include "VulkanTextures.h"
-#include "imgui.h"
-#include "imgui_impl_vulkan.h"
-#include "imgui_impl_sdl.h"
 
 #include <SDL.h>
 #include <SDL_vulkan.h>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
+#include <algorithm>
 #include <filesystem>
 
 #include <glm/gtx/transform.hpp>
@@ -33,6 +32,9 @@ using namespace std;
     } while (0)
 
 void VulkanEngine::init() {
+    // Get current project path for file reading
+    mCurrentProjectPath = std::filesystem::current_path().string();
+
     // We initialize SDL and create a window with it.
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -78,6 +80,8 @@ void VulkanEngine::init() {
 
     init_imgui();
 
+    layer.init();
+
     //everything went fine
     mIsInitialized = true;
 }
@@ -89,7 +93,7 @@ void VulkanEngine::init_vulkan() {
     auto inst_ret =
             builder.set_app_name("Slime Vulkan")
                     .request_validation_layers(true)
-                    .require_api_version(1, 1, 0)
+                    .require_api_version(1, 2, 0)
                     .use_default_debug_messenger()
                     .build();
 
@@ -104,11 +108,12 @@ void VulkanEngine::init_vulkan() {
     SDL_Vulkan_CreateSurface(mWindow, mInstance, &mSurface);
 
     //use vkbootstrap to select a GPU.
-    //We want a GPU that can write to the SDL surface and supports Vulkan 1.1
+    //We want a GPU that can write to the SDL surface and supports Vulkan 1.2
     vkb::PhysicalDeviceSelector selector{vkb_inst};
     vkb::PhysicalDevice physicalDevice = selector
-            .set_minimum_version(1, 1)
+            .set_minimum_version(1, 2)
             .set_surface(mSurface)
+            .add_required_extension("VK_KHR_shader_draw_parameters")
             .select()
             .value();
 
@@ -137,19 +142,38 @@ void VulkanEngine::init_vulkan() {
     });
 
     mGpuProperties = vkbDevice.physical_device.properties;
-
-    std::cout << "The GPU has a minium buffer alignment of " << mGpuProperties.limits.minUniformBufferOffsetAlignment
-              << std::endl;
 }
 
 void VulkanEngine::init_swapchain() {
     vkb::SwapchainBuilder swapchainBuilder{mChosenGPU, mDevice, mSurface};
+
+    // This is getting the total amout of supported framebuffer format types
+    uint32_t formatCount = 0;
+    auto result = vkGetPhysicalDeviceSurfaceFormatsKHR(mChosenGPU,mSurface,&formatCount,nullptr);
+    assert(result == VK_SUCCESS);
+    assert(formatCount >= 1);
+
+    // This is getting all the framebuffer format types and putting them in a vector for later use
+    std::vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
+    result = vkGetPhysicalDeviceSurfaceFormatsKHR(
+            mChosenGPU, mSurface, &formatCount, surfaceFormats.data());
+    assert(result == VK_SUCCESS);
+
+    auto sRGBFormat = VkSurfaceFormatKHR{ VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR  };
+    auto adobeRGBFormat = VkSurfaceFormatKHR{ VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT  };
+    bool adobeRGBfound = false;
+    for (auto format : surfaceFormats) {
+        if(format.colorSpace == adobeRGBFormat.colorSpace)
+            adobeRGBfound = true;
+    }
+
 
     vkb::Swapchain vkbSwapchain = swapchainBuilder
             .use_default_format_selection()
                     //use vsync present mode
             .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
             .set_desired_extent(mWindowExtent.width, mWindowExtent.height)
+            .set_desired_format((adobeRGBfound) ? adobeRGBFormat : sRGBFormat)
             .build()
             .value();
 
@@ -159,6 +183,9 @@ void VulkanEngine::init_swapchain() {
     mSwapchainImageViews = vkbSwapchain.get_image_views().value();
 
     mSwapchainImageFormat = vkbSwapchain.image_format;
+
+    std::cout << "Current swapchain framebuffer colour format: " << mSwapchainImageFormat <<
+    " Lookup table, " << "https://tinyurl.com/bdfz9u6v" << std::endl;
 
     //depth image size will match the window
     VkExtent3D depthImageExtent = {
@@ -296,6 +323,8 @@ void VulkanEngine::draw() {
 
     draw_objects(cmd, mRenderables.data(), (int) mRenderables.size());
 
+    //ImGui::Te;
+
     ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
 
     //finalize the render pass
@@ -371,7 +400,7 @@ void VulkanEngine::run() {
 
         //imgui commands
         ImGui::ShowDemoWindow();
-
+        layer.draw();
         draw();
         ImGui::EndFrame();
     }
@@ -654,8 +683,9 @@ void VulkanEngine::init_pipeline() {
 }
 
 void VulkanEngine::load_meshes() {
+    std::string lostEmpirePath = std::string(mCurrentProjectPath + std::string("/../assets/Models/lost-empire/lost_empire.obj"));
     Mesh lostEmpire{};
-    lostEmpire.load_from_obj("../assets/lost_empire.obj");
+    lostEmpire.load_from_obj(lostEmpirePath.c_str());
 
     upload_mesh(lostEmpire);
 
@@ -1165,8 +1195,8 @@ void VulkanEngine::immediate_submit(std::function<void(VkCommandBuffer cmd)> &&f
 
 void VulkanEngine::load_images() {
     Texture lostEmpire{};
-
-    vkutil::load_image_from_file(*this, "../assets/lost_empire-RGBA.png", lostEmpire.image);
+    std::string lostEmpireImagePath = mCurrentProjectPath + "/../assets/Models/lost-empire/lost_empire-RGBA.png";
+    vkutil::load_image_from_file(*this, lostEmpireImagePath.c_str(), lostEmpire.image);
 
     VkImageViewCreateInfo imageinfo = vkinit::imageview_create_info(VK_FORMAT_R8G8B8A8_SRGB, lostEmpire.image.mImage,
                                                                     VK_IMAGE_ASPECT_COLOR_BIT);
@@ -1213,6 +1243,11 @@ void VulkanEngine::init_imgui() {
 
     //this initializes the core structures of imgui
     ImGui::CreateContext();
+
+    ImGuiIO& io = ImGui::GetIO();
+    float fontSize = 18.0f;
+    io.Fonts->AddFontFromFileTTF("C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Bold.ttf", fontSize);
+    io.FontDefault = io.Fonts->AddFontFromFileTTF("C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Regular.ttf", fontSize);
 
     //this initializes imgui for SDL
     ImGui_ImplSDL2_InitForVulkan(mWindow);

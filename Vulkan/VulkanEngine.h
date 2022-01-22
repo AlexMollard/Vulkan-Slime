@@ -11,10 +11,12 @@
 #include "VulkanInitializers.h"
 #include "VkBootstrap.h"
 #include "vk_mem_alloc.h"
+#include "ImGuiLayer.h"
 
 #include "VulkanMesh.h"
 
 #include <glm/glm.hpp>
+
 
 struct Material {
     VkDescriptorSet textureSet{VK_NULL_HANDLE};
@@ -206,6 +208,10 @@ public:
     UploadContext mUploadContext;
 
     VkDescriptorSetLayout mSingleTextureSetLayout;
+
+    ImguiLayer layer;
+
+    std::string mCurrentProjectPath;
 
     //-----------------------------------
     DeletionQueue mMainDeletionQueue;
