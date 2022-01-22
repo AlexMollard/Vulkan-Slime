@@ -10,7 +10,7 @@
 
 struct ImguiLayer {
     void init();
-    void draw();
+    void draw(SDL_Window* window);
 
     void SetDarkThemeColors();
 };

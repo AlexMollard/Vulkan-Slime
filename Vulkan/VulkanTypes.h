@@ -4,17 +4,52 @@
 
 #pragma once
 
+#include <vulkan/vulkan.h>
 #include <vk_mem_alloc.h>
 
-namespace vktype {
-    struct AllocatedBuffer {
-        VkBuffer mBuffer;
-        VmaAllocation mAllocation;
-    };
+struct AllocatedBufferUntyped {
+    VkBuffer mBuffer{};
+    VmaAllocation mAllocation{};
+    VkDeviceSize mSize{0};
+    VkDescriptorBufferInfo get_info(VkDeviceSize offset = 0);
+};
 
-    struct AllocatedImage {
-        VkImage mImage;
-        VmaAllocation mAllocation;
-    };
+template<typename T>
+struct AllocatedBuffer : public AllocatedBufferUntyped {
+    void operator=(const AllocatedBufferUntyped& other) {
+        mBuffer = other.mBuffer;
+        mAllocation = other.mAllocation;
+        mSize = other.mSize;
+    }
+    AllocatedBuffer(AllocatedBufferUntyped& other) {
+        mBuffer = other.mBuffer;
+        mAllocation = other.mAllocation;
+        mSize = other.mSize;
+    }
+    AllocatedBuffer() = default;
+};
 
+struct AllocatedImage {
+    VkImage mImage;
+    VmaAllocation mAllocation;
+    VkImageView mDefaultView;
+    int mMipLevels;
+};
+
+
+inline VkDescriptorBufferInfo AllocatedBufferUntyped::get_info(VkDeviceSize offset)
+{
+    VkDescriptorBufferInfo info;
+    info.buffer = mBuffer;
+    info.offset = offset;
+    info.range = mSize;
+    return info;
+}
+
+
+enum class MeshpassType : uint8_t {
+    None = 0,
+    Forward = 1,
+    Transparency = 2,
+    DirectionalShadow = 3
 };

@@ -4,19 +4,22 @@
 
 #pragma once
 
-#include <vulkan/vulkan.h>
-#include <deque>
-#include <unordered_map>
-#include <functional>
-#include "VulkanInitializers.h"
-#include "VkBootstrap.h"
-#include "vk_mem_alloc.h"
+#include "VulkanTypes.h"
+#include "VulkanMesh.h"
+#include "VulkanShaders.h"
+
 #include "ImGuiLayer.h"
 
-#include "VulkanMesh.h"
+#include <vector>
+#include <functional>
+#include <deque>
+#include <memory>
+#include <unordered_map>
 
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 
+#include <SDL_events.h>
 
 struct Material {
     VkDescriptorSet textureSet{VK_NULL_HANDLE};
@@ -25,7 +28,7 @@ struct Material {
 };
 
 struct Texture {
-    vktype::AllocatedImage image;
+    AllocatedImage image;
     VkImageView imageView;
 };
 
@@ -52,8 +55,8 @@ struct FrameData {
     VkCommandBuffer mMainCommandBuffer; //the buffer we will record into
 
     //buffer that holds a single GPUCameraData to use when rendering
-    vktype::AllocatedBuffer cameraBuffer;
-    vktype::AllocatedBuffer objectBuffer;
+    AllocatedBufferUntyped cameraBuffer;
+    AllocatedBufferUntyped objectBuffer;
 
     VkDescriptorSet globalDescriptor;
     VkDescriptorSet objectDescriptor;
@@ -152,6 +155,9 @@ public:
 
     void immediate_submit(std::function<void(VkCommandBuffer cmd)> &&function);
 
+    // This function is incomplete
+    ImTextureID AddTexture(VkImageLayout imageLayout, VkImageView imageView, VkSampler sampler);
+
     VkInstance mInstance; // Vulkan library handle
     VkDebugUtilsMessengerEXT mDebugMessenger; // Vulkan debug output handle
     VkPhysicalDevice mChosenGPU; // GPU chosen as the default device
@@ -182,7 +188,7 @@ public:
     VmaAllocator mAllocator; //vma lib allocator
 
     VkImageView mDepthImageView;
-    vktype::AllocatedImage mDepthImage;
+    AllocatedImage mDepthImage;
 
     //the format for the depth image
     VkFormat mDepthFormat;
@@ -194,7 +200,7 @@ public:
     std::unordered_map<std::string_view, Mesh> mMeshes;
     std::unordered_map<std::string_view, Texture> mLoadedTextures;
 
-    vktype::AllocatedBuffer create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
+    AllocatedBufferUntyped create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage, VkMemoryPropertyFlags required_flags = 0);
 
     VkDescriptorSetLayout mGlobalSetLayout;
     VkDescriptorSetLayout mObjectSetLayout;
@@ -203,7 +209,7 @@ public:
     VkPhysicalDeviceProperties mGpuProperties;
 
     GPUSceneData mSceneParameters;
-    vktype::AllocatedBuffer mSceneParameterBuffer;
+    AllocatedBufferUntyped mSceneParameterBuffer;
 
     UploadContext mUploadContext;
 
@@ -250,6 +256,8 @@ private:
     void load_meshes();
 
     void load_images();
+
+    bool load_image_to_cache(const char* name, const char* path);
 
     void upload_mesh(Mesh &mesh);
 };

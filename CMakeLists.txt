@@ -13,10 +13,15 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 include(${CMAKE_MODULE_PATH}/FetchLibs.cmake)
 
 #Include ProjectFolders
-include_directories(Src Vulkan)
+include_directories(Src Vulkan Assetlib)
 
 # Set code directories
-FILE(GLOB FILES_TO_BUILD Src/*.h Src/*.cpp Vulkan/*.h Vulkan/*.cpp)
+FILE(GLOB FILES_TO_BUILD
+        Src/*.h Src/*.cpp Src/json.hpp
+        Vulkan/*.h Vulkan/*.cpp
+        Assetlib/*.h Assetlib/*.cpp
+        ${spirv_ref_SOURCE_DIR}/*.h ${spirv_ref_SOURCE_DIR}/*.c
+)
 
 # Compiling project
 add_executable(VulkanSlime ${FILES_TO_BUILD})

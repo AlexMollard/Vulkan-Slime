@@ -29,7 +29,7 @@ struct Vertex {
 struct Mesh {
     std::vector<Vertex> mVertices = {};
 
-    vktype::AllocatedBuffer mVertexBuffer;
+    AllocatedBufferUntyped mVertexBuffer;
 
     bool load_from_obj(const char *filename);
 };

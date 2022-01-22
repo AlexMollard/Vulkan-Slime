@@ -6,7 +6,7 @@
 
 #include <vulkan/vulkan.h>
 
-namespace vkinit {
+namespace vkslime {
 
     VkCommandPoolCreateInfo command_pool_create_info(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);
 
@@ -63,4 +63,7 @@ namespace vkinit {
 
     VkSamplerCreateInfo
     sampler_create_info(VkFilter filters, VkSamplerAddressMode samplerAddressMode = VK_SAMPLER_ADDRESS_MODE_REPEAT);
+
+    VkDescriptorSetAllocateInfo
+    descriptor_set_allocate_info(VkDescriptorPool& currentPool, VkDescriptorSetLayout& descriptorSetLayout, int descriptorSetCount = 1);
 }

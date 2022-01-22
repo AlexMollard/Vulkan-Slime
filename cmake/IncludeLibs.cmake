@@ -30,6 +30,17 @@ target_link_libraries(VulkanSlime SDL2-static)
 #include ImGuizmo
 include_directories(${imguizmo_SOURCE_DIR})
 
+#include ImGuizmo
+include_directories(${spirv_ref_SOURCE_DIR})
+
+#include Tracy
+include_directories(${tracy_SOURCE_DIR})
+
+#include lz4
+message(${lz4_SOURCE_DIR}/lib)
+include_directories(${lz4_SOURCE_DIR}/lib)
+target_link_libraries(VulkanSlime lz4_static)
+
 #Compiling and Linking ImGui
 target_sources(VulkanSlime PRIVATE
         "${imgui_SOURCE_DIR}/imgui.h"

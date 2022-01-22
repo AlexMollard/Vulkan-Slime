@@ -154,3 +154,50 @@ if(NOT sdl_POPULATED)
             ${sdl_SOURCE_DIR}
             ${sdl_BINARY_DIR})
 endif()
+
+# ----------------------------------------------------------
+# SPIRV_Reflect reflection API for SPIR-V shader bytecode
+FetchContent_Declare(
+        SPIRV_Ref
+        GIT_REPOSITORY https://github.com/KhronosGroup/SPIRV-Reflect.git
+        GIT_TAG
+)
+
+FetchContent_GetProperties(SPIRV_Ref)
+if(NOT spirv_ref_POPULATED)
+    message("Cloning SPIRV_Ref")
+    FetchContent_Populate(SPIRV_Ref)
+endif()
+
+# ----------------------------------------------------------
+# Tracy C++ frame profiler
+FetchContent_Declare(
+        tracy
+        GIT_REPOSITORY https://github.com/wolfpld/tracy.git
+        GIT_TAG
+)
+
+FetchContent_GetProperties(tracy)
+if(NOT tracy_POPULATED)
+    message("Cloning tracy")
+    FetchContent_Populate(tracy)
+    add_subdirectory(
+            ${tracy_SOURCE_DIR}
+            ${tracy_BINARY_DIR})
+endif()
+
+# ----------------------------------------------------------
+# lz4 Extremely Fast Compression algorithm
+FetchContent_Declare(
+        lz4
+        GIT_REPOSITORY https://github.com/lz4/lz4.git
+        GIT_TAG v1.9.3
+)
+
+FetchContent_GetProperties(lz4)
+if(NOT lz4_POPULATED)
+    message("Cloning lz4")
+    FetchContent_Populate(lz4)
+    add_subdirectory(
+            ${lz4_SOURCE_DIR}/build/cmake)
+endif()

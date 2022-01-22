@@ -12,10 +12,16 @@ void ImguiLayer::init() {
     ImGuiStyle& style = ImGui::GetStyle();
 }
 
-void ImguiLayer::draw() {
+void ImguiLayer::draw(SDL_Window* window) {
+    //imgui new frame
+    ImGui_ImplVulkan_NewFrame();
+    ImGui_ImplSDL2_NewFrame(window);
+    ImGui::NewFrame();
+
     ImGui::Begin("Scene Hierarchy", nullptr);
     ImGui::TextColored(ImVec4{0.2f,0.85f,0.2f,1.0f},"This window will be the Hierarchy");
     ImGui::End();
+
 }
 
 void ImguiLayer::SetDarkThemeColors() {
