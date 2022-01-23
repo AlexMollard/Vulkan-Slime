@@ -1,35 +1,35 @@
 #pragma once
+
 #include "asset_loader.h"
 
 namespace assets {
 
-	enum class TextureFormat : uint32_t
-	{
-		Unknown = 0,
-		RGBA8
-	};
-	
-	struct PageInfo {
-		uint32_t width;
-		uint32_t height;
-		uint32_t compressedSize;
-		uint32_t originalSize;
-	};
+    enum class TextureFormat : uint32_t {
+        Unknown = 0,
+        RGBA8
+    };
 
-	struct TextureInfo {
-		uint64_t textureSize;
-		TextureFormat textureFormat;
-		CompressionMode compressionMode;
+    struct PageInfo {
+        uint32_t width;
+        uint32_t height;
+        uint32_t compressedSize;
+        uint32_t originalSize;
+    };
 
-		std::string originalFile;
-		std::vector<PageInfo> pages;
-	};
+    struct TextureInfo {
+        uint64_t textureSize;
+        TextureFormat textureFormat;
+        CompressionMode compressionMode;
 
-	TextureInfo read_texture_info(AssetFile* file);
+        std::string originalFile;
+        std::vector<PageInfo> pages;
+    };
 
-	void unpack_texture(TextureInfo* info, const char* sourcebuffer, size_t sourceSize, char* destination);
+    TextureInfo read_texture_info(AssetFile *file);
 
-	void unpack_texture_page(TextureInfo* info, int pageIndex ,char* sourcebuffer, char* destination);
+    void unpack_texture(TextureInfo *info, const char *sourcebuffer, size_t sourceSize, char *destination);
 
-	AssetFile pack_texture(TextureInfo* info, void* pixelData);
+    void unpack_texture_page(TextureInfo *info, int pageIndex, char *sourcebuffer, char *destination);
+
+    AssetFile pack_texture(TextureInfo *info, void *pixelData);
 }

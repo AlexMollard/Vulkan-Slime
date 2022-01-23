@@ -1,8 +1,11 @@
 //
 // Created by alexmollard on 31/12/21.
 //
-
+#include "Log.h"
 #include "VulkanInitializers.h"
+#include <string>
+
+#define LOGFUNCTION() Log::func(std::string(__FUNCTION__));
 
 VkCommandPoolCreateInfo
 vkslime::command_pool_create_info(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags /*= 0*/) {
@@ -12,6 +15,8 @@ vkslime::command_pool_create_info(uint32_t queueFamilyIndex, VkCommandPoolCreate
 
     info.queueFamilyIndex = queueFamilyIndex;
     info.flags = flags;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -24,6 +29,8 @@ VkCommandBufferAllocateInfo vkslime::command_buffer_allocate_info(VkCommandPool 
     info.commandPool = pool;
     info.commandBufferCount = count;
     info.level = level;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -40,6 +47,8 @@ vkslime::pipeline_shader_stage_create_info(VkShaderStageFlagBits stage, VkShader
     info.module = shaderModule;
     //the entry point of the shader
     info.pName = "main";
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -51,6 +60,8 @@ VkPipelineVertexInputStateCreateInfo vkslime::vertex_input_state_create_info() {
     //no vertex bindings or attributes
     info.vertexBindingDescriptionCount = 0;
     info.vertexAttributeDescriptionCount = 0;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -62,6 +73,8 @@ VkPipelineInputAssemblyStateCreateInfo vkslime::input_assembly_create_info(VkPri
     info.topology = topology;
     //we are not going to use primitive restart on the entire tutorial so leave it on false
     info.primitiveRestartEnable = VK_FALSE;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -85,6 +98,7 @@ VkPipelineRasterizationStateCreateInfo vkslime::rasterization_state_create_info(
     info.depthBiasClamp = 0.0f;
     info.depthBiasSlopeFactor = 0.0f;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -100,6 +114,8 @@ VkPipelineMultisampleStateCreateInfo vkslime::multisampling_state_create_info() 
     info.pSampleMask = nullptr;
     info.alphaToCoverageEnable = VK_FALSE;
     info.alphaToOneEnable = VK_FALSE;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -108,6 +124,8 @@ VkPipelineColorBlendAttachmentState vkslime::color_blend_attachment_state() {
     colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
                                           VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
     colorBlendAttachment.blendEnable = VK_FALSE;
+
+    LOGFUNCTION()
     return colorBlendAttachment;
 }
 
@@ -122,6 +140,8 @@ VkPipelineLayoutCreateInfo vkslime::pipeline_layout_create_info() {
     info.pSetLayouts = nullptr;
     info.pushConstantRangeCount = 0;
     info.pPushConstantRanges = nullptr;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -137,6 +157,7 @@ VkFramebufferCreateInfo vkslime::framebuffer_create_info(VkRenderPass renderPass
     fb_info.height = windowExtent.height;
     fb_info.layers = 1;
 
+    LOGFUNCTION()
     return fb_info;
 }
 
@@ -145,6 +166,8 @@ VkFenceCreateInfo vkslime::fence_create_info(VkFenceCreateFlags flags) {
     fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     fenceCreateInfo.pNext = nullptr;
     fenceCreateInfo.flags = flags;
+
+    LOGFUNCTION()
     return fenceCreateInfo;
 }
 
@@ -153,6 +176,8 @@ VkSemaphoreCreateInfo vkslime::semaphore_create_info(VkSemaphoreCreateFlags flag
     semCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
     semCreateInfo.pNext = nullptr;
     semCreateInfo.flags = flags;
+
+    LOGFUNCTION()
     return semCreateInfo;
 }
 
@@ -172,6 +197,7 @@ VkImageCreateInfo vkslime::image_create_info(VkFormat format, VkImageUsageFlags 
     info.tiling = VK_IMAGE_TILING_OPTIMAL;
     info.usage = usageFlags;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -190,6 +216,7 @@ VkImageViewCreateInfo vkslime::imageview_create_info(VkFormat format, VkImage im
     info.subresourceRange.layerCount = 1;
     info.subresourceRange.aspectMask = aspectFlags;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -207,6 +234,7 @@ vkslime::depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareO
     info.maxDepthBounds = 1.0f; // Optional
     info.stencilTestEnable = VK_FALSE;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -224,6 +252,7 @@ vkslime::renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent,
     info.pClearValues = nullptr;
     info.framebuffer = framebuffer;
 
+    //LOGFUNCTION()
     return info;
 }
 
@@ -233,8 +262,9 @@ VkCommandBufferBeginInfo vkslime::command_buffer_begin_info(VkCommandBufferUsage
     cmdBeginInfo.pNext = nullptr;
 
     cmdBeginInfo.pInheritanceInfo = nullptr;
-    cmdBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    cmdBeginInfo.flags = bits;
 
+    //LOGFUNCTION()
     return cmdBeginInfo;
 }
 
@@ -247,6 +277,7 @@ vkslime::descriptorset_layout_binding(VkDescriptorType type, VkShaderStageFlags 
     setbind.pImmutableSamplers = nullptr;
     setbind.stageFlags = stageFlags;
 
+    LOGFUNCTION()
     return setbind;
 }
 
@@ -263,6 +294,7 @@ vkslime::write_descriptor_buffer(VkDescriptorType type, VkDescriptorSet dstSet, 
     write.descriptorType = type;
     write.pBufferInfo = bufferInfo;
 
+    LOGFUNCTION()
     return write;
 }
 
@@ -273,6 +305,8 @@ VkCommandBufferBeginInfo vkslime::command_buffer_begin_info(VkCommandBufferUsage
 
     info.pInheritanceInfo = nullptr;
     info.flags = flags;
+
+    LOGFUNCTION()
     return info;
 }
 
@@ -289,6 +323,7 @@ VkSubmitInfo vkslime::submit_info(VkCommandBuffer *cmd) {
     info.signalSemaphoreCount = 0;
     info.pSignalSemaphores = nullptr;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -304,6 +339,7 @@ VkSamplerCreateInfo vkslime::sampler_create_info(VkFilter filters,
     info.addressModeV = samplerAddressMode;
     info.addressModeW = samplerAddressMode;
 
+    LOGFUNCTION()
     return info;
 }
 
@@ -320,11 +356,14 @@ vkslime::write_descriptor_image(VkDescriptorType type, VkDescriptorSet dstSet, V
     write.descriptorType = type;
     write.pImageInfo = imageInfo;
 
+    LOGFUNCTION()
     return write;
 }
 
-VkDescriptorSetAllocateInfo vkslime::descriptor_set_allocate_info(VkDescriptorPool& currentPool, VkDescriptorSetLayout& descriptorSetLayout, int descriptorSetCount) {
-    VkDescriptorSetAllocateInfo allocInfo {};
+VkDescriptorSetAllocateInfo
+vkslime::descriptor_set_allocate_info(VkDescriptorPool &currentPool, VkDescriptorSetLayout &descriptorSetLayout,
+                                      int descriptorSetCount) {
+    VkDescriptorSetAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocInfo.pNext = nullptr;
 
@@ -332,5 +371,6 @@ VkDescriptorSetAllocateInfo vkslime::descriptor_set_allocate_info(VkDescriptorPo
     allocInfo.descriptorPool = currentPool;
     allocInfo.descriptorSetCount = descriptorSetCount;
 
+    LOGFUNCTION()
     return allocInfo;
 }

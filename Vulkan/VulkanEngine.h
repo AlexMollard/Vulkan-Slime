@@ -7,6 +7,7 @@
 #include "VulkanTypes.h"
 #include "VulkanMesh.h"
 #include "VulkanShaders.h"
+#include "VulkanTools.h"
 
 #include "ImGuiLayer.h"
 
@@ -20,6 +21,8 @@
 #include <glm/gtx/transform.hpp>
 
 #include <SDL_events.h>
+
+#include "Log.h"
 
 struct Material {
     VkDescriptorSet textureSet{VK_NULL_HANDLE};
@@ -144,14 +147,14 @@ public:
     Material *create_material(VkPipeline pipeline, VkPipelineLayout layout, const std::string_view &name);
 
     //Returns nullptr if it can't be found
-    Material *get_material(const std::string_view &name);
+    Material *get_material(const std::string &name);
 
     //Returns nullptr if it can't be found
-    Mesh *get_mesh(const std::string_view &name);
+    Mesh *get_mesh(const std::string &name);
 
     void draw_objects(VkCommandBuffer cmd, RenderObject *first, int count);
 
-    size_t pad_uniform_buffer_size(size_t originalSize);
+    size_t pad_uniform_buffer_size(size_t originalSize) const;
 
     void immediate_submit(std::function<void(VkCommandBuffer cmd)> &&function);
 
@@ -200,7 +203,8 @@ public:
     std::unordered_map<std::string_view, Mesh> mMeshes;
     std::unordered_map<std::string_view, Texture> mLoadedTextures;
 
-    AllocatedBufferUntyped create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage, VkMemoryPropertyFlags required_flags = 0);
+    AllocatedBufferUntyped create_buffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage,
+                                         VkMemoryPropertyFlags required_flags = 0) const;
 
     VkDescriptorSetLayout mGlobalSetLayout;
     VkDescriptorSetLayout mObjectSetLayout;
@@ -257,7 +261,7 @@ private:
 
     void load_images();
 
-    bool load_image_to_cache(const char* name, const char* path);
+    bool load_image_to_cache(const char *name, const char *path);
 
     void upload_mesh(Mesh &mesh);
 };

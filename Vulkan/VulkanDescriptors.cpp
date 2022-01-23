@@ -8,30 +8,28 @@
 
 namespace vkutil {
 
-    VkDescriptorPool createPool(VkDevice device, const DescriptorAllocator::PoolSizes& poolSizes, int count, VkDescriptorPoolCreateFlags flags)
-    {
+    VkDescriptorPool createPool(VkDevice device, const DescriptorAllocator::PoolSizes &poolSizes, int count,
+                                VkDescriptorPoolCreateFlags flags) {
         std::vector<VkDescriptorPoolSize> sizes;
         sizes.reserve(poolSizes.sizes.size());
-        for (auto sz : poolSizes.sizes) {
-            sizes.push_back({ sz.first, uint32_t(sz.second * count) });
+        for (auto sz: poolSizes.sizes) {
+            sizes.push_back({sz.first, uint32_t(sz.second * static_cast<float>(count))});
         }
-        VkDescriptorPoolCreateInfo pool_info = {};
-        pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-        pool_info.flags = flags;
-        pool_info.maxSets = count;
-        pool_info.poolSizeCount = (uint32_t)sizes.size();
-        pool_info.pPoolSizes = sizes.data();
+        VkDescriptorPoolCreateInfo poolInfo = {};
+        poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        poolInfo.flags = flags;
+        poolInfo.maxSets = count;
+        poolInfo.poolSizeCount = (uint32_t) sizes.size();
+        poolInfo.pPoolSizes = sizes.data();
 
         VkDescriptorPool descriptorPool;
-        vkCreateDescriptorPool(device, &pool_info, nullptr, &descriptorPool);
+        vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool);
 
         return descriptorPool;
     }
 
-    void DescriptorAllocator::reset_pools()
-    {
-        for (auto p : usedPools)
-        {
+    void DescriptorAllocator::reset_pools() {
+        for (auto p: usedPools) {
             vkResetDescriptorPool(device, p, 0);
         }
 
@@ -40,10 +38,8 @@ namespace vkutil {
         currentPool = VK_NULL_HANDLE;
     }
 
-    bool DescriptorAllocator::allocate(VkDescriptorSet* set, VkDescriptorSetLayout layout)
-    {
-        if (currentPool == VK_NULL_HANDLE)
-        {
+    bool DescriptorAllocator::allocate(VkDescriptorSet *set, VkDescriptorSetLayout layout) {
+        if (currentPool == VK_NULL_HANDLE) {
             currentPool = grab_pool();
             usedPools.push_back(currentPool);
         }
@@ -58,26 +54,20 @@ namespace vkutil {
 
 
         VkResult allocResult = vkAllocateDescriptorSets(device, &allocInfo, set);
-        bool needReallocate = false;
 
         switch (allocResult) {
             case VK_SUCCESS:
                 //all good, return
                 return true;
-
-                break;
             case VK_ERROR_FRAGMENTED_POOL:
             case VK_ERROR_OUT_OF_POOL_MEMORY:
-                //reallocate pool
-                needReallocate = true;
                 break;
             default:
                 //unrecoverable error
                 return false;
         }
 
-        if (needReallocate)
-        {
+        if (allocResult == VK_ERROR_OUT_OF_POOL_MEMORY) {
             //allocate a new pool and retry
             currentPool = grab_pool();
             usedPools.push_back(currentPool);
@@ -85,8 +75,7 @@ namespace vkutil {
             allocResult = vkAllocateDescriptorSets(device, &allocInfo, set);
 
             //if it still fails then we have big issues
-            if (allocResult == VK_SUCCESS)
-            {
+            if (allocResult == VK_SUCCESS) {
                 return true;
             }
         }
@@ -94,74 +83,61 @@ namespace vkutil {
         return false;
     }
 
-    void DescriptorAllocator::init(VkDevice newDevice)
-    {
+    void DescriptorAllocator::init(VkDevice newDevice) {
         device = newDevice;
     }
 
-    void DescriptorAllocator::cleanup()
-    {
+    void DescriptorAllocator::cleanup() {
         //delete every pool held
-        for (auto p : freePools)
-        {
+        for (auto p: freePools) {
             vkDestroyDescriptorPool(device, p, nullptr);
         }
-        for (auto p : usedPools)
-        {
+        for (auto p: usedPools) {
             vkDestroyDescriptorPool(device, p, nullptr);
         }
     }
 
-    VkDescriptorPool DescriptorAllocator::grab_pool()
-    {
-        if (freePools.size() > 0)
-        {
+    VkDescriptorPool DescriptorAllocator::grab_pool() {
+        if (!freePools.empty()) {
             VkDescriptorPool pool = freePools.back();
             freePools.pop_back();
             return pool;
-        }
-        else {
+        } else {
             return createPool(device, descriptorSizes, 1000, 0);
         }
     }
 
 
-    void DescriptorLayoutCache::init(VkDevice newDevice)
-    {
+    void DescriptorLayoutCache::init(VkDevice newDevice) {
         device = newDevice;
     }
 
-    VkDescriptorSetLayout DescriptorLayoutCache::create_descriptor_layout(VkDescriptorSetLayoutCreateInfo* info)
-    {
+    VkDescriptorSetLayout DescriptorLayoutCache::create_descriptor_layout(VkDescriptorSetLayoutCreateInfo *info) {
         DescriptorLayoutInfo layoutinfo;
         layoutinfo.bindings.reserve(info->bindingCount);
         bool isSorted = true;
-        int32_t lastBinding = -1;
+        uint32_t lastBinding = -1;
         for (uint32_t i = 0; i < info->bindingCount; i++) {
             layoutinfo.bindings.push_back(info->pBindings[i]);
 
             //check that the bindings are in strict increasing order
-            if (static_cast<int32_t>(info->pBindings[i].binding) > lastBinding)
-            {
+            if (static_cast<uint32_t>(info->pBindings[i].binding) > lastBinding) {
                 lastBinding = info->pBindings[i].binding;
-            }
-            else{
+            } else {
                 isSorted = false;
             }
         }
-        if (!isSorted)
-        {
-            std::sort(layoutinfo.bindings.begin(), layoutinfo.bindings.end(), [](VkDescriptorSetLayoutBinding& a, VkDescriptorSetLayoutBinding& b ) {
-                return a.binding < b.binding;
-            });
+        if (!isSorted) {
+            std::sort(layoutinfo.bindings.begin(), layoutinfo.bindings.end(),
+                      [](VkDescriptorSetLayoutBinding &a, VkDescriptorSetLayoutBinding &b) {
+                          return a.binding < b.binding;
+                      });
         }
 
         auto it = layoutCache.find(layoutinfo);
-        if (it != layoutCache.end())
-        {
+        if (it != layoutCache.end()) {
             return (*it).second;
-        }
-        else {
+        } else {
             VkDescriptorSetLayout layout;
             vkCreateDescriptorSetLayout(device, info, nullptr, &layout);
 
@@ -173,17 +149,15 @@ namespace vkutil {
     }
 
 
-    void DescriptorLayoutCache::cleanup()
-    {
+    void DescriptorLayoutCache::cleanup() {
         //delete every descriptor layout held
-        for (auto pair : layoutCache)
-        {
+        for (const auto& pair: layoutCache) {
             vkDestroyDescriptorSetLayout(device, pair.second, nullptr);
         }
     }
 
-    vkutil::DescriptorBuilder DescriptorBuilder::begin(DescriptorLayoutCache* layoutCache, DescriptorAllocator* allocator)
-    {
+    vkutil::DescriptorBuilder
+    DescriptorBuilder::begin(DescriptorLayoutCache *layoutCache, DescriptorAllocator *allocator) {
         DescriptorBuilder builder;
 
         builder.cache = layoutCache;
@@ -192,8 +166,9 @@ namespace vkutil {
     }
 
 
-    vkutil::DescriptorBuilder& DescriptorBuilder::bind_buffer(uint32_t binding, VkDescriptorBufferInfo* bufferInfo, VkDescriptorType type, VkShaderStageFlags stageFlags)
-    {
+    vkutil::DescriptorBuilder &
+    DescriptorBuilder::bind_buffer(uint32_t binding, VkDescriptorBufferInfo *bufferInfo, VkDescriptorType type,
+                                   VkShaderStageFlags stageFlags) {
         VkDescriptorSetLayoutBinding newBinding{};
 
         newBinding.descriptorCount = 1;
@@ -218,8 +193,9 @@ namespace vkutil {
     }
 
 
-    vkutil::DescriptorBuilder& DescriptorBuilder::bind_image(uint32_t binding,  VkDescriptorImageInfo* imageInfo, VkDescriptorType type, VkShaderStageFlags stageFlags)
-    {
+    vkutil::DescriptorBuilder &
+    DescriptorBuilder::bind_image(uint32_t binding, VkDescriptorImageInfo *imageInfo, VkDescriptorType type,
+                                  VkShaderStageFlags stageFlags) {
         VkDescriptorSetLayoutBinding newBinding{};
 
         newBinding.descriptorCount = 1;
@@ -243,8 +219,7 @@ namespace vkutil {
         return *this;
     }
 
-    bool DescriptorBuilder::build(VkDescriptorSet& set, VkDescriptorSetLayout& layout)
-    {
+    bool DescriptorBuilder::build(VkDescriptorSet &set, VkDescriptorSetLayout &layout) {
         //build layout first
         VkDescriptorSetLayoutCreateInfo layoutInfo{};
         layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -258,11 +233,11 @@ namespace vkutil {
 
         //allocate descriptor
         bool success = alloc->allocate(&set, layout);
-        if (!success) { return false; };
+        if (!success) { return false; }
 
         //write descriptor
 
-        for (VkWriteDescriptorSet& w : writes) {
+        for (VkWriteDescriptorSet &w: writes) {
             w.dstSet = set;
         }
 
@@ -272,36 +247,28 @@ namespace vkutil {
     }
 
 
-    bool DescriptorBuilder::build(VkDescriptorSet& set)
-    {
+    bool DescriptorBuilder::build(VkDescriptorSet &set) {
         VkDescriptorSetLayout layout;
         return build(set, layout);
     }
 
 
-    bool DescriptorLayoutCache::DescriptorLayoutInfo::operator==(const DescriptorLayoutInfo& other) const
-    {
-        if (other.bindings.size() != bindings.size())
-        {
+    bool DescriptorLayoutCache::DescriptorLayoutInfo::operator==(const DescriptorLayoutInfo &other) const {
+        if (other.bindings.size() != bindings.size()) {
             return false;
-        }
-        else {
+        } else {
             //compare each of the bindings is the same. Bindings are sorted so they will match
             for (int i = 0; i < bindings.size(); i++) {
-                if (other.bindings[i].binding != bindings[i].binding)
-                {
+                if (other.bindings[i].binding != bindings[i].binding) {
                     return false;
                 }
-                if (other.bindings[i].descriptorType != bindings[i].descriptorType)
-                {
+                if (other.bindings[i].descriptorType != bindings[i].descriptorType) {
                     return false;
                 }
-                if (other.bindings[i].descriptorCount != bindings[i].descriptorCount)
-                {
+                if (other.bindings[i].descriptorCount != bindings[i].descriptorCount) {
                     return false;
                 }
-                if (other.bindings[i].stageFlags != bindings[i].stageFlags)
-                {
+                if (other.bindings[i].stageFlags != bindings[i].stageFlags) {
                     return false;
                 }
             }
@@ -309,15 +276,13 @@ namespace vkutil {
         }
     }
 
-    size_t DescriptorLayoutCache::DescriptorLayoutInfo::hash() const
-    {
+    size_t DescriptorLayoutCache::DescriptorLayoutInfo::hash() const {
         using std::size_t;
         using std::hash;
 
         size_t result = hash<size_t>()(bindings.size());
 
-        for (const VkDescriptorSetLayoutBinding& b : bindings)
-        {
+        for (const VkDescriptorSetLayoutBinding &b: bindings) {
             //pack the binding data into a single int64. Not fully correct but its ok
             size_t binding_hash = b.binding | b.descriptorType << 8 | b.descriptorCount << 16 | b.stageFlags << 24;
 

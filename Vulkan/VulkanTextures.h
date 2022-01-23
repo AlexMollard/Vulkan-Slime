@@ -15,9 +15,12 @@ namespace vkutil {
     };
 
     bool load_image_from_file(VulkanEngine &engine, const char *file, AllocatedImage &outImage);
-    bool load_image_from_asset(VulkanEngine& engine, const char* file, AllocatedImage& outImage);
 
-    AllocatedImage upload_image(int texWidth, int texHeight, VkFormat image_format, VulkanEngine& engine, AllocatedBufferUntyped& stagingBuffer);
+    bool load_image_from_asset(VulkanEngine &engine, const char *file, AllocatedImage &outImage);
 
-    AllocatedImage upload_image_mipmapped(int texWidth, int texHeight, VkFormat image_format, VulkanEngine& engine, AllocatedBufferUntyped& stagingBuffer, std::vector<MipmapInfo> mips);
-};
+    AllocatedImage upload_image(int texWidth, int texHeight, VkFormat image_format, VulkanEngine &engine,
+                                AllocatedBufferUntyped &stagingBuffer);
+
+    AllocatedImage upload_image_mipmapped(int texWidth, int texHeight, VkFormat image_format, VulkanEngine &engine,
+                                          AllocatedBufferUntyped &stagingBuffer, std::vector<MipmapInfo> mips);
+}

@@ -7,7 +7,6 @@
 #include <vulkan/vulkan.h>
 
 namespace vkslime {
-
     VkCommandPoolCreateInfo command_pool_create_info(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);
 
     VkCommandBufferAllocateInfo command_buffer_allocate_info(VkCommandPool pool, uint32_t count = 1,
@@ -65,5 +64,6 @@ namespace vkslime {
     sampler_create_info(VkFilter filters, VkSamplerAddressMode samplerAddressMode = VK_SAMPLER_ADDRESS_MODE_REPEAT);
 
     VkDescriptorSetAllocateInfo
-    descriptor_set_allocate_info(VkDescriptorPool& currentPool, VkDescriptorSetLayout& descriptorSetLayout, int descriptorSetCount = 1);
+    descriptor_set_allocate_info(VkDescriptorPool &currentPool, VkDescriptorSetLayout &descriptorSetLayout,
+                                 int descriptorSetCount = 1);
 }

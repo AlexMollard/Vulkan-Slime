@@ -9,13 +9,13 @@ FetchContent_Declare(
         GIT_TAG
 )
 FetchContent_GetProperties(vk_bootstrap)
-if(NOT vk_bootstrap_POPULATED)
+if (NOT vk_bootstrap_POPULATED)
     message("Cloning vk_bootstrap")
     FetchContent_Populate(vk_bootstrap)
     add_subdirectory(
             ${vk_bootstrap_SOURCE_DIR}
             ${vk_bootstrap_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # VulkanMemoryAllocator A wrapper for some vulkan memory functions
@@ -25,13 +25,13 @@ FetchContent_Declare(
         GIT_TAG
 )
 FetchContent_GetProperties(VulkanMemoryAllocator)
-if(NOT vulkanmemoryallocator_POPULATED)
+if (NOT vulkanmemoryallocator_POPULATED)
     message("Cloning VulkanMemoryAllocator")
     FetchContent_Populate(vulkanmemoryallocator)
     add_subdirectory(
             ${vulkanmemoryallocator_SOURCE_DIR}
             ${vulkanmemoryallocator_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # entt A entity component system for c++
@@ -41,45 +41,46 @@ FetchContent_Declare(
         GIT_TAG
 )
 FetchContent_GetProperties(Entt)
-if(NOT entt_POPULATED)
+if (NOT entt_POPULATED)
     message("Cloning entt")
     FetchContent_Populate(entt)
     add_subdirectory(
             ${entt_SOURCE_DIR}
             ${entt_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # spdlog A fast and simple to use logging library.
 FetchContent_Declare(
         spdlog
         GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG       )
+        GIT_TAG v1.9.2
+)
 
 FetchContent_GetProperties(spdlog)
-if(NOT spdlog_POPULATED)
+if (NOT spdlog_POPULATED)
     message("Cloning spdlod")
     FetchContent_Populate(spdlog)
     add_subdirectory(
             ${spdlog_SOURCE_DIR}
             ${spdlog_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # glm big math lib for graphics math
 FetchContent_Declare(
         GLM
         GIT_REPOSITORY https://github.com/g-truc/glm.git
-        GIT_TAG        )
+        GIT_TAG)
 
 FetchContent_GetProperties(GLM)
-if(NOT glm_POPULATED)
+if (NOT glm_POPULATED)
     message("Cloning GLM")
     FetchContent_Populate(GLM)
     add_subdirectory(
             ${glm_SOURCE_DIR}
             ${glm_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # Tiny_OBJ_Loader Model loader
@@ -90,13 +91,13 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(Tiny_OBJ_Loader)
-if(NOT tiny_obj_loader_POPULATED)
+if (NOT tiny_obj_loader_POPULATED)
     message("Cloning Tiny_OBJ_Loader")
     FetchContent_Populate(Tiny_OBJ_Loader)
     add_subdirectory(
             ${tiny_obj_loader_SOURCE_DIR}
             ${tiny_obj_loader_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # STB Image light weight image loader
@@ -107,10 +108,10 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(STB_Image)
-if(NOT stb_image_POPULATED)
+if (NOT stb_image_POPULATED)
     message("Cloning STB_Image")
     FetchContent_Populate(STB_Image)
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # ImGui Bloat-free Graphical User interface
@@ -120,10 +121,10 @@ FetchContent_Declare(
         GIT_TAG
 )
 FetchContent_GetProperties(ImGui)
-if(NOT imgui_POPULATED)
+if (NOT imgui_POPULATED)
     message("Cloning ImGui")
     FetchContent_Populate(ImGui)
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # ImGuizmo gizmos for ImGui
@@ -133,10 +134,10 @@ FetchContent_Declare(
         GIT_TAG
 )
 FetchContent_GetProperties(ImGuizmo)
-if(NOT imguizmo_POPULATED)
+if (NOT imguizmo_POPULATED)
     message("Cloning ImGuizmo")
     FetchContent_Populate(ImGuizmo)
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # SDL2 Window/Surface creator and handler
@@ -147,13 +148,13 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(SDL)
-if(NOT sdl_POPULATED)
+if (NOT sdl_POPULATED)
     message("Cloning SDL")
     FetchContent_Populate(SDL)
     add_subdirectory(
             ${sdl_SOURCE_DIR}
             ${sdl_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # SPIRV_Reflect reflection API for SPIR-V shader bytecode
@@ -164,10 +165,10 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(SPIRV_Ref)
-if(NOT spirv_ref_POPULATED)
+if (NOT spirv_ref_POPULATED)
     message("Cloning SPIRV_Ref")
     FetchContent_Populate(SPIRV_Ref)
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # Tracy C++ frame profiler
@@ -178,13 +179,13 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(tracy)
-if(NOT tracy_POPULATED)
+if (NOT tracy_POPULATED)
     message("Cloning tracy")
     FetchContent_Populate(tracy)
     add_subdirectory(
             ${tracy_SOURCE_DIR}
             ${tracy_BINARY_DIR})
-endif()
+endif ()
 
 # ----------------------------------------------------------
 # lz4 Extremely Fast Compression algorithm
@@ -195,9 +196,9 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(lz4)
-if(NOT lz4_POPULATED)
+if (NOT lz4_POPULATED)
     message("Cloning lz4")
     FetchContent_Populate(lz4)
     add_subdirectory(
             ${lz4_SOURCE_DIR}/build/cmake)
-endif()
+endif ()

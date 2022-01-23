@@ -7,9 +7,10 @@ include(FetchContent)
 #disable in lining for profiler
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
 
 #Fetch all external libs
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 include(${CMAKE_MODULE_PATH}/FetchLibs.cmake)
 
 #Include ProjectFolders
@@ -21,10 +22,13 @@ FILE(GLOB FILES_TO_BUILD
         Vulkan/*.h Vulkan/*.cpp
         Assetlib/*.h Assetlib/*.cpp
         ${spirv_ref_SOURCE_DIR}/*.h ${spirv_ref_SOURCE_DIR}/*.c
-)
+        )
 
 # Compiling project
 add_executable(VulkanSlime ${FILES_TO_BUILD})
+
+#define debug
+target_compile_definitions(VulkanSlime PUBLIC "$<$<CONFIG:DEBUG>:DEBUG>")
 
 # Finding and including Vulkan
 find_package(Vulkan REQUIRED)
