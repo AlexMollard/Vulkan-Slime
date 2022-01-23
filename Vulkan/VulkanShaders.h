@@ -17,8 +17,6 @@ struct ShaderModule {
     VkShaderModule module;
 };
 namespace vkslime {
-
-
     //loads a shader module from a spir-v file. Returns false if it errors
     bool load_shader_module(VkDevice device, const char *filePath, ShaderModule *outShaderModule);
 

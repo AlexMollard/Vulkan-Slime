@@ -66,4 +66,10 @@ namespace vkslime {
     VkDescriptorSetAllocateInfo
     descriptor_set_allocate_info(VkDescriptorPool &currentPool, VkDescriptorSetLayout &descriptorSetLayout,
                                  int descriptorSetCount = 1);
+
+    VkBufferMemoryBarrier buffer_barrier(VkBuffer buffer, uint32_t queue);
+
+    VkImageMemoryBarrier image_barrier(VkImage image, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask, VkImageLayout oldLayout, VkImageLayout newLayout, VkImageAspectFlags aspectMask);
+
+    VkPresentInfoKHR present_info();
 }

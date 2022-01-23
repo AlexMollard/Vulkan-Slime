@@ -202,3 +202,20 @@ if (NOT lz4_POPULATED)
     add_subdirectory(
             ${lz4_SOURCE_DIR}/build/cmake)
 endif ()
+
+# ----------------------------------------------------------
+# fmt A modern formatting library
+FetchContent_Declare(
+        fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG 8.1.1
+)
+
+FetchContent_GetProperties(fmt)
+if (NOT fmt_POPULATED)
+    message("Cloning fmt")
+    FetchContent_Populate(fmt)
+    add_subdirectory(
+            ${fmt_SOURCE_DIR}
+            ${fmt_BINARY_DIR})
+endif ()

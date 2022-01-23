@@ -1,34 +1,29 @@
-//
-// Created by alexmollard on 6/1/22.
-//
-
 #pragma once
 
 #include <vulkan/vulkan.h>
 #include <vk_mem_alloc.h>
+#include <string>
 
 struct AllocatedBufferUntyped {
     VkBuffer mBuffer{};
     VmaAllocation mAllocation{};
     VkDeviceSize mSize{0};
 
-    VkDescriptorBufferInfo get_info(VkDeviceSize offset = 0) const;
+    VkDescriptorBufferInfo get_info(VkDeviceSize offset = 0);
 };
 
 template<typename T>
 struct AllocatedBuffer : public AllocatedBufferUntyped {
-    void operator=(const AllocatedBufferUntyped &other) {
+    void operator=(const AllocatedBufferUntyped& other) {
         mBuffer = other.mBuffer;
         mAllocation = other.mAllocation;
         mSize = other.mSize;
     }
-
-    explicit AllocatedBuffer(AllocatedBufferUntyped &other) {
+    AllocatedBuffer(const AllocatedBufferUntyped& other) {
         mBuffer = other.mBuffer;
         mAllocation = other.mAllocation;
         mSize = other.mSize;
     }
-
     AllocatedBuffer() = default;
 };
 
@@ -40,7 +35,8 @@ struct AllocatedImage {
 };
 
 
-inline VkDescriptorBufferInfo AllocatedBufferUntyped::get_info(VkDeviceSize offset) const {
+inline VkDescriptorBufferInfo AllocatedBufferUntyped::get_info(VkDeviceSize offset)
+{
     VkDescriptorBufferInfo info;
     info.buffer = mBuffer;
     info.offset = offset;

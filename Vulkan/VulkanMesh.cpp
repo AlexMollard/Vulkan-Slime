@@ -1,16 +1,14 @@
-//
-// Created by alexmollard on 6/1/22.
-//
-
 #include "VulkanMesh.h"
 
-//make sure that you are including the library
-#define TINYOBJLOADER_IMPLEMENTATION
-
-#include "tiny_obj_loader.h"
 #include <iostream>
+#include <asset_loader.h>
+#include <mesh_asset.h>
+#include "glm/common.hpp"
+#include "glm/detail/func_geometric.inl"
+#include "Log.h"
 
-VertexInputDescription Vertex::get_vertex_description() {
+VertexInputDescription Vertex::get_vertex_description()
+{
     VertexInputDescription description;
 
     //we will have just 1 vertex buffer binding, with a per-vertex rate
@@ -28,112 +26,190 @@ VertexInputDescription Vertex::get_vertex_description() {
     positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
     positionAttribute.offset = offsetof(Vertex, position);
 
-    //Position will be stored at Location 0
-    VkVertexInputAttributeDescription uvAttribute = {};
-    uvAttribute.binding = 0;
-    uvAttribute.location = 1;
-    uvAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-    uvAttribute.offset = offsetof(Vertex, uv);
-
     //Normal will be stored at Location 1
     VkVertexInputAttributeDescription normalAttribute = {};
     normalAttribute.binding = 0;
-    normalAttribute.location = 2;
-    normalAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
-    normalAttribute.offset = offsetof(Vertex, normal);
+    normalAttribute.location = 1;
+    normalAttribute.format = VK_FORMAT_R8G8_UNORM;//VK_FORMAT_R32G32B32_SFLOAT;
+    normalAttribute.offset = offsetof(Vertex, oct_normal);
 
-    //Color will be stored at Location 2
+    //Position will be stored at Location 2
     VkVertexInputAttributeDescription colorAttribute = {};
     colorAttribute.binding = 0;
-    colorAttribute.location = 3;
-    colorAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+    colorAttribute.location = 2;
+    colorAttribute.format = VK_FORMAT_R8G8B8_UNORM;//VK_FORMAT_R32G32B32_SFLOAT;
     colorAttribute.offset = offsetof(Vertex, color);
 
+    //UV will be stored at Location 2
+    VkVertexInputAttributeDescription uvAttribute = {};
+    uvAttribute.binding = 0;
+    uvAttribute.location = 3;
+    uvAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+    uvAttribute.offset = offsetof(Vertex, uv);
+
+
     description.attributes.push_back(positionAttribute);
-    description.attributes.push_back(uvAttribute);
     description.attributes.push_back(normalAttribute);
     description.attributes.push_back(colorAttribute);
+    description.attributes.push_back(uvAttribute);
     return description;
 }
+using namespace glm;
+vec2 OctNormalWrap(vec2 v)
+{
+    vec2 wrap;
+    wrap.x = (1.0f - glm::abs(v.y)) * (v.x >= 0.0f ? 1.0f : -1.0f);
+    wrap.y = (1.0f - glm::abs(v.x)) * (v.y >= 0.0f ? 1.0f : -1.0f);
+    return wrap;
+}
 
-bool Mesh::load_from_obj(const char *filename) {
-    //attrib will contain the vertex arrays of the file
-    tinyobj::attrib_t attrib;
-    //shapes contains the info for each separate object in the file
-    std::vector<tinyobj::shape_t> shapes;
-    //materials contains the information about the material of each shape, but we won't use it.
-    std::vector<tinyobj::material_t> materials;
+vec2 OctNormalEncode(vec3 n)
+{
+    n /= (glm::abs(n.x) + glm::abs(n.y) + glm::abs(n.z));
 
-    //error and warning output from the load function
-    std::string warn;
-    std::string err;
+    vec2 wrapped = OctNormalWrap(n);
 
-    //load the OBJ file
-    tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filename, nullptr);
-    //make sure to output the warnings to the console, in case there are issues with the file
-    if (!warn.empty()) {
-        std::cout << "WARN: " << warn << std::endl;
-    }
-    //if we have any error, print it to the console, and break the mesh loading.
-    //This happens if the file can't be found or is malformed
-    if (!err.empty()) {
-        std::cerr << err << std::endl;
+    vec2 result;
+    result.x = n.z >= 0.0f ? n.x : wrapped.x;
+    result.y = n.z >= 0.0f ? n.y : wrapped.y;
+
+    result.x = result.x * 0.5f + 0.5f;
+    result.y = result.y * 0.5f + 0.5f;
+
+    return result;
+}
+
+vec3 OctNormalDecode(vec2 encN)
+{
+    encN = encN * 2.0f - 1.0f;
+
+    // https://twitter.com/Stubbesaurus/status/937994790553227264
+    vec3 n = vec3(encN.x, encN.y, 1.0f - abs(encN.x) - abs(encN.y));
+    float t = glm::clamp(-n.z, 0.0f, 1.0f);
+
+    n.x += n.x >= 0.0f ? -t : t;
+    n.y += n.y >= 0.0f ? -t : t;
+
+    n = glm::normalize(n);
+    return (n);
+}
+
+
+void Vertex::pack_normal(glm::vec3 n)
+{
+    vec2 oct = OctNormalEncode(n);
+
+    oct_normal.x = uint8_t(oct.x * 255);
+    oct_normal.y = uint8_t(oct.y * 255);
+}
+
+void Vertex::pack_color(glm::vec3 c)
+{
+    color.r = static_cast<uint8_t>(c.x * 255);
+    color.g = static_cast<uint8_t>(c.y * 255);
+    color.b = static_cast<uint8_t>(c.z * 255);
+}
+
+bool Mesh::load_from_meshasset(const char* filename)
+{
+    assets::AssetFile file;
+    bool loaded = assets::load_binaryfile(filename, file);
+
+    if (!loaded) {
+        std::cout << "Error when loading mesh " << filename << std::endl;;
         return false;
     }
 
-    // Loop over shapes
-    for (auto &shape: shapes) {
-        // Loop over faces(polygon)
-        size_t index_offset = 0;
-        for (size_t f = 0; f < shape.mesh.num_face_vertices.size(); f++) {
 
-            //hardcode loading to triangles
-            int fv = 3;
 
-            // Loop over vertices in the face.
-            for (size_t v = 0; v < fv; v++) {
-                Vertex new_vert{};
 
-                // access to vertex
-                tinyobj::index_t idx = shape.mesh.indices[index_offset + v];
+    assets::MeshInfo meshinfo = assets::read_mesh_info(&file);
 
-                //vertex position
-                new_vert.position.x = attrib.vertices[3 * idx.vertex_index + 0];
-                new_vert.position.y = attrib.vertices[3 * idx.vertex_index + 1];
-                new_vert.position.z = attrib.vertices[3 * idx.vertex_index + 2];
 
-                //vertex normal
-                new_vert.normal.x = attrib.normals[3 * idx.normal_index + 0];
-                new_vert.normal.y = attrib.normals[3 * idx.normal_index + 1];
-                new_vert.normal.z = attrib.normals[3 * idx.normal_index + 2];
 
-                //vertex uvs
-                if (!attrib.texcoords.empty()) {
-                    tinyobj::real_t ux = attrib.texcoords[2 * idx.texcoord_index + 0];
-                    tinyobj::real_t uy = attrib.texcoords[2 * idx.texcoord_index + 1];
+    std::vector<char> vertexBuffer;
+    std::vector<char> indexBuffer;
 
-                    new_vert.uv.x = ux;
-                    new_vert.uv.y = 1 - uy;
-                } else {
-                    new_vert.uv.x = 0.0f;
-                    new_vert.uv.y = 0.0f;
-                }
+    vertexBuffer.resize(meshinfo.vertexBuferSize);
+    indexBuffer.resize(meshinfo.indexBuferSize);
 
-                if (!attrib.colors.empty()) {
-                    //vertex colours
-                    new_vert.color.x = attrib.colors[3 * idx.vertex_index + 0];
-                    new_vert.color.y = attrib.colors[3 * idx.vertex_index + 1];
-                    new_vert.color.z = attrib.colors[3 * idx.vertex_index + 2];
-                } else {
-                    new_vert.color.x = 1.0f;
-                    new_vert.color.y = 1.0f;
-                    new_vert.color.z = 1.0f;
-                }
+    assets::unpack_mesh(&meshinfo, file.binaryBlob.data(), file.binaryBlob.size(), vertexBuffer.data(), indexBuffer.data());
 
-                mVertices.push_back(new_vert);
-            }
-            index_offset += fv;
+    bounds.extents.x = meshinfo.bounds.extents[0];
+    bounds.extents.y = meshinfo.bounds.extents[1];
+    bounds.extents.z = meshinfo.bounds.extents[2];
+
+    bounds.origin.x = meshinfo.bounds.origin[0];
+    bounds.origin.y = meshinfo.bounds.origin[1];
+    bounds.origin.z = meshinfo.bounds.origin[2];
+
+    bounds.radius = meshinfo.bounds.radius;
+    bounds.valid = true;
+
+    mVertices.clear();
+    mIndices.clear();
+
+    mIndices.resize(indexBuffer.size() / sizeof(uint32_t));
+    for (int i = 0; i < mIndices.size(); i++) {
+        uint32_t* unpacked_indices = (uint32_t*)indexBuffer.data();
+        mIndices[i] = unpacked_indices[i];
+    }
+
+    if (meshinfo.vertexFormat == assets::VertexFormat::PNCV_F32)
+    {
+        assets::Vertex_f32_PNCV* unpackedVertices = (assets::Vertex_f32_PNCV*)vertexBuffer.data();
+
+        mVertices.resize(vertexBuffer.size() / sizeof(assets::Vertex_f32_PNCV));
+
+        for (int i = 0; i < mVertices.size(); i++) {
+
+            mVertices[i].position.x = unpackedVertices[i].position[0];
+            mVertices[i].position.y = unpackedVertices[i].position[1];
+            mVertices[i].position.z = unpackedVertices[i].position[2];
+
+            vec3 normal = vec3(
+                    unpackedVertices[i].normal[0],
+                    unpackedVertices[i].normal[1],
+                    unpackedVertices[i].normal[2] );
+            mVertices[i].pack_normal(normal);
+
+            mVertices[i].pack_color(vec3{ unpackedVertices[i].color[0] ,unpackedVertices[i].color[1] ,unpackedVertices[i].color[2] });
+
+
+            mVertices[i].uv.x = unpackedVertices[i].uv[0];
+            mVertices[i].uv.y = unpackedVertices[i].uv[1];
         }
+    }
+    else if (meshinfo.vertexFormat == assets::VertexFormat::P32N8C8V16)
+    {
+        assets::Vertex_P32N8C8V16* unpackedVertices = (assets::Vertex_P32N8C8V16*)vertexBuffer.data();
+
+        mVertices.resize(vertexBuffer.size() / sizeof(assets::Vertex_P32N8C8V16));
+
+        for (int i = 0; i < mVertices.size(); i++) {
+
+            mVertices[i].position.x = unpackedVertices[i].position[0];
+            mVertices[i].position.y = unpackedVertices[i].position[1];
+            mVertices[i].position.z = unpackedVertices[i].position[2];
+
+            mVertices[i].pack_normal(vec3{
+                    unpackedVertices[i].normal[0]
+                    ,unpackedVertices[i].normal[1]
+                    ,unpackedVertices[i].normal[2] });
+
+            mVertices[i].color.x = unpackedVertices[i].color[0];// / 255.f;
+            mVertices[i].color.y = unpackedVertices[i].color[1];// / 255.f;
+            mVertices[i].color.z = unpackedVertices[i].color[2];// / 255.f;
+
+            mVertices[i].uv.x = unpackedVertices[i].uv[0];
+            mVertices[i].uv.y = unpackedVertices[i].uv[1];
+        }
+    }
+
+
+    if (logMeshUpload)
+    {
+        Log::info("Loaded mesh " + std::string(filename) + " : Verts=" + std::to_string(mVertices.size()) + ", Tris=" + std::to_string(mIndices.size() / 3));
     }
 
     return true;
