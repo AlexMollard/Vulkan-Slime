@@ -3,9 +3,8 @@
 //
 
 #include "Log.h"
+#include "date.h"
 #include <iostream>
-#include <chrono>
-#include <ctime>
 #include <string>
 #include <filesystem>
 
@@ -14,12 +13,20 @@ std::shared_ptr<spdlog::logger> Log::mClientLogger;
 std::shared_ptr<spdlog::logger> Log::mFileLogger;
 std::shared_ptr<spdlog::logger> Log::mFunctionLogger;
 
-std::string getDateStr(){
-    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+std::string get_dmy_txt_string()
+{
+    auto tp = std::chrono::system_clock::now(); // tp is a C::system_clock::time_point
+    {
+        // Need to reach into namespace date for this streaming operator
+        using namespace date;
+        std::cout << tp << '\n';
+    }
+    auto dp = date::floor<date::days>(tp);
+    auto dmy = date::year_month_day{dp};
 
-    std::string s(30, '\0');
-    std::strftime(&s[0], s.size(), "%Y-%m-%d", std::localtime(&now));
-    return s;
+    std::stringstream ss;
+    ss << dmy.day() << '-' << dmy.month() << '-' << dmy.year() << ".log";
+    return ss.str();
 }
 
 void Log::init() {
@@ -33,7 +40,7 @@ void Log::init() {
 
     std::string currentFileDir = std::filesystem::current_path().string();
     std::string logFileDir = std::string();
-    logFileDir.append(currentFileDir).append(R"(\..\logs\)").append(getDateStr()).append(std::string(".log"));
+    logFileDir.append(currentFileDir).append(R"(\..\logs\)").append(get_dmy_txt_string());
 
     mFileLogger = spdlog::basic_logger_mt("BUILD_LOG", logFileDir);
     spdlog::set_default_logger(mFileLogger);
