@@ -100,20 +100,6 @@ if (NOT tiny_obj_loader_POPULATED)
 endif ()
 
 # ----------------------------------------------------------
-# STB Image light weight image loader
-FetchContent_Declare(
-        STB_Image
-        GIT_REPOSITORY https://github.com/nothings/stb.git
-        GIT_TAG
-)
-
-FetchContent_GetProperties(STB_Image)
-if (NOT stb_image_POPULATED)
-    message("Cloning STB_Image")
-    FetchContent_Populate(STB_Image)
-endif ()
-
-# ----------------------------------------------------------
 # ImGui Bloat-free Graphical User interface
 FetchContent_Declare(
         ImGui
@@ -226,4 +212,55 @@ if (NOT fmt_POPULATED)
     add_subdirectory(
             ${fmt_SOURCE_DIR}
             ${fmt_BINARY_DIR})
+endif ()
+
+# ----------------------------------------------------------
+# assimp The official Open-Asset-Importer-Library Repository.
+FetchContent_Declare(
+        assimp
+        GIT_REPOSITORY https://github.com/assimp/assimp.git
+        GIT_TAG
+)
+
+FetchContent_GetProperties(assimp)
+if (NOT assimp_POPULATED)
+    message("Cloning assimp")
+    FetchContent_Populate(assimp)
+    add_subdirectory(
+            ${assimp_SOURCE_DIR}
+            ${assimp_BINARY_DIR})
+endif ()
+
+# ----------------------------------------------------------
+# nvtt NVIDIA Texture Tools
+FetchContent_Declare(
+        nvtt
+        GIT_REPOSITORY https://github.com/castano/nvidia-texture-tools.git
+        GIT_TAG 2.1.2
+)
+
+FetchContent_GetProperties(nvtt)
+if (NOT nvtt_POPULATED)
+    message("Cloning nvtt")
+    FetchContent_Populate(nvtt)
+    add_subdirectory(
+            ${nvtt_SOURCE_DIR}/src
+            ${nvtt_BINARY_DIR}/src)
+endif ()
+
+# ----------------------------------------------------------
+# tinygltf Header only C++11 tiny glTF 2.0 library
+FetchContent_Declare(
+        tinygltf
+        GIT_REPOSITORY https://github.com/syoyo/tinygltf.git
+        GIT_TAG
+)
+
+FetchContent_GetProperties(tinygltf)
+if (NOT tinygltf_POPULATED)
+    message("Cloning tinygltf")
+    FetchContent_Populate(tinygltf)
+    add_subdirectory(
+            ${tinygltf_SOURCE_DIR}
+            ${tinygltf_BINARY_DIR})
 endif ()

@@ -45,6 +45,12 @@ target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 #Include all external libs
 include(${CMAKE_MODULE_PATH}/IncludeLibs.cmake)
 
+if (${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "AMD64")
+    set(GLSL_VALIDATOR "$ENV{VULKAN_SDK}/Bin/glslangValidator.exe")
+else()
+    set(GLSL_VALIDATOR "$ENV{VULKAN_SDK}/Bin32/glslangValidator.exe")
+endif()
+
 #Compile Shaders
 file(GLOB_RECURSE GLSL_SOURCE_FILES
         "${PROJECT_SOURCE_DIR}/shaders/*.frag"

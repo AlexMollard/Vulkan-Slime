@@ -3203,3 +3203,27 @@
 [23:41:34] BUILD_LOG: Built New Material textured
 [23:41:34] BUILD_LOG: StartUp Time: 1.047907 Seconds.
 [23:41:34] BUILD_LOG: Starting Main Loop
+[08:29:53] BUILD_LOG: --------------------
+[08:29:53] BUILD_LOG: DEBUG_BUILD_STARTED
+[08:29:53] BUILD_LOG: --------------------
+[08:29:54] BUILD_LOG: SDL inited
+[08:29:54] BUILD_LOG: Vulkan Instance initialized
+[08:29:54] BUILD_LOG: SDL Surface initialized
+[08:29:54] BUILD_LOG: GPU found
+[08:29:54] BUILD_LOG: e::init_swapchain()
+[08:29:55] BUILD_LOG: Engine Initialized, starting Load
+[08:29:55] BUILD_LOG: Built New Material textured
+[08:29:55] BUILD_LOG: StartUp Time: 1.221766 Seconds.
+[08:29:55] BUILD_LOG: Starting Main Loop
+[08:30:03] BUILD_LOG: --------------------
+[08:30:03] BUILD_LOG: DEBUG_BUILD_STARTED
+[08:30:03] BUILD_LOG: --------------------
+[08:30:04] BUILD_LOG: SDL inited
+[08:30:04] BUILD_LOG: Vulkan Instance initialized
+[08:30:04] BUILD_LOG: SDL Surface initialized
+[08:30:04] BUILD_LOG: GPU found
+[08:30:04] BUILD_LOG: e::init_swapchain()
+[08:30:04] BUILD_LOG: Engine Initialized, starting Load
+[08:30:04] BUILD_LOG: Built New Material textured
+[08:30:04] BUILD_LOG: StartUp Time: 1.136690 Seconds.
+[08:30:04] BUILD_LOG: Starting Main Loop

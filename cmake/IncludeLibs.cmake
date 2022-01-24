@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 project(VulkanSlime)
 
-#include stbImage
-include_directories(${stb_image_SOURCE_DIR})
-
 #include TinyOBJ
 include_directories(${tiny_obj_loader_SOURCE_DIR})
 
@@ -46,6 +43,18 @@ target_link_libraries(VulkanSlime fmt::fmt)
 #include lz4
 include_directories(${lz4_SOURCE_DIR}/lib)
 target_link_libraries(VulkanSlime lz4_static)
+
+#include assimp
+include_directories(${assimp_SOURCE_DIR}/include)
+target_link_libraries(VulkanSlime assimp)
+
+#include nvtt
+include_directories(${nvtt_SOURCE_DIR}/src)
+target_link_libraries(VulkanSlime nvtt)
+
+#include nvtt
+include_directories(${tinygltf_SOURCE_DIR})
+target_link_libraries(VulkanSlime tinygltf)
 
 #Compiling and Linking ImGui
 target_sources(VulkanSlime PRIVATE
