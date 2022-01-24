@@ -829,7 +829,7 @@ void VulkanEngine::draw() {
 
     mProfiler->grab_queries(cmd);
 
-    {
+    if (!mRenderScene.renderables.empty()){
 
         postCullBarriers.clear();
         cullReadyBarriers.clear();
@@ -889,16 +889,15 @@ void VulkanEngine::draw() {
 
         vkCmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT, 0, 0, nullptr, postCullBarriers.size(), postCullBarriers.data(), 0, nullptr);
 
-
-
         shadow_pass(cmd);
-
-        forward_pass(clearValue, cmd);
-
-        reduce_depth(cmd);
-
-        copy_render_to_swapchain(swapchainImageIndex, cmd);
     }
+
+
+    forward_pass(clearValue, cmd);
+
+    reduce_depth(cmd);
+
+    copy_render_to_swapchain(swapchainImageIndex, cmd);
 
     TracyVkCollect(_graphicsQueueContext, get_current_frame()._mainCommandBuffer);
 
@@ -1029,16 +1028,17 @@ void VulkanEngine::run() {
         {
             ZoneScopedNC("Flag Objects", tracy::Color::Blue);
             //test flagging some objects for changes
+            if (!mRenderScene.renderables.empty()) {
+                int N_changes = 100;
+                for (int i = 0; i < N_changes; i++) {
+                    int rng = rand() % mRenderScene.renderables.size();
 
-            int N_changes = 100;
-            for (int i = 0; i < N_changes; i++)
-            {
-                int rng = rand() % mRenderScene.renderables.size();
-
-                Handle<RenderObject> h;
-                h.handle = rng;
-                mRenderScene.update_object(h);
+                    Handle <RenderObject> h{};
+                    h.handle = rng;
+                    mRenderScene.update_object(h);
+                }
             }
+
             mCamera.bLocked = false;
 
             mCamera.update_camera(stats.frametime);
@@ -1183,7 +1183,7 @@ void VulkanEngine::shadow_pass(VkCommandBuffer cmd)
     stats.objects = 0;
     stats.triangles = 0;
 
-    if(mRenderScene._shadowPass.batches.size() > 0)
+    if(!mRenderScene._shadowPass.batches.empty())
     {
         TracyVkZone(mGraphicsQueueContext, get_current_frame().mMainCommandBuffer, "Shadow  Pass");
         draw_objects_shadow(cmd, mRenderScene._shadowPass);
@@ -1429,20 +1429,29 @@ void VulkanEngine::init_scene() {
 
   }
 
+   //for (int x = -20; x <= 20; x++) {
+   //	for (int y = -20; y <= 20; y++) {
 
-   int dimHelmets =1;
-   for (int x = -dimHelmets; x <= dimHelmets; x++) {
-       for (int y = -dimHelmets; y <= dimHelmets; y++) {
+   //		MeshObject tri;
+   //		tri.mesh = get_mesh("triangle");
+   //		tri.material = mMaterialSystem->get_material("default");
+   //		glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x, 0, y));
+   //		glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(0.2, 0.2, 0.2));
+   //		tri.transformMatrix = translation * scale;
 
-           glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x * 5, 10, y * 5));
-           glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(10));
+   //		refresh_renderbounds(&tri);
 
-           load_prefab(asset_path("FlightHelmet/FlightHelmet.pfb").c_str(),(translation * scale));
-       }
-   }
+   //        //sort key from location
+   //        int32_t lx = int(tri.bounds.origin.x / 10.f);
+   //        int32_t ly = int(tri.bounds.origin.y / 10.f);
 
-   glm::mat4 sponzaMatrix = glm::scale(glm::mat4{ 1.0 }, glm::vec3(1));;
-   load_prefab(asset_path("Sponza2.pfb").c_str(), sponzaMatrix);
+   //        uint32_t key =  uint32_t(std::hash<int32_t>()(lx) ^ std::hash<int32_t>()(ly^1337));
+
+   //        tri.customSortKey = key;// rng;// key;
+
+   //		mRenderScene.register_object(&tri);
+   //	}
+   //}
 }
 
 bool VulkanEngine::load_prefab(const char* path, glm::mat4 root)
@@ -1726,6 +1735,7 @@ void VulkanEngine::ready_cull_data(RenderScene::MeshPass& pass, VkCommandBuffer 
     indirectCopy.dstOffset = 0;
     indirectCopy.size = pass.batches.size() * sizeof(GPUIndirectObject);
     indirectCopy.srcOffset = 0;
+
     vkCmdCopyBuffer(cmd, pass.clearIndirectBuffer.mBuffer, pass.drawIndirectBuffer.mBuffer, 1, &indirectCopy);
 
     {
@@ -1952,7 +1962,7 @@ bool VulkanEngine::load_image_to_cache(const char *name, const char *path) {
 
     if (mLoadedTextures.find(name) != mLoadedTextures.end()) return true;
 
-    bool result = vkutil::load_image_from_asset(*this, path, newtex.image); // need to figure this out load_image_from_asset
+    bool result = vkutil::load_image_from_file(*this, path, newtex.image); // need to figure this out load_image_from_asset
 
     if (!result) {
         Log::error("Error When texture " + std::string(name) + " at path " + path);
@@ -2404,7 +2414,7 @@ void VulkanEngine::draw_objects_forward(VkCommandBuffer cmd, RenderScene::MeshPa
 
 void VulkanEngine::execute_draw_commands(VkCommandBuffer cmd, RenderScene::MeshPass& pass, VkDescriptorSet ObjectDataSet, std::vector<uint32_t> dynamic_offsets, VkDescriptorSet GlobalSet)
 {
-    if(pass.batches.size() > 0)
+    if(!pass.batches.empty())
     {
         ZoneScopedNC("Draw Commit", tracy::Color::Blue4);
         Mesh* lastMesh = nullptr;

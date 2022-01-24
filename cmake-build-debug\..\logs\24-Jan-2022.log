@@ -1705,3 +1705,1501 @@
 [11:42:21] FUNCTION_CALL: submit_info
 [11:42:21] BUILD_LOG: StartUp Time: 0.606919 Seconds.
 [11:42:21] BUILD_LOG: Starting Main Loop
+[22:27:57] BUILD_LOG: --------------------
+[22:27:57] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:27:57] BUILD_LOG: --------------------
+[22:27:57] BUILD_LOG: SDL inited
+[22:27:58] BUILD_LOG: Vulkan Instance initialized
+[22:27:58] BUILD_LOG: SDL Surface initialized
+[22:27:58] BUILD_LOG: GPU found
+[22:27:58] BUILD_LOG: e::init_swapchain()
+[22:27:58] FUNCTION_CALL: image_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: image_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: image_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: image_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: imageview_create_info
+[22:27:58] FUNCTION_CALL: sampler_create_info
+[22:27:58] FUNCTION_CALL: sampler_create_info
+[22:27:58] FUNCTION_CALL: framebuffer_create_info
+[22:27:58] FUNCTION_CALL: framebuffer_create_info
+[22:27:58] FUNCTION_CALL: framebuffer_create_info
+[22:27:58] FUNCTION_CALL: framebuffer_create_info
+[22:27:58] FUNCTION_CALL: framebuffer_create_info
+[22:27:58] FUNCTION_CALL: command_pool_create_info
+[22:27:58] FUNCTION_CALL: command_buffer_allocate_info
+[22:27:58] FUNCTION_CALL: command_buffer_allocate_info
+[22:27:58] FUNCTION_CALL: command_pool_create_info
+[22:27:58] FUNCTION_CALL: fence_create_info
+[22:27:58] FUNCTION_CALL: semaphore_create_info
+[22:27:58] FUNCTION_CALL: fence_create_info
+[22:27:58] FUNCTION_CALL: descriptorset_layout_binding
+[22:27:58] FUNCTION_CALL: input_assembly_create_info
+[22:27:58] FUNCTION_CALL: rasterization_state_create_info
+[22:27:58] FUNCTION_CALL: multisampling_state_create_info
+[22:27:58] FUNCTION_CALL: color_blend_attachment_state
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: input_assembly_create_info
+[22:27:58] FUNCTION_CALL: rasterization_state_create_info
+[22:27:58] FUNCTION_CALL: multisampling_state_create_info
+[22:27:58] FUNCTION_CALL: color_blend_attachment_state
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: input_assembly_create_info
+[22:27:58] FUNCTION_CALL: rasterization_state_create_info
+[22:27:58] FUNCTION_CALL: multisampling_state_create_info
+[22:27:58] FUNCTION_CALL: color_blend_attachment_state
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: input_assembly_create_info
+[22:27:58] FUNCTION_CALL: rasterization_state_create_info
+[22:27:58] FUNCTION_CALL: multisampling_state_create_info
+[22:27:58] FUNCTION_CALL: color_blend_attachment_state
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: input_assembly_create_info
+[22:27:58] FUNCTION_CALL: rasterization_state_create_info
+[22:27:58] FUNCTION_CALL: multisampling_state_create_info
+[22:27:58] FUNCTION_CALL: color_blend_attachment_state
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: depth_stencil_create_info
+[22:27:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:27:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:27:58] BUILD_LOG: Engine Initialized, starting Load
+[22:30:50] BUILD_LOG: --------------------
+[22:30:50] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:30:50] BUILD_LOG: --------------------
+[22:30:50] BUILD_LOG: SDL inited
+[22:30:51] BUILD_LOG: Vulkan Instance initialized
+[22:30:51] BUILD_LOG: SDL Surface initialized
+[22:30:51] BUILD_LOG: GPU found
+[22:30:51] BUILD_LOG: e::init_swapchain()
+[22:30:51] FUNCTION_CALL: image_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: image_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: image_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: image_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: imageview_create_info
+[22:30:51] FUNCTION_CALL: sampler_create_info
+[22:30:51] FUNCTION_CALL: sampler_create_info
+[22:30:51] FUNCTION_CALL: framebuffer_create_info
+[22:30:51] FUNCTION_CALL: framebuffer_create_info
+[22:30:51] FUNCTION_CALL: framebuffer_create_info
+[22:30:51] FUNCTION_CALL: framebuffer_create_info
+[22:30:51] FUNCTION_CALL: framebuffer_create_info
+[22:30:51] FUNCTION_CALL: command_pool_create_info
+[22:30:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:30:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:30:51] FUNCTION_CALL: command_pool_create_info
+[22:30:51] FUNCTION_CALL: fence_create_info
+[22:30:51] FUNCTION_CALL: semaphore_create_info
+[22:30:51] FUNCTION_CALL: fence_create_info
+[22:30:51] FUNCTION_CALL: descriptorset_layout_binding
+[22:30:51] FUNCTION_CALL: input_assembly_create_info
+[22:30:51] FUNCTION_CALL: rasterization_state_create_info
+[22:30:51] FUNCTION_CALL: multisampling_state_create_info
+[22:30:51] FUNCTION_CALL: color_blend_attachment_state
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: input_assembly_create_info
+[22:30:51] FUNCTION_CALL: rasterization_state_create_info
+[22:30:51] FUNCTION_CALL: multisampling_state_create_info
+[22:30:51] FUNCTION_CALL: color_blend_attachment_state
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: input_assembly_create_info
+[22:30:51] FUNCTION_CALL: rasterization_state_create_info
+[22:30:51] FUNCTION_CALL: multisampling_state_create_info
+[22:30:51] FUNCTION_CALL: color_blend_attachment_state
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: input_assembly_create_info
+[22:30:51] FUNCTION_CALL: rasterization_state_create_info
+[22:30:51] FUNCTION_CALL: multisampling_state_create_info
+[22:30:51] FUNCTION_CALL: color_blend_attachment_state
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: input_assembly_create_info
+[22:30:51] FUNCTION_CALL: rasterization_state_create_info
+[22:30:51] FUNCTION_CALL: multisampling_state_create_info
+[22:30:51] FUNCTION_CALL: color_blend_attachment_state
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: depth_stencil_create_info
+[22:30:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:30:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:30:51] BUILD_LOG: Engine Initialized, starting Load
+[22:31:30] BUILD_LOG: --------------------
+[22:31:30] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:31:30] BUILD_LOG: --------------------
+[22:31:31] BUILD_LOG: SDL inited
+[22:31:31] BUILD_LOG: Vulkan Instance initialized
+[22:31:31] BUILD_LOG: SDL Surface initialized
+[22:31:31] BUILD_LOG: GPU found
+[22:31:31] BUILD_LOG: e::init_swapchain()
+[22:31:31] FUNCTION_CALL: image_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: image_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: image_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: image_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: sampler_create_info
+[22:31:31] FUNCTION_CALL: sampler_create_info
+[22:31:31] FUNCTION_CALL: framebuffer_create_info
+[22:31:31] FUNCTION_CALL: framebuffer_create_info
+[22:31:31] FUNCTION_CALL: framebuffer_create_info
+[22:31:31] FUNCTION_CALL: framebuffer_create_info
+[22:31:31] FUNCTION_CALL: framebuffer_create_info
+[22:31:31] FUNCTION_CALL: command_pool_create_info
+[22:31:31] FUNCTION_CALL: command_buffer_allocate_info
+[22:31:31] FUNCTION_CALL: command_buffer_allocate_info
+[22:31:31] FUNCTION_CALL: command_pool_create_info
+[22:31:31] FUNCTION_CALL: fence_create_info
+[22:31:31] FUNCTION_CALL: semaphore_create_info
+[22:31:31] FUNCTION_CALL: fence_create_info
+[22:31:31] FUNCTION_CALL: descriptorset_layout_binding
+[22:31:31] FUNCTION_CALL: input_assembly_create_info
+[22:31:31] FUNCTION_CALL: rasterization_state_create_info
+[22:31:31] FUNCTION_CALL: multisampling_state_create_info
+[22:31:31] FUNCTION_CALL: color_blend_attachment_state
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: input_assembly_create_info
+[22:31:31] FUNCTION_CALL: rasterization_state_create_info
+[22:31:31] FUNCTION_CALL: multisampling_state_create_info
+[22:31:31] FUNCTION_CALL: color_blend_attachment_state
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: input_assembly_create_info
+[22:31:31] FUNCTION_CALL: rasterization_state_create_info
+[22:31:31] FUNCTION_CALL: multisampling_state_create_info
+[22:31:31] FUNCTION_CALL: color_blend_attachment_state
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: input_assembly_create_info
+[22:31:31] FUNCTION_CALL: rasterization_state_create_info
+[22:31:31] FUNCTION_CALL: multisampling_state_create_info
+[22:31:31] FUNCTION_CALL: color_blend_attachment_state
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: input_assembly_create_info
+[22:31:31] FUNCTION_CALL: rasterization_state_create_info
+[22:31:31] FUNCTION_CALL: multisampling_state_create_info
+[22:31:31] FUNCTION_CALL: color_blend_attachment_state
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: depth_stencil_create_info
+[22:31:31] FUNCTION_CALL: vertex_input_state_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] FUNCTION_CALL: pipeline_layout_create_info
+[22:31:31] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:31:31] BUILD_LOG: Engine Initialized, starting Load
+[22:31:31] FUNCTION_CALL: image_create_info
+[22:31:31] FUNCTION_CALL: command_buffer_allocate_info
+[22:31:31] FUNCTION_CALL: submit_info
+[22:31:31] FUNCTION_CALL: imageview_create_info
+[22:31:31] FUNCTION_CALL: sampler_create_info
+[22:31:31] FUNCTION_CALL: sampler_create_info
+[22:31:31] BUILD_LOG: Built New Material textured
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/FlightHelmet/FlightHelmet.pfb
+[22:31:31] BUILD_LOG: Error When loading prefab file at path ../assets/Sponza2.pfb
+[22:32:58] BUILD_LOG: --------------------
+[22:32:58] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:32:58] BUILD_LOG: --------------------
+[22:32:58] BUILD_LOG: SDL inited
+[22:32:58] BUILD_LOG: Vulkan Instance initialized
+[22:32:58] BUILD_LOG: SDL Surface initialized
+[22:32:58] BUILD_LOG: GPU found
+[22:32:58] BUILD_LOG: e::init_swapchain()
+[22:32:58] FUNCTION_CALL: image_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: image_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: image_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: image_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: imageview_create_info
+[22:32:58] FUNCTION_CALL: sampler_create_info
+[22:32:58] FUNCTION_CALL: sampler_create_info
+[22:32:58] FUNCTION_CALL: framebuffer_create_info
+[22:32:58] FUNCTION_CALL: framebuffer_create_info
+[22:32:58] FUNCTION_CALL: framebuffer_create_info
+[22:32:58] FUNCTION_CALL: framebuffer_create_info
+[22:32:58] FUNCTION_CALL: framebuffer_create_info
+[22:32:58] FUNCTION_CALL: command_pool_create_info
+[22:32:58] FUNCTION_CALL: command_buffer_allocate_info
+[22:32:58] FUNCTION_CALL: command_buffer_allocate_info
+[22:32:58] FUNCTION_CALL: command_pool_create_info
+[22:32:58] FUNCTION_CALL: fence_create_info
+[22:32:58] FUNCTION_CALL: semaphore_create_info
+[22:32:58] FUNCTION_CALL: fence_create_info
+[22:32:58] FUNCTION_CALL: descriptorset_layout_binding
+[22:32:58] FUNCTION_CALL: input_assembly_create_info
+[22:32:58] FUNCTION_CALL: rasterization_state_create_info
+[22:32:58] FUNCTION_CALL: multisampling_state_create_info
+[22:32:58] FUNCTION_CALL: color_blend_attachment_state
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: input_assembly_create_info
+[22:32:58] FUNCTION_CALL: rasterization_state_create_info
+[22:32:58] FUNCTION_CALL: multisampling_state_create_info
+[22:32:58] FUNCTION_CALL: color_blend_attachment_state
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: input_assembly_create_info
+[22:32:58] FUNCTION_CALL: rasterization_state_create_info
+[22:32:58] FUNCTION_CALL: multisampling_state_create_info
+[22:32:58] FUNCTION_CALL: color_blend_attachment_state
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: input_assembly_create_info
+[22:32:58] FUNCTION_CALL: rasterization_state_create_info
+[22:32:58] FUNCTION_CALL: multisampling_state_create_info
+[22:32:58] FUNCTION_CALL: color_blend_attachment_state
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: input_assembly_create_info
+[22:32:58] FUNCTION_CALL: rasterization_state_create_info
+[22:32:58] FUNCTION_CALL: multisampling_state_create_info
+[22:32:58] FUNCTION_CALL: color_blend_attachment_state
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:58] FUNCTION_CALL: depth_stencil_create_info
+[22:32:58] FUNCTION_CALL: vertex_input_state_create_info
+[22:32:58] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:58] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:59] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:59] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:59] FUNCTION_CALL: pipeline_layout_create_info
+[22:32:59] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:32:59] BUILD_LOG: Engine Initialized, starting Load
+[22:32:59] FUNCTION_CALL: image_create_info
+[22:32:59] FUNCTION_CALL: command_buffer_allocate_info
+[22:32:59] FUNCTION_CALL: submit_info
+[22:32:59] FUNCTION_CALL: imageview_create_info
+[22:32:59] FUNCTION_CALL: sampler_create_info
+[22:32:59] FUNCTION_CALL: sampler_create_info
+[22:32:59] BUILD_LOG: Built New Material textured
+[22:33:35] BUILD_LOG: --------------------
+[22:33:35] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:33:35] BUILD_LOG: --------------------
+[22:33:36] BUILD_LOG: SDL inited
+[22:33:36] BUILD_LOG: Vulkan Instance initialized
+[22:33:36] BUILD_LOG: SDL Surface initialized
+[22:33:36] BUILD_LOG: GPU found
+[22:33:36] BUILD_LOG: e::init_swapchain()
+[22:33:36] FUNCTION_CALL: image_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: image_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: image_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: image_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: imageview_create_info
+[22:33:36] FUNCTION_CALL: sampler_create_info
+[22:33:36] FUNCTION_CALL: sampler_create_info
+[22:33:36] FUNCTION_CALL: framebuffer_create_info
+[22:33:36] FUNCTION_CALL: framebuffer_create_info
+[22:33:36] FUNCTION_CALL: framebuffer_create_info
+[22:33:36] FUNCTION_CALL: framebuffer_create_info
+[22:33:36] FUNCTION_CALL: framebuffer_create_info
+[22:33:36] FUNCTION_CALL: command_pool_create_info
+[22:33:36] FUNCTION_CALL: command_buffer_allocate_info
+[22:33:36] FUNCTION_CALL: command_buffer_allocate_info
+[22:33:36] FUNCTION_CALL: command_pool_create_info
+[22:33:36] FUNCTION_CALL: fence_create_info
+[22:33:36] FUNCTION_CALL: semaphore_create_info
+[22:33:36] FUNCTION_CALL: fence_create_info
+[22:33:36] FUNCTION_CALL: descriptorset_layout_binding
+[22:33:36] FUNCTION_CALL: input_assembly_create_info
+[22:33:36] FUNCTION_CALL: rasterization_state_create_info
+[22:33:36] FUNCTION_CALL: multisampling_state_create_info
+[22:33:36] FUNCTION_CALL: color_blend_attachment_state
+[22:33:36] FUNCTION_CALL: depth_stencil_create_info
+[22:33:36] FUNCTION_CALL: input_assembly_create_info
+[22:33:36] FUNCTION_CALL: rasterization_state_create_info
+[22:33:36] FUNCTION_CALL: multisampling_state_create_info
+[22:33:36] FUNCTION_CALL: color_blend_attachment_state
+[22:33:36] FUNCTION_CALL: depth_stencil_create_info
+[22:33:36] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:36] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:36] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:36] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:36] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:36] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: input_assembly_create_info
+[22:33:37] FUNCTION_CALL: rasterization_state_create_info
+[22:33:37] FUNCTION_CALL: multisampling_state_create_info
+[22:33:37] FUNCTION_CALL: color_blend_attachment_state
+[22:33:37] FUNCTION_CALL: depth_stencil_create_info
+[22:33:37] FUNCTION_CALL: input_assembly_create_info
+[22:33:37] FUNCTION_CALL: rasterization_state_create_info
+[22:33:37] FUNCTION_CALL: multisampling_state_create_info
+[22:33:37] FUNCTION_CALL: color_blend_attachment_state
+[22:33:37] FUNCTION_CALL: depth_stencil_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: input_assembly_create_info
+[22:33:37] FUNCTION_CALL: rasterization_state_create_info
+[22:33:37] FUNCTION_CALL: multisampling_state_create_info
+[22:33:37] FUNCTION_CALL: color_blend_attachment_state
+[22:33:37] FUNCTION_CALL: depth_stencil_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: depth_stencil_create_info
+[22:33:37] FUNCTION_CALL: vertex_input_state_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] FUNCTION_CALL: pipeline_layout_create_info
+[22:33:37] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:33:37] BUILD_LOG: Engine Initialized, starting Load
+[22:33:37] FUNCTION_CALL: image_create_info
+[22:33:37] FUNCTION_CALL: command_buffer_allocate_info
+[22:33:37] FUNCTION_CALL: submit_info
+[22:33:37] FUNCTION_CALL: imageview_create_info
+[22:33:37] FUNCTION_CALL: sampler_create_info
+[22:33:37] FUNCTION_CALL: sampler_create_info
+[22:33:37] BUILD_LOG: Built New Material textured
+[22:34:38] BUILD_LOG: --------------------
+[22:34:38] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:34:38] BUILD_LOG: --------------------
+[22:34:39] BUILD_LOG: SDL inited
+[22:34:39] BUILD_LOG: Vulkan Instance initialized
+[22:34:39] BUILD_LOG: SDL Surface initialized
+[22:34:39] BUILD_LOG: GPU found
+[22:34:39] BUILD_LOG: e::init_swapchain()
+[22:34:39] FUNCTION_CALL: image_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: image_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: image_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: image_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: sampler_create_info
+[22:34:39] FUNCTION_CALL: sampler_create_info
+[22:34:39] FUNCTION_CALL: framebuffer_create_info
+[22:34:39] FUNCTION_CALL: framebuffer_create_info
+[22:34:39] FUNCTION_CALL: framebuffer_create_info
+[22:34:39] FUNCTION_CALL: framebuffer_create_info
+[22:34:39] FUNCTION_CALL: framebuffer_create_info
+[22:34:39] FUNCTION_CALL: command_pool_create_info
+[22:34:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:34:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:34:39] FUNCTION_CALL: command_pool_create_info
+[22:34:39] FUNCTION_CALL: fence_create_info
+[22:34:39] FUNCTION_CALL: semaphore_create_info
+[22:34:39] FUNCTION_CALL: fence_create_info
+[22:34:39] FUNCTION_CALL: descriptorset_layout_binding
+[22:34:39] FUNCTION_CALL: input_assembly_create_info
+[22:34:39] FUNCTION_CALL: rasterization_state_create_info
+[22:34:39] FUNCTION_CALL: multisampling_state_create_info
+[22:34:39] FUNCTION_CALL: color_blend_attachment_state
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: input_assembly_create_info
+[22:34:39] FUNCTION_CALL: rasterization_state_create_info
+[22:34:39] FUNCTION_CALL: multisampling_state_create_info
+[22:34:39] FUNCTION_CALL: color_blend_attachment_state
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: input_assembly_create_info
+[22:34:39] FUNCTION_CALL: rasterization_state_create_info
+[22:34:39] FUNCTION_CALL: multisampling_state_create_info
+[22:34:39] FUNCTION_CALL: color_blend_attachment_state
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: input_assembly_create_info
+[22:34:39] FUNCTION_CALL: rasterization_state_create_info
+[22:34:39] FUNCTION_CALL: multisampling_state_create_info
+[22:34:39] FUNCTION_CALL: color_blend_attachment_state
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: input_assembly_create_info
+[22:34:39] FUNCTION_CALL: rasterization_state_create_info
+[22:34:39] FUNCTION_CALL: multisampling_state_create_info
+[22:34:39] FUNCTION_CALL: color_blend_attachment_state
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: depth_stencil_create_info
+[22:34:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:34:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:34:39] BUILD_LOG: Engine Initialized, starting Load
+[22:34:39] FUNCTION_CALL: image_create_info
+[22:34:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:34:39] FUNCTION_CALL: submit_info
+[22:34:39] FUNCTION_CALL: imageview_create_info
+[22:34:39] FUNCTION_CALL: sampler_create_info
+[22:34:39] FUNCTION_CALL: sampler_create_info
+[22:34:39] BUILD_LOG: Built New Material textured
+[22:34:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:34:39] FUNCTION_CALL: submit_info
+[22:34:39] BUILD_LOG: StartUp Time: 1.041966 Seconds.
+[22:34:39] BUILD_LOG: Starting Main Loop
+[22:36:39] BUILD_LOG: --------------------
+[22:36:39] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:36:39] BUILD_LOG: --------------------
+[22:36:39] BUILD_LOG: SDL inited
+[22:36:39] BUILD_LOG: Vulkan Instance initialized
+[22:36:39] BUILD_LOG: SDL Surface initialized
+[22:36:39] BUILD_LOG: GPU found
+[22:36:39] BUILD_LOG: e::init_swapchain()
+[22:36:39] FUNCTION_CALL: image_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: image_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: image_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: image_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: sampler_create_info
+[22:36:39] FUNCTION_CALL: sampler_create_info
+[22:36:39] FUNCTION_CALL: framebuffer_create_info
+[22:36:39] FUNCTION_CALL: framebuffer_create_info
+[22:36:39] FUNCTION_CALL: framebuffer_create_info
+[22:36:39] FUNCTION_CALL: framebuffer_create_info
+[22:36:39] FUNCTION_CALL: framebuffer_create_info
+[22:36:39] FUNCTION_CALL: command_pool_create_info
+[22:36:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:36:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:36:39] FUNCTION_CALL: command_pool_create_info
+[22:36:39] FUNCTION_CALL: fence_create_info
+[22:36:39] FUNCTION_CALL: semaphore_create_info
+[22:36:39] FUNCTION_CALL: fence_create_info
+[22:36:39] FUNCTION_CALL: descriptorset_layout_binding
+[22:36:39] FUNCTION_CALL: input_assembly_create_info
+[22:36:39] FUNCTION_CALL: rasterization_state_create_info
+[22:36:39] FUNCTION_CALL: multisampling_state_create_info
+[22:36:39] FUNCTION_CALL: color_blend_attachment_state
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: input_assembly_create_info
+[22:36:39] FUNCTION_CALL: rasterization_state_create_info
+[22:36:39] FUNCTION_CALL: multisampling_state_create_info
+[22:36:39] FUNCTION_CALL: color_blend_attachment_state
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: input_assembly_create_info
+[22:36:39] FUNCTION_CALL: rasterization_state_create_info
+[22:36:39] FUNCTION_CALL: multisampling_state_create_info
+[22:36:39] FUNCTION_CALL: color_blend_attachment_state
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: input_assembly_create_info
+[22:36:39] FUNCTION_CALL: rasterization_state_create_info
+[22:36:39] FUNCTION_CALL: multisampling_state_create_info
+[22:36:39] FUNCTION_CALL: color_blend_attachment_state
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: input_assembly_create_info
+[22:36:39] FUNCTION_CALL: rasterization_state_create_info
+[22:36:39] FUNCTION_CALL: multisampling_state_create_info
+[22:36:39] FUNCTION_CALL: color_blend_attachment_state
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: depth_stencil_create_info
+[22:36:39] FUNCTION_CALL: vertex_input_state_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] FUNCTION_CALL: pipeline_layout_create_info
+[22:36:39] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:36:39] BUILD_LOG: Engine Initialized, starting Load
+[22:36:39] FUNCTION_CALL: image_create_info
+[22:36:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:36:39] FUNCTION_CALL: submit_info
+[22:36:39] FUNCTION_CALL: imageview_create_info
+[22:36:39] FUNCTION_CALL: sampler_create_info
+[22:36:39] FUNCTION_CALL: sampler_create_info
+[22:36:39] BUILD_LOG: Built New Material textured
+[22:36:39] FUNCTION_CALL: command_buffer_allocate_info
+[22:36:39] FUNCTION_CALL: submit_info
+[22:36:39] BUILD_LOG: StartUp Time: 0.472041 Seconds.
+[22:36:39] BUILD_LOG: Starting Main Loop
+[22:37:28] BUILD_LOG: --------------------
+[22:37:28] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:37:28] BUILD_LOG: --------------------
+[22:37:28] BUILD_LOG: SDL inited
+[22:37:29] BUILD_LOG: Vulkan Instance initialized
+[22:37:29] BUILD_LOG: SDL Surface initialized
+[22:37:29] BUILD_LOG: GPU found
+[22:37:29] BUILD_LOG: e::init_swapchain()
+[22:37:29] FUNCTION_CALL: image_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: image_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: image_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: image_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: sampler_create_info
+[22:37:29] FUNCTION_CALL: sampler_create_info
+[22:37:29] FUNCTION_CALL: framebuffer_create_info
+[22:37:29] FUNCTION_CALL: framebuffer_create_info
+[22:37:29] FUNCTION_CALL: framebuffer_create_info
+[22:37:29] FUNCTION_CALL: framebuffer_create_info
+[22:37:29] FUNCTION_CALL: framebuffer_create_info
+[22:37:29] FUNCTION_CALL: command_pool_create_info
+[22:37:29] FUNCTION_CALL: command_buffer_allocate_info
+[22:37:29] FUNCTION_CALL: command_buffer_allocate_info
+[22:37:29] FUNCTION_CALL: command_pool_create_info
+[22:37:29] FUNCTION_CALL: fence_create_info
+[22:37:29] FUNCTION_CALL: semaphore_create_info
+[22:37:29] FUNCTION_CALL: fence_create_info
+[22:37:29] FUNCTION_CALL: descriptorset_layout_binding
+[22:37:29] FUNCTION_CALL: input_assembly_create_info
+[22:37:29] FUNCTION_CALL: rasterization_state_create_info
+[22:37:29] FUNCTION_CALL: multisampling_state_create_info
+[22:37:29] FUNCTION_CALL: color_blend_attachment_state
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: input_assembly_create_info
+[22:37:29] FUNCTION_CALL: rasterization_state_create_info
+[22:37:29] FUNCTION_CALL: multisampling_state_create_info
+[22:37:29] FUNCTION_CALL: color_blend_attachment_state
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: input_assembly_create_info
+[22:37:29] FUNCTION_CALL: rasterization_state_create_info
+[22:37:29] FUNCTION_CALL: multisampling_state_create_info
+[22:37:29] FUNCTION_CALL: color_blend_attachment_state
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: input_assembly_create_info
+[22:37:29] FUNCTION_CALL: rasterization_state_create_info
+[22:37:29] FUNCTION_CALL: multisampling_state_create_info
+[22:37:29] FUNCTION_CALL: color_blend_attachment_state
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: input_assembly_create_info
+[22:37:29] FUNCTION_CALL: rasterization_state_create_info
+[22:37:29] FUNCTION_CALL: multisampling_state_create_info
+[22:37:29] FUNCTION_CALL: color_blend_attachment_state
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: depth_stencil_create_info
+[22:37:29] FUNCTION_CALL: vertex_input_state_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] FUNCTION_CALL: pipeline_layout_create_info
+[22:37:29] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:37:29] BUILD_LOG: Engine Initialized, starting Load
+[22:37:29] FUNCTION_CALL: image_create_info
+[22:37:29] FUNCTION_CALL: command_buffer_allocate_info
+[22:37:29] FUNCTION_CALL: submit_info
+[22:37:29] FUNCTION_CALL: imageview_create_info
+[22:37:29] FUNCTION_CALL: sampler_create_info
+[22:37:29] FUNCTION_CALL: sampler_create_info
+[22:37:29] BUILD_LOG: Built New Material textured
+[22:37:29] FUNCTION_CALL: command_buffer_allocate_info
+[22:37:29] FUNCTION_CALL: submit_info
+[22:37:29] BUILD_LOG: StartUp Time: 1.060373 Seconds.
+[22:37:29] BUILD_LOG: Starting Main Loop
+[22:40:33] BUILD_LOG: --------------------
+[22:40:33] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:40:33] BUILD_LOG: --------------------
+[22:40:34] BUILD_LOG: SDL inited
+[22:40:34] BUILD_LOG: Vulkan Instance initialized
+[22:40:34] BUILD_LOG: SDL Surface initialized
+[22:40:34] BUILD_LOG: GPU found
+[22:40:34] BUILD_LOG: e::init_swapchain()
+[22:40:34] FUNCTION_CALL: image_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: image_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: image_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: image_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: sampler_create_info
+[22:40:34] FUNCTION_CALL: sampler_create_info
+[22:40:34] FUNCTION_CALL: framebuffer_create_info
+[22:40:34] FUNCTION_CALL: framebuffer_create_info
+[22:40:34] FUNCTION_CALL: framebuffer_create_info
+[22:40:34] FUNCTION_CALL: framebuffer_create_info
+[22:40:34] FUNCTION_CALL: framebuffer_create_info
+[22:40:34] FUNCTION_CALL: command_pool_create_info
+[22:40:34] FUNCTION_CALL: command_buffer_allocate_info
+[22:40:34] FUNCTION_CALL: command_buffer_allocate_info
+[22:40:34] FUNCTION_CALL: command_pool_create_info
+[22:40:34] FUNCTION_CALL: fence_create_info
+[22:40:34] FUNCTION_CALL: semaphore_create_info
+[22:40:34] FUNCTION_CALL: fence_create_info
+[22:40:34] FUNCTION_CALL: descriptorset_layout_binding
+[22:40:34] FUNCTION_CALL: input_assembly_create_info
+[22:40:34] FUNCTION_CALL: rasterization_state_create_info
+[22:40:34] FUNCTION_CALL: multisampling_state_create_info
+[22:40:34] FUNCTION_CALL: color_blend_attachment_state
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: input_assembly_create_info
+[22:40:34] FUNCTION_CALL: rasterization_state_create_info
+[22:40:34] FUNCTION_CALL: multisampling_state_create_info
+[22:40:34] FUNCTION_CALL: color_blend_attachment_state
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: input_assembly_create_info
+[22:40:34] FUNCTION_CALL: rasterization_state_create_info
+[22:40:34] FUNCTION_CALL: multisampling_state_create_info
+[22:40:34] FUNCTION_CALL: color_blend_attachment_state
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: input_assembly_create_info
+[22:40:34] FUNCTION_CALL: rasterization_state_create_info
+[22:40:34] FUNCTION_CALL: multisampling_state_create_info
+[22:40:34] FUNCTION_CALL: color_blend_attachment_state
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: input_assembly_create_info
+[22:40:34] FUNCTION_CALL: rasterization_state_create_info
+[22:40:34] FUNCTION_CALL: multisampling_state_create_info
+[22:40:34] FUNCTION_CALL: color_blend_attachment_state
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: depth_stencil_create_info
+[22:40:34] FUNCTION_CALL: vertex_input_state_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] FUNCTION_CALL: pipeline_layout_create_info
+[22:40:34] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:40:34] BUILD_LOG: Engine Initialized, starting Load
+[22:40:34] FUNCTION_CALL: image_create_info
+[22:40:34] FUNCTION_CALL: command_buffer_allocate_info
+[22:40:34] FUNCTION_CALL: submit_info
+[22:40:34] FUNCTION_CALL: imageview_create_info
+[22:40:34] FUNCTION_CALL: sampler_create_info
+[22:40:34] FUNCTION_CALL: sampler_create_info
+[22:40:34] BUILD_LOG: Built New Material textured
+[22:40:34] FUNCTION_CALL: command_buffer_allocate_info
+[22:40:34] FUNCTION_CALL: submit_info
+[22:40:34] BUILD_LOG: StartUp Time: 1.032092 Seconds.
+[22:40:34] BUILD_LOG: Starting Main Loop
+[22:41:23] BUILD_LOG: --------------------
+[22:41:23] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:41:23] BUILD_LOG: --------------------
+[22:41:23] BUILD_LOG: SDL inited
+[22:41:24] BUILD_LOG: Vulkan Instance initialized
+[22:41:24] BUILD_LOG: SDL Surface initialized
+[22:41:24] BUILD_LOG: GPU found
+[22:41:24] BUILD_LOG: e::init_swapchain()
+[22:41:24] FUNCTION_CALL: image_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: image_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: image_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: image_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: sampler_create_info
+[22:41:24] FUNCTION_CALL: sampler_create_info
+[22:41:24] FUNCTION_CALL: framebuffer_create_info
+[22:41:24] FUNCTION_CALL: framebuffer_create_info
+[22:41:24] FUNCTION_CALL: framebuffer_create_info
+[22:41:24] FUNCTION_CALL: framebuffer_create_info
+[22:41:24] FUNCTION_CALL: framebuffer_create_info
+[22:41:24] FUNCTION_CALL: command_pool_create_info
+[22:41:24] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:24] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:24] FUNCTION_CALL: command_pool_create_info
+[22:41:24] FUNCTION_CALL: fence_create_info
+[22:41:24] FUNCTION_CALL: semaphore_create_info
+[22:41:24] FUNCTION_CALL: fence_create_info
+[22:41:24] FUNCTION_CALL: descriptorset_layout_binding
+[22:41:24] FUNCTION_CALL: input_assembly_create_info
+[22:41:24] FUNCTION_CALL: rasterization_state_create_info
+[22:41:24] FUNCTION_CALL: multisampling_state_create_info
+[22:41:24] FUNCTION_CALL: color_blend_attachment_state
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: input_assembly_create_info
+[22:41:24] FUNCTION_CALL: rasterization_state_create_info
+[22:41:24] FUNCTION_CALL: multisampling_state_create_info
+[22:41:24] FUNCTION_CALL: color_blend_attachment_state
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: input_assembly_create_info
+[22:41:24] FUNCTION_CALL: rasterization_state_create_info
+[22:41:24] FUNCTION_CALL: multisampling_state_create_info
+[22:41:24] FUNCTION_CALL: color_blend_attachment_state
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: input_assembly_create_info
+[22:41:24] FUNCTION_CALL: rasterization_state_create_info
+[22:41:24] FUNCTION_CALL: multisampling_state_create_info
+[22:41:24] FUNCTION_CALL: color_blend_attachment_state
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: input_assembly_create_info
+[22:41:24] FUNCTION_CALL: rasterization_state_create_info
+[22:41:24] FUNCTION_CALL: multisampling_state_create_info
+[22:41:24] FUNCTION_CALL: color_blend_attachment_state
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: depth_stencil_create_info
+[22:41:24] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:24] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:24] BUILD_LOG: Engine Initialized, starting Load
+[22:41:24] FUNCTION_CALL: image_create_info
+[22:41:24] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:24] FUNCTION_CALL: submit_info
+[22:41:24] FUNCTION_CALL: imageview_create_info
+[22:41:24] FUNCTION_CALL: sampler_create_info
+[22:41:24] FUNCTION_CALL: sampler_create_info
+[22:41:24] BUILD_LOG: Built New Material textured
+[22:41:24] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:24] FUNCTION_CALL: submit_info
+[22:41:24] BUILD_LOG: StartUp Time: 1.117901 Seconds.
+[22:41:24] BUILD_LOG: Starting Main Loop
+[22:41:50] BUILD_LOG: --------------------
+[22:41:50] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:41:50] BUILD_LOG: --------------------
+[22:41:51] BUILD_LOG: SDL inited
+[22:41:51] BUILD_LOG: Vulkan Instance initialized
+[22:41:51] BUILD_LOG: SDL Surface initialized
+[22:41:51] BUILD_LOG: GPU found
+[22:41:51] BUILD_LOG: e::init_swapchain()
+[22:41:51] FUNCTION_CALL: image_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: image_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: image_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: image_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: sampler_create_info
+[22:41:51] FUNCTION_CALL: sampler_create_info
+[22:41:51] FUNCTION_CALL: framebuffer_create_info
+[22:41:51] FUNCTION_CALL: framebuffer_create_info
+[22:41:51] FUNCTION_CALL: framebuffer_create_info
+[22:41:51] FUNCTION_CALL: framebuffer_create_info
+[22:41:51] FUNCTION_CALL: framebuffer_create_info
+[22:41:51] FUNCTION_CALL: command_pool_create_info
+[22:41:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:51] FUNCTION_CALL: command_pool_create_info
+[22:41:51] FUNCTION_CALL: fence_create_info
+[22:41:51] FUNCTION_CALL: semaphore_create_info
+[22:41:51] FUNCTION_CALL: fence_create_info
+[22:41:51] FUNCTION_CALL: descriptorset_layout_binding
+[22:41:51] FUNCTION_CALL: input_assembly_create_info
+[22:41:51] FUNCTION_CALL: rasterization_state_create_info
+[22:41:51] FUNCTION_CALL: multisampling_state_create_info
+[22:41:51] FUNCTION_CALL: color_blend_attachment_state
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: input_assembly_create_info
+[22:41:51] FUNCTION_CALL: rasterization_state_create_info
+[22:41:51] FUNCTION_CALL: multisampling_state_create_info
+[22:41:51] FUNCTION_CALL: color_blend_attachment_state
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: input_assembly_create_info
+[22:41:51] FUNCTION_CALL: rasterization_state_create_info
+[22:41:51] FUNCTION_CALL: multisampling_state_create_info
+[22:41:51] FUNCTION_CALL: color_blend_attachment_state
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: input_assembly_create_info
+[22:41:51] FUNCTION_CALL: rasterization_state_create_info
+[22:41:51] FUNCTION_CALL: multisampling_state_create_info
+[22:41:51] FUNCTION_CALL: color_blend_attachment_state
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: input_assembly_create_info
+[22:41:51] FUNCTION_CALL: rasterization_state_create_info
+[22:41:51] FUNCTION_CALL: multisampling_state_create_info
+[22:41:51] FUNCTION_CALL: color_blend_attachment_state
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: depth_stencil_create_info
+[22:41:51] FUNCTION_CALL: vertex_input_state_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] FUNCTION_CALL: pipeline_layout_create_info
+[22:41:51] FUNCTION_CALL: pipeline_shader_stage_create_info
+[22:41:51] BUILD_LOG: Engine Initialized, starting Load
+[22:41:51] FUNCTION_CALL: image_create_info
+[22:41:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:51] FUNCTION_CALL: submit_info
+[22:41:51] FUNCTION_CALL: imageview_create_info
+[22:41:51] FUNCTION_CALL: sampler_create_info
+[22:41:51] FUNCTION_CALL: sampler_create_info
+[22:41:51] BUILD_LOG: Built New Material textured
+[22:41:51] FUNCTION_CALL: command_buffer_allocate_info
+[22:41:51] FUNCTION_CALL: submit_info
+[22:41:51] BUILD_LOG: StartUp Time: 1.061687 Seconds.
+[22:41:51] BUILD_LOG: Starting Main Loop
+[22:47:01] BUILD_LOG: --------------------
+[22:47:01] BUILD_LOG: DEBUG_BUILD_STARTED
+[22:47:01] BUILD_LOG: --------------------
+[22:47:01] BUILD_LOG: SDL inited
+[22:47:01] BUILD_LOG: Vulkan Instance initialized
+[22:47:01] BUILD_LOG: SDL Surface initialized
+[22:47:01] BUILD_LOG: GPU found
+[22:47:01] BUILD_LOG: e::init_swapchain()
+[22:47:02] BUILD_LOG: Engine Initialized, starting Load
+[22:47:02] BUILD_LOG: Built New Material textured
+[22:47:02] BUILD_LOG: StartUp Time: 1.088246 Seconds.
+[22:47:02] BUILD_LOG: Starting Main Loop
+[23:00:06] BUILD_LOG: --------------------
+[23:00:06] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:00:06] BUILD_LOG: --------------------
+[23:00:06] BUILD_LOG: SDL inited
+[23:00:07] BUILD_LOG: Vulkan Instance initialized
+[23:00:07] BUILD_LOG: SDL Surface initialized
+[23:00:07] BUILD_LOG: GPU found
+[23:00:07] BUILD_LOG: e::init_swapchain()
+[23:00:07] BUILD_LOG: Engine Initialized, starting Load
+[23:00:07] BUILD_LOG: Built New Material textured
+[23:00:07] BUILD_LOG: StartUp Time: 1.032650 Seconds.
+[23:00:07] BUILD_LOG: Starting Main Loop
+[23:01:14] BUILD_LOG: --------------------
+[23:01:14] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:01:14] BUILD_LOG: --------------------
+[23:01:14] BUILD_LOG: SDL inited
+[23:01:15] BUILD_LOG: Vulkan Instance initialized
+[23:01:15] BUILD_LOG: SDL Surface initialized
+[23:01:15] BUILD_LOG: GPU found
+[23:01:15] BUILD_LOG: e::init_swapchain()
+[23:01:15] BUILD_LOG: Engine Initialized, starting Load
+[23:01:15] BUILD_LOG: Built New Material textured
+[23:01:15] BUILD_LOG: StartUp Time: 1.061179 Seconds.
+[23:01:15] BUILD_LOG: Starting Main Loop
+[23:04:01] BUILD_LOG: --------------------
+[23:04:01] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:04:01] BUILD_LOG: --------------------
+[23:04:02] BUILD_LOG: SDL inited
+[23:04:02] BUILD_LOG: Vulkan Instance initialized
+[23:04:02] BUILD_LOG: SDL Surface initialized
+[23:04:02] BUILD_LOG: GPU found
+[23:04:02] BUILD_LOG: e::init_swapchain()
+[23:04:02] BUILD_LOG: Engine Initialized, starting Load
+[23:04:02] BUILD_LOG: Built New Material textured
+[23:04:56] BUILD_LOG: --------------------
+[23:04:56] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:04:56] BUILD_LOG: --------------------
+[23:04:57] BUILD_LOG: SDL inited
+[23:04:57] BUILD_LOG: Vulkan Instance initialized
+[23:04:57] BUILD_LOG: SDL Surface initialized
+[23:04:57] BUILD_LOG: GPU found
+[23:04:57] BUILD_LOG: e::init_swapchain()
+[23:04:57] BUILD_LOG: Engine Initialized, starting Load
+[23:04:57] BUILD_LOG: Built New Material textured
+[23:10:07] BUILD_LOG: --------------------
+[23:10:07] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:10:07] BUILD_LOG: --------------------
+[23:10:08] BUILD_LOG: SDL inited
+[23:10:08] BUILD_LOG: Vulkan Instance initialized
+[23:10:08] BUILD_LOG: SDL Surface initialized
+[23:10:08] BUILD_LOG: GPU found
+[23:10:08] BUILD_LOG: e::init_swapchain()
+[23:10:08] BUILD_LOG: Engine Initialized, starting Load
+[23:10:08] BUILD_LOG: Built New Material textured
+[23:10:08] BUILD_LOG: StartUp Time: 1.142871 Seconds.
+[23:10:08] BUILD_LOG: Starting Main Loop
+[23:11:51] BUILD_LOG: --------------------
+[23:11:51] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:11:51] BUILD_LOG: --------------------
+[23:11:51] BUILD_LOG: SDL inited
+[23:11:52] BUILD_LOG: Vulkan Instance initialized
+[23:11:52] BUILD_LOG: SDL Surface initialized
+[23:11:52] BUILD_LOG: GPU found
+[23:11:52] BUILD_LOG: e::init_swapchain()
+[23:11:52] BUILD_LOG: Engine Initialized, starting Load
+[23:11:52] BUILD_LOG: Built New Material textured
+[23:11:52] BUILD_LOG: StartUp Time: 1.100050 Seconds.
+[23:11:52] BUILD_LOG: Starting Main Loop
+[23:16:06] BUILD_LOG: --------------------
+[23:16:06] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:16:06] BUILD_LOG: --------------------
+[23:16:07] BUILD_LOG: SDL inited
+[23:16:07] BUILD_LOG: Vulkan Instance initialized
+[23:16:07] BUILD_LOG: SDL Surface initialized
+[23:16:07] BUILD_LOG: GPU found
+[23:16:07] BUILD_LOG: e::init_swapchain()
+[23:16:07] BUILD_LOG: Engine Initialized, starting Load
+[23:16:07] BUILD_LOG: Built New Material textured
+[23:16:07] BUILD_LOG: StartUp Time: 0.965294 Seconds.
+[23:16:07] BUILD_LOG: Starting Main Loop
+[23:16:17] BUILD_LOG: --------------------
+[23:16:17] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:16:17] BUILD_LOG: --------------------
+[23:16:17] BUILD_LOG: SDL inited
+[23:16:18] BUILD_LOG: Vulkan Instance initialized
+[23:16:18] BUILD_LOG: SDL Surface initialized
+[23:16:18] BUILD_LOG: GPU found
+[23:16:18] BUILD_LOG: e::init_swapchain()
+[23:16:18] BUILD_LOG: Engine Initialized, starting Load
+[23:16:18] BUILD_LOG: Built New Material textured
+[23:16:18] BUILD_LOG: StartUp Time: 1.046410 Seconds.
+[23:16:18] BUILD_LOG: Starting Main Loop
+[23:18:20] BUILD_LOG: --------------------
+[23:18:20] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:18:20] BUILD_LOG: --------------------
+[23:18:21] BUILD_LOG: SDL inited
+[23:18:21] BUILD_LOG: Vulkan Instance initialized
+[23:18:21] BUILD_LOG: SDL Surface initialized
+[23:18:21] BUILD_LOG: GPU found
+[23:18:21] BUILD_LOG: e::init_swapchain()
+[23:18:21] BUILD_LOG: Engine Initialized, starting Load
+[23:18:21] BUILD_LOG: Built New Material textured
+[23:18:21] BUILD_LOG: StartUp Time: 1.052118 Seconds.
+[23:18:21] BUILD_LOG: Starting Main Loop
+[23:19:38] BUILD_LOG: --------------------
+[23:19:38] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:19:38] BUILD_LOG: --------------------
+[23:19:38] BUILD_LOG: SDL inited
+[23:19:39] BUILD_LOG: Vulkan Instance initialized
+[23:19:39] BUILD_LOG: SDL Surface initialized
+[23:19:39] BUILD_LOG: GPU found
+[23:19:39] BUILD_LOG: e::init_swapchain()
+[23:19:39] BUILD_LOG: Engine Initialized, starting Load
+[23:19:39] BUILD_LOG: Built New Material textured
+[23:19:39] BUILD_LOG: StartUp Time: 0.943781 Seconds.
+[23:19:39] BUILD_LOG: Starting Main Loop
+[23:21:26] BUILD_LOG: --------------------
+[23:21:26] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:21:26] BUILD_LOG: --------------------
+[23:21:26] BUILD_LOG: SDL inited
+[23:21:26] BUILD_LOG: Vulkan Instance initialized
+[23:21:26] BUILD_LOG: SDL Surface initialized
+[23:21:26] BUILD_LOG: GPU found
+[23:21:26] BUILD_LOG: e::init_swapchain()
+[23:21:27] BUILD_LOG: Engine Initialized, starting Load
+[23:21:27] BUILD_LOG: Built New Material textured
+[23:21:27] BUILD_LOG: StartUp Time: 1.068539 Seconds.
+[23:21:27] BUILD_LOG: Starting Main Loop
+[23:22:14] BUILD_LOG: --------------------
+[23:22:14] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:22:14] BUILD_LOG: --------------------
+[23:22:15] BUILD_LOG: SDL inited
+[23:22:15] BUILD_LOG: Vulkan Instance initialized
+[23:22:15] BUILD_LOG: SDL Surface initialized
+[23:22:15] BUILD_LOG: GPU found
+[23:22:15] BUILD_LOG: e::init_swapchain()
+[23:22:15] BUILD_LOG: Engine Initialized, starting Load
+[23:22:15] BUILD_LOG: Built New Material textured
+[23:22:15] BUILD_LOG: StartUp Time: 0.957575 Seconds.
+[23:22:15] BUILD_LOG: Starting Main Loop
+[23:23:33] BUILD_LOG: --------------------
+[23:23:33] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:23:33] BUILD_LOG: --------------------
+[23:23:33] BUILD_LOG: SDL inited
+[23:23:33] BUILD_LOG: Vulkan Instance initialized
+[23:23:33] BUILD_LOG: SDL Surface initialized
+[23:23:33] BUILD_LOG: GPU found
+[23:23:33] BUILD_LOG: e::init_swapchain()
+[23:23:34] BUILD_LOG: Engine Initialized, starting Load
+[23:23:34] BUILD_LOG: Built New Material textured
+[23:23:34] BUILD_LOG: StartUp Time: 1.039396 Seconds.
+[23:23:34] BUILD_LOG: Starting Main Loop
+[23:39:35] BUILD_LOG: --------------------
+[23:39:35] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:39:35] BUILD_LOG: --------------------
+[23:39:35] BUILD_LOG: SDL inited
+[23:39:36] BUILD_LOG: Vulkan Instance initialized
+[23:39:36] BUILD_LOG: SDL Surface initialized
+[23:39:36] BUILD_LOG: GPU found
+[23:39:36] BUILD_LOG: e::init_swapchain()
+[23:39:36] BUILD_LOG: Engine Initialized, starting Load
+[23:39:36] BUILD_LOG: Built New Material textured
+[23:39:36] BUILD_LOG: StartUp Time: 1.005183 Seconds.
+[23:39:36] BUILD_LOG: Starting Main Loop
+[23:40:08] BUILD_LOG: --------------------
+[23:40:08] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:40:08] BUILD_LOG: --------------------
+[23:40:08] BUILD_LOG: SDL inited
+[23:40:08] BUILD_LOG: Vulkan Instance initialized
+[23:40:08] BUILD_LOG: SDL Surface initialized
+[23:40:08] BUILD_LOG: GPU found
+[23:40:08] BUILD_LOG: e::init_swapchain()
+[23:40:09] BUILD_LOG: Engine Initialized, starting Load
+[23:40:09] BUILD_LOG: Built New Material textured
+[23:40:09] BUILD_LOG: StartUp Time: 1.053418 Seconds.
+[23:40:09] BUILD_LOG: Starting Main Loop
+[23:40:43] BUILD_LOG: --------------------
+[23:40:43] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:40:43] BUILD_LOG: --------------------
+[23:40:44] BUILD_LOG: SDL inited
+[23:40:44] BUILD_LOG: Vulkan Instance initialized
+[23:40:44] BUILD_LOG: SDL Surface initialized
+[23:40:44] BUILD_LOG: GPU found
+[23:40:44] BUILD_LOG: e::init_swapchain()
+[23:40:44] BUILD_LOG: Engine Initialized, starting Load
+[23:40:44] BUILD_LOG: Built New Material textured
+[23:40:44] BUILD_LOG: StartUp Time: 1.096595 Seconds.
+[23:40:44] BUILD_LOG: Starting Main Loop
+[23:41:06] BUILD_LOG: --------------------
+[23:41:06] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:41:06] BUILD_LOG: --------------------
+[23:41:06] BUILD_LOG: SDL inited
+[23:41:07] BUILD_LOG: Vulkan Instance initialized
+[23:41:07] BUILD_LOG: SDL Surface initialized
+[23:41:07] BUILD_LOG: GPU found
+[23:41:07] BUILD_LOG: e::init_swapchain()
+[23:41:07] BUILD_LOG: Engine Initialized, starting Load
+[23:41:07] BUILD_LOG: Built New Material textured
+[23:41:07] BUILD_LOG: StartUp Time: 0.985607 Seconds.
+[23:41:07] BUILD_LOG: Starting Main Loop
+[23:41:33] BUILD_LOG: --------------------
+[23:41:33] BUILD_LOG: DEBUG_BUILD_STARTED
+[23:41:33] BUILD_LOG: --------------------
+[23:41:34] BUILD_LOG: SDL inited
+[23:41:34] BUILD_LOG: Vulkan Instance initialized
+[23:41:34] BUILD_LOG: SDL Surface initialized
+[23:41:34] BUILD_LOG: GPU found
+[23:41:34] BUILD_LOG: e::init_swapchain()
+[23:41:34] BUILD_LOG: Engine Initialized, starting Load
+[23:41:34] BUILD_LOG: Built New Material textured
+[23:41:34] BUILD_LOG: StartUp Time: 1.047907 Seconds.
+[23:41:34] BUILD_LOG: Starting Main Loop
