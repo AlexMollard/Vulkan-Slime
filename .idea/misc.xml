@@ -8,6 +8,7 @@
       <file path="$PROJECT_DIR$/Res" />
       <file path="$PROJECT_DIR$/Src" />
       <file path="$PROJECT_DIR$/Vulkan" />
+      <file path="$PROJECT_DIR$/asset-baker" />
       <file path="$PROJECT_DIR$/cmake" />
     </sourceRoots>
     <libraryRoots>

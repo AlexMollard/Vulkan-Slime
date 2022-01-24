@@ -142,6 +142,8 @@ ShaderEffect* build_effect(VulkanEngine* eng,std::string_view vertexShader, std:
     //textured defaultlit shader
     ShaderEffect* effect = new ShaderEffect();
 
+    std::cout << VulkanEngine::shader_path(vertexShader) <<std::endl;
+
     effect->add_stage(eng->mShaderCache.get_shader(VulkanEngine::shader_path(vertexShader)), VK_SHADER_STAGE_VERTEX_BIT);
     if (fragmentShader.size() > 2)
     {

@@ -141,6 +141,7 @@ endif ()
 
 # ----------------------------------------------------------
 # SDL2 Window/Surface creator and handler
+IF (WIN32)
 FetchContent_Declare(
         SDL
         GIT_REPOSITORY https://github.com/davidsiaw/SDL2.git
@@ -155,6 +156,13 @@ if (NOT sdl_POPULATED)
             ${sdl_SOURCE_DIR}
             ${sdl_BINARY_DIR})
 endif ()
+
+ELSE ()
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+link_directories(${SDL2_LIB_DIR})
+ENDIF ()
+
 
 # ----------------------------------------------------------
 # SPIRV_Reflect reflection API for SPIR-V shader bytecode

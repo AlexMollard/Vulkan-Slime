@@ -99,7 +99,7 @@ void VulkanEngine::init() {
 
     mRenderScene.build_batches();
 
-    mRenderScene.merge_meshes(this);
+    //mRenderScene.merge_meshes(this);
     //everything went fine
     mIsInitialized = true;
 
@@ -1030,7 +1030,7 @@ void VulkanEngine::run() {
             ZoneScopedNC("Flag Objects", tracy::Color::Blue);
             //test flagging some objects for changes
 
-            int N_changes = 1000;
+            int N_changes = 100;
             for (int i = 0; i < N_changes; i++)
             {
                 int rng = rand() % mRenderScene.renderables.size();
@@ -1401,84 +1401,48 @@ void VulkanEngine::init_scene() {
     vkCreateSampler(mDevice, &samplerInfo, nullptr, &smoothSampler);
 
 
-    {
-        vkutil::MaterialData texturedInfo;
-        texturedInfo.baseTemplate = "texturedPBR_opaque";
-        texturedInfo.parameters = nullptr;
+  {
+      vkutil::MaterialData texturedInfo;
+      texturedInfo.baseTemplate = "texturedPBR_opaque";
+      texturedInfo.parameters = nullptr;
 
-        vkutil::SampledTexture whiteTex;
-        whiteTex.sampler = smoothSampler;
-        whiteTex.view = mLoadedTextures["white"].imageView;
+      vkutil::SampledTexture whiteTex{};
+      whiteTex.sampler = smoothSampler;
+      whiteTex.view = mLoadedTextures["white"].imageView;
 
-        texturedInfo.textures.push_back(whiteTex);
+      texturedInfo.textures.push_back(whiteTex);
 
-        vkutil::Material* newmat = mMaterialSystem->build_material("textured", texturedInfo);
-    }
-    {
-        vkutil::MaterialData matinfo;
-        matinfo.baseTemplate = "texturedPBR_opaque";
-        matinfo.parameters = nullptr;
+      vkutil::Material* newmat = mMaterialSystem->build_material("textured", texturedInfo);
+  }
+  {
+      vkutil::MaterialData matinfo;
+      matinfo.baseTemplate = "texturedPBR_opaque";
+      matinfo.parameters = nullptr;
 
-        vkutil::SampledTexture whiteTex;
-        whiteTex.sampler = smoothSampler;
-        whiteTex.view = mLoadedTextures["white"].imageView;
+      vkutil::SampledTexture whiteTex{};
+      whiteTex.sampler = smoothSampler;
+      whiteTex.view = mLoadedTextures["white"].imageView;
 
-        matinfo.textures.push_back(whiteTex);
+      matinfo.textures.push_back(whiteTex);
 
-        vkutil::Material* newmat = mMaterialSystem->build_material("default", matinfo);
+      vkutil::Material* newmat = mMaterialSystem->build_material("default", matinfo);
 
-    }
-
-
-
-    int dimHelmets =1;
-    for (int x = -dimHelmets; x <= dimHelmets; x++) {
-        for (int y = -dimHelmets; y <= dimHelmets; y++) {
-
-            glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x * 5, 10, y * 5));
-            glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(10));
-
-            load_prefab(asset_path("FlightHelmet/FlightHelmet.pfb").c_str(),(translation * scale));
-        }
-    }
-
-    glm::mat4 sponzaMatrix = glm::scale(glm::mat4{ 1.0 }, glm::vec3(1));;
-
-    glm::mat4 unrealFixRotation = glm::rotate(glm::radians(-90.f), glm::vec3{ 1,0,0 });
-
-    load_prefab(asset_path("Sponza2.pfb").c_str(), sponzaMatrix);
-    load_prefab(asset_path("scifi/TopDownScifi.pfb").c_str(),  glm::translate(glm::vec3{0,20,0}));
-    int dimcities = 2;
-    for (int x = -dimcities; x <= dimcities; x++) {
-        for (int y = -dimcities; y <= dimcities; y++) {
-
-            glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x * 300, y, y * 300));
-            glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(10));
+  }
 
 
-            glm::mat4 cityMatrix = translation;// * glm::scale(glm::mat4{ 1.0f }, glm::vec3(.01f));
-            //load_prefab(asset_path("scifi/TopDownScifi.pfb").c_str(), unrealFixRotation * glm::scale(glm::mat4{ 1.0 }, glm::vec3(.01)));
-            //load_prefab(asset_path("PolyCity/PolyCity.pfb").c_str(), cityMatrix);
-            load_prefab(asset_path("CITY/polycity.pfb").c_str(), cityMatrix);
-            //	load_prefab(asset_path("scifi/TopDownScifi.pfb").c_str(), cityMatrix);
-        }
-    }
+   int dimHelmets =1;
+   for (int x = -dimHelmets; x <= dimHelmets; x++) {
+       for (int y = -dimHelmets; y <= dimHelmets; y++) {
 
+           glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x * 5, 10, y * 5));
+           glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(10));
 
-    //for (int x = -20; x <= 20; x++) {
-    //	for (int y = -20; y <= 20; y++) {
-    //
-    //		RenderObject tri;
-    //		tri.mesh = get_mesh("triangle");
-    //		tri.material = get_material("defaultmesh");
-    //		glm::mat4 translation = glm::translate(glm::mat4{ 1.0 }, glm::vec3(x, 0, y));
-    //		glm::mat4 scale = glm::scale(glm::mat4{ 1.0 }, glm::vec3(0.2, 0.2, 0.2));
-    //		tri.transformMatrix = translation * scale;
-    //
-    //		refresh_renderbounds(&tri);
-    //		_renderScene.register_object(&tri, PassTypeFlags::Forward);
-    //	}
-    //}
+           load_prefab(asset_path("FlightHelmet/FlightHelmet.pfb").c_str(),(translation * scale));
+       }
+   }
+
+   glm::mat4 sponzaMatrix = glm::scale(glm::mat4{ 1.0 }, glm::vec3(1));;
+   load_prefab(asset_path("Sponza2.pfb").c_str(), sponzaMatrix);
 }
 
 bool VulkanEngine::load_prefab(const char* path, glm::mat4 root)
@@ -1906,7 +1870,7 @@ void VulkanEngine::immediate_submit(std::function<void(VkCommandBuffer cmd)> &&f
 }
 
 void VulkanEngine::load_images() {
-    load_image_to_cache("white", asset_path("Sponza/white.tx").c_str());
+    load_image_to_cache("white", asset_path("Sponza/6772804448157695701.jpg").c_str());
 }
 
 void VulkanEngine::init_imgui() {
@@ -1943,12 +1907,12 @@ void VulkanEngine::init_imgui() {
     //this initializes the core structures of imgui
     ImGui::CreateContext();
 
-    ImGuiIO &io = ImGui::GetIO();
-    float fontSize = 18.0f;
-    io.Fonts->AddFontFromFileTTF("C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Bold.ttf",
-                                 fontSize);
-    io.FontDefault = io.Fonts->AddFontFromFileTTF(
-            "C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Regular.ttf", fontSize);
+    //ImGuiIO &io = ImGui::GetIO();
+    //float fontSize = 18.0f;
+    //io.Fonts->AddFontFromFileTTF("C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Bold.ttf",
+    //                             fontSize);
+    //io.FontDefault = io.Fonts->AddFontFromFileTTF(
+    //        "C:/Users/alexm/CLionProjects/VulkanSlime/assets/Fonts/opensans/OpenSans-Regular.ttf", fontSize);
 
     //this initializes imgui for SDL
     ImGui_ImplSDL2_InitForVulkan(mWindow);
@@ -1988,7 +1952,7 @@ bool VulkanEngine::load_image_to_cache(const char *name, const char *path) {
 
     if (mLoadedTextures.find(name) != mLoadedTextures.end()) return true;
 
-    bool result = vkutil::load_image_from_asset(*this, path, newtex.image);
+    bool result = vkutil::load_image_from_asset(*this, path, newtex.image); // need to figure this out load_image_from_asset
 
     if (!result) {
         Log::error("Error When texture " + std::string(name) + " at path " + path);

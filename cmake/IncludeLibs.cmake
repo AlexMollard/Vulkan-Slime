@@ -24,8 +24,12 @@ include_directories(${vk_bootstrap_SOURCE_DIR}/src)
 target_link_libraries(VulkanSlime vk-bootstrap::vk-bootstrap)
 
 # include SDL2
-include_directories(${sdl_SOURCE_DIR}/include)
-target_link_libraries(VulkanSlime SDL2-static)
+IF (WIN32)
+    target_link_libraries(VulkanSlime SDL2main SDL2-static)
+    include_directories(${sdl_SOURCE_DIR}/include)
+ELSE ()
+    target_link_libraries(VulkanSlime ${SDL2_LIBRARIES})
+ENDIF ()
 
 #include ImGuizmo
 include_directories(${imguizmo_SOURCE_DIR})

@@ -1,0 +1,216 @@
+[10:53:16] BUILD_LOG: --------------------
+[10:53:16] BUILD_LOG: DEBUG_BUILD_STARTED
+[10:53:16] BUILD_LOG: --------------------
+[10:53:16] BUILD_LOG: SDL inited
+[10:53:17] BUILD_LOG: Vulkan Instance initialized
+[10:53:17] BUILD_LOG: SDL Surface initialized
+[10:53:17] BUILD_LOG: GPU found
+[10:53:17] BUILD_LOG: nimum buffer alignement of 
+[10:53:17] FUNCTION_CALL: image_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: image_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: image_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: image_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: imageview_create_info
+[10:53:17] FUNCTION_CALL: sampler_create_info
+[10:53:17] FUNCTION_CALL: sampler_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: framebuffer_create_info
+[10:53:17] FUNCTION_CALL: command_pool_create_info
+[10:53:17] FUNCTION_CALL: command_buffer_allocate_info
+[10:53:17] FUNCTION_CALL: command_buffer_allocate_info
+[10:53:17] FUNCTION_CALL: command_pool_create_info
+[10:53:17] FUNCTION_CALL: fence_create_info
+[10:53:17] FUNCTION_CALL: semaphore_create_info
+[10:53:17] FUNCTION_CALL: fence_create_info
+[10:53:17] FUNCTION_CALL: descriptorset_layout_binding
+[10:53:17] FUNCTION_CALL: input_assembly_create_info
+[10:53:17] FUNCTION_CALL: rasterization_state_create_info
+[10:53:17] FUNCTION_CALL: multisampling_state_create_info
+[10:53:17] FUNCTION_CALL: color_blend_attachment_state
+[10:53:17] FUNCTION_CALL: depth_stencil_create_info
+[10:53:17] FUNCTION_CALL: input_assembly_create_info
+[10:53:17] FUNCTION_CALL: rasterization_state_create_info
+[10:53:17] FUNCTION_CALL: multisampling_state_create_info
+[10:53:17] FUNCTION_CALL: color_blend_attachment_state
+[10:53:17] FUNCTION_CALL: depth_stencil_create_info
+[10:55:33] BUILD_LOG: --------------------
+[10:55:33] BUILD_LOG: DEBUG_BUILD_STARTED
+[10:55:33] BUILD_LOG: --------------------
+[10:55:33] BUILD_LOG: SDL inited
+[10:55:33] BUILD_LOG: Vulkan Instance initialized
+[10:55:33] BUILD_LOG: SDL Surface initialized
+[10:55:33] BUILD_LOG: GPU found
+[10:55:33] BUILD_LOG: nimum buffer alignement of 
+[10:55:33] FUNCTION_CALL: image_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: image_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: image_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: image_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: imageview_create_info
+[10:55:33] FUNCTION_CALL: sampler_create_info
+[10:55:33] FUNCTION_CALL: sampler_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: framebuffer_create_info
+[10:55:33] FUNCTION_CALL: command_pool_create_info
+[10:55:33] FUNCTION_CALL: command_buffer_allocate_info
+[10:55:33] FUNCTION_CALL: command_buffer_allocate_info
+[10:55:33] FUNCTION_CALL: command_pool_create_info
+[10:55:33] FUNCTION_CALL: fence_create_info
+[10:55:33] FUNCTION_CALL: semaphore_create_info
+[10:55:33] FUNCTION_CALL: fence_create_info
+[10:55:33] FUNCTION_CALL: descriptorset_layout_binding
+[10:55:33] FUNCTION_CALL: input_assembly_create_info
+[10:55:33] FUNCTION_CALL: rasterization_state_create_info
+[10:55:33] FUNCTION_CALL: multisampling_state_create_info
+[10:55:33] FUNCTION_CALL: color_blend_attachment_state
+[10:55:33] FUNCTION_CALL: depth_stencil_create_info
+[10:55:33] FUNCTION_CALL: input_assembly_create_info
+[10:55:33] FUNCTION_CALL: rasterization_state_create_info
+[10:55:33] FUNCTION_CALL: multisampling_state_create_info
+[10:55:33] FUNCTION_CALL: color_blend_attachment_state
+[10:55:33] FUNCTION_CALL: depth_stencil_create_info
+[10:58:17] BUILD_LOG: --------------------
+[10:58:17] BUILD_LOG: DEBUG_BUILD_STARTED
+[10:58:17] BUILD_LOG: --------------------
+[10:58:17] BUILD_LOG: SDL inited
+[10:58:17] BUILD_LOG: Vulkan Instance initialized
+[10:58:17] BUILD_LOG: SDL Surface initialized
+[10:58:17] BUILD_LOG: GPU found
+[10:58:17] BUILD_LOG: nimum buffer alignement of 
+[10:58:17] FUNCTION_CALL: image_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: image_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: image_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: image_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: imageview_create_info
+[10:58:17] FUNCTION_CALL: sampler_create_info
+[10:58:17] FUNCTION_CALL: sampler_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: framebuffer_create_info
+[10:58:17] FUNCTION_CALL: command_pool_create_info
+[10:58:17] FUNCTION_CALL: command_buffer_allocate_info
+[10:58:17] FUNCTION_CALL: command_buffer_allocate_info
+[10:58:17] FUNCTION_CALL: command_pool_create_info
+[10:58:17] FUNCTION_CALL: fence_create_info
+[10:58:17] FUNCTION_CALL: semaphore_create_info
+[10:58:17] FUNCTION_CALL: fence_create_info
+[10:58:17] FUNCTION_CALL: descriptorset_layout_binding
+[10:58:17] FUNCTION_CALL: input_assembly_create_info
+[10:58:17] FUNCTION_CALL: rasterization_state_create_info
+[10:58:17] FUNCTION_CALL: multisampling_state_create_info
+[10:58:17] FUNCTION_CALL: color_blend_attachment_state
+[10:58:17] FUNCTION_CALL: depth_stencil_create_info
+[10:58:17] FUNCTION_CALL: input_assembly_create_info
+[10:58:17] FUNCTION_CALL: rasterization_state_create_info
+[10:58:17] FUNCTION_CALL: multisampling_state_create_info
+[10:58:17] FUNCTION_CALL: color_blend_attachment_state
+[10:58:17] FUNCTION_CALL: depth_stencil_create_info
+[10:59:32] BUILD_LOG: --------------------
+[10:59:32] BUILD_LOG: DEBUG_BUILD_STARTED
+[10:59:32] BUILD_LOG: --------------------
+[10:59:32] BUILD_LOG: SDL inited
+[10:59:32] BUILD_LOG: Vulkan Instance initialized
+[10:59:32] BUILD_LOG: SDL Surface initialized
+[10:59:32] BUILD_LOG: GPU found
+[10:59:32] BUILD_LOG: nimum buffer alignement of 
+[10:59:32] FUNCTION_CALL: image_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: image_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: image_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: image_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: imageview_create_info
+[10:59:32] FUNCTION_CALL: sampler_create_info
+[10:59:32] FUNCTION_CALL: sampler_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: framebuffer_create_info
+[10:59:32] FUNCTION_CALL: command_pool_create_info
+[10:59:32] FUNCTION_CALL: command_buffer_allocate_info
+[10:59:32] FUNCTION_CALL: command_buffer_allocate_info
+[10:59:32] FUNCTION_CALL: command_pool_create_info
+[10:59:32] FUNCTION_CALL: fence_create_info
+[10:59:32] FUNCTION_CALL: semaphore_create_info
+[10:59:32] FUNCTION_CALL: fence_create_info
+[10:59:32] FUNCTION_CALL: descriptorset_layout_binding
+[10:59:32] FUNCTION_CALL: input_assembly_create_info
+[10:59:32] FUNCTION_CALL: rasterization_state_create_info
+[10:59:32] FUNCTION_CALL: multisampling_state_create_info
+[10:59:32] FUNCTION_CALL: color_blend_attachment_state
+[10:59:32] FUNCTION_CALL: depth_stencil_create_info
+[10:59:32] FUNCTION_CALL: input_assembly_create_info
+[10:59:32] FUNCTION_CALL: rasterization_state_create_info
+[10:59:32] FUNCTION_CALL: multisampling_state_create_info
+[10:59:32] FUNCTION_CALL: color_blend_attachment_state
+[10:59:32] FUNCTION_CALL: depth_stencil_create_info
